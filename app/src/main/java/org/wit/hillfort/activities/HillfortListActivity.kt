@@ -15,6 +15,7 @@ import org.wit.hillfort.models.HillfortModel
 import org.wit.hillfort.models.UserModel
 import java.text.SimpleDateFormat
 import java.util.*
+import org.jetbrains.anko.startActivity
 
 // Activity to show a list of hillforts
 class HillfortListActivity : AppCompatActivity(), HillfortListener, AnkoLogger{
@@ -68,6 +69,7 @@ class HillfortListActivity : AppCompatActivity(), HillfortListener, AnkoLogger{
                 "user",
                 user
             ), 0)
+            R.id.item_map -> startActivity<HillfortMapsActivity>()
             R.id.item_deleteAllHillforts -> {
                 app.hillforts.deleteUserHillforts(user.id)
                 loadHillforts()

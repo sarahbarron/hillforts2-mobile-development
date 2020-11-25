@@ -39,17 +39,18 @@
     <string name="menu_deleteUser">Delete Account</string>
     <string name="button_delete_user">Delete User</string>
     <string name="item_delete_all_hillforts">Delete All</string>
-    <string name ="statistics_heading">Statistics</string>
-    <string name ="statistics_user_heading">Your Hillfort Statistics</string>
-    <string name ="statistics_hillforts_total">Total: </string>
-    <string name ="statistics_hillforts_viewed">Total Viewed: </string>
-    <string name ="statistics_hillforts_unseen">Total Unseen: </string>
-    <string name ="statistics_class_avg_heading">Your Class Average Statistics</string>
-    <string name = "statistics_class_avg_total_hillforts">Average Hillforts Total: </string>
-    <string name ="statistics_class_viewed">Average Hillforts Viewed: </string>
-    <string name ="statistics_class_unseen">Average Hillforts Unseen: </string>
+    <string name="statistics_heading">Statistics</string>
+    <string name="statistics_user_heading">Your Hillfort Statistics</string>
+    <string name="statistics_hillforts_total">Total: </string>
+    <string name="statistics_hillforts_viewed">Total Viewed: </string>
+    <string name="statistics_hillforts_unseen">Total Unseen: </string>
+    <string name="statistics_class_avg_heading">Your Class Average Statistics</string>
+    <string name="statistics_class_avg_total_hillforts">Average Hillforts Total: </string>
+    <string name="statistics_class_viewed">Average Hillforts Viewed: </string>
+    <string name="statistics_class_unseen">Average Hillforts Unseen: </string>
     <string name="statistics_position">You are above/below average</string>
     <string name="hillfort_lat">Location Lat</string>
     <string name="hillfort_lng">Location Lng</string>
     <string name="image_message"></string>
+    <string name="title_activity_hillfort_maps">Map of Hillforts</string>
 </resources>
