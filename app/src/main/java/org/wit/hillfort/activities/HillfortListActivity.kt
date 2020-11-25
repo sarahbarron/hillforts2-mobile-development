@@ -71,7 +71,8 @@ class HillfortListActivity : AppCompatActivity(), HillfortListener, AnkoLogger{
             ), 0)
             R.id.item_map -> startActivity(intentFor<HillfortMapsActivity>().putExtra(
                 "user",
-                user))
+                user
+            ))
             R.id.item_deleteAllHillforts -> {
                 app.hillforts.deleteUserHillforts(user.id)
                 loadHillforts()

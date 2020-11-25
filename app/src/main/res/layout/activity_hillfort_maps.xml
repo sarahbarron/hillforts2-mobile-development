@@ -54,23 +54,22 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.763"
+                    app:layout_constraintStart_toEndOf="@+id/currentName"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/currentTitle"
                     tools:srcCompat="@tools:sample/backgrounds/scenic"
                     android:contentDescription="@string/hillfort_image_placeholder" />
 
                 <TextView
-                    android:id="@+id/currentTitle"
+                    android:id="@+id/currentName"
                     android:layout_width="136dp"
                     android:layout_height="25dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="28dp"
                     android:layout_marginEnd="8dp"
-                    app:layout_constraintBottom_toTopOf="@+id/currentDescription"
+                    android:text="@string/hillfort_name"
                     app:layout_constraintEnd_toStartOf="@+id/currentImage"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:text="@string/hillfort_title_placeholder"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/currentDescription"
@@ -83,9 +82,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/currentImage"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constrainTop_toBottomOf="@id/currentTitle"
-                    app:layout_constraintVertical_bias="0.21"
-                    />
+                    app:layout_constraintTop_toBottomOf="@+id/currentName"
+                    app:layout_constraintVertical_bias="0.121" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
