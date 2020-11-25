@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item
+        android:id="@+id/item_deleteUser"
+        android:title="@string/menu_deleteUser"
+        android:icon="@drawable/delete" />
+    <item
+        android:id="@+id/item_settingsCancel"
+        android:icon="@drawable/settings"
+        android:title="@string/menu_cancelSettings"
+        />
+    <item
+        android:id="@+id/item_logout"
+        android:icon="@drawable/logout"
+        android:title="@string/menu_logout"
+        />
+</menu>
