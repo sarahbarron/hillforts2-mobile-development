@@ -54,4 +54,7 @@
     <string name="image_message"></string>
     <string name="title_activity_hillfort_maps">Map of Hillforts</string>
     <string name="menu_mapHillforts">All Hillforts Map</string>
+    <string name="hillfort_image_placeholder">Placemark Image</string>
+    <string name="hillfort_title_placeholder">Placemark Title</string>
+    <string name="hillfort_description_placeholder">Placemark Description</string>
 </resources>
