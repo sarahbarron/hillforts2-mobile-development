@@ -53,4 +53,5 @@
     <string name="hillfort_lng">Location Lng</string>
     <string name="image_message"></string>
     <string name="title_activity_hillfort_maps">Map of Hillforts</string>
+    <string name="menu_mapHillforts">All Hillforts Map</string>
 </resources>
