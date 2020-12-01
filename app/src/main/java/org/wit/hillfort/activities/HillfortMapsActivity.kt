@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.main.activity_hillfort_list.toolbar
 import kotlinx.android.synthetic.main.activity_hillfort_maps.*
 import org.jetbrains.anko.info
 import org.wit.hillfort.R
+import org.wit.hillfort.helpers.readImageFromPath
 import org.wit.hillfort.main.MainApp
 import org.wit.hillfort.models.UserModel
 
@@ -81,7 +82,11 @@ class HillfortMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListene
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {
-        currentName.text = marker.title
-        return false
+        val tag = marker.tag as Long
+        val hillfort = app.hillforts.findById(tag)
+        currentName.text = hillfort!!.name
+        currentDescription.text = hillfort!!.description
+        currentImage.setImageBitmap((readImageFromPath(this, hillfort.images[0])))
+        return true
     }
 }
