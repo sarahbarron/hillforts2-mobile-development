@@ -11,7 +11,7 @@
         <item
             android:id="@+id/item_map"
             android:icon="@android:drawable/ic_menu_mapmode"
-            android:title="@string/menu_addHillfort" />
+            android:title="@string/menu_mapHillforts" />
         <item
             android:id="@+id/item_deleteAllHillforts"
             android:icon="@drawable/delete"

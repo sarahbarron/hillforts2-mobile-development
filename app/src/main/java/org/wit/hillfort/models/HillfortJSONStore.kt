@@ -34,6 +34,11 @@ class HillfortJSONStore : HillfortStore, AnkoLogger {
         }
     }
 
+    override fun findById(id:Long) : HillfortModel? {
+        val foundPlacemark: HillfortModel? = hillforts.find { it.id == id }
+        return foundPlacemark
+    }
+
     //    Return a list of all hillforts
     override fun findAll(userId: Long): MutableList<HillfortModel> {
         var foundHillforts:ArrayList<HillfortModel> = ArrayList<HillfortModel>()
