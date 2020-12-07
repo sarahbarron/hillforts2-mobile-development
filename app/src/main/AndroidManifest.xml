@@ -35,15 +35,15 @@
             android:label="@string/title_activity_login" /> <!-- List of hillforts activity -->
         <activity android:name=".activities.HillfortListActivity" /> <!-- Single hillfort activity -->
         <activity
-            android:name=".activities.HillfortActivity"
+            android:name=".activities.HillfortView"
             android:parentActivityName=".activities.HillfortListActivity" /> <!-- Map activity -->
         <activity
             android:name=".activities.MapActivity"
             android:label="@string/title_activity_map"
-            android:parentActivityName=".activities.HillfortActivity" />
+            android:parentActivityName=".activities.HillfortView" />
         <activity
             android:name=".activities.ImageActivity"
-            android:parentActivityName=".activities.HillfortActivity" />
+            android:parentActivityName=".activities.HillfortView" />
         <activity android:name=".activities.UserSettingsActivity"></activity>
     </application>
 

@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.navigation.NavigationView
-import kotlinx.android.synthetic.main.activity_hillfort.*
 import kotlinx.android.synthetic.main.activity_hillfort_list.*
 import org.jetbrains.anko.*
 import org.wit.hillfort.R
@@ -15,7 +13,6 @@ import org.wit.hillfort.models.HillfortModel
 import org.wit.hillfort.models.UserModel
 import java.text.SimpleDateFormat
 import java.util.*
-import org.jetbrains.anko.startActivity
 
 // Activity to show a list of hillforts
 class HillfortListActivity : AppCompatActivity(), HillfortListener, AnkoLogger{
@@ -65,7 +62,7 @@ class HillfortListActivity : AppCompatActivity(), HillfortListener, AnkoLogger{
     // functions when an item from the menu is clicked
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item?.itemId){
-            R.id.item_add -> startActivityForResult(intentFor<HillfortActivity>().putExtra(
+            R.id.item_add -> startActivityForResult(intentFor<HillfortView>().putExtra(
                 "user",
                 user
             ), 0)
@@ -88,7 +85,7 @@ class HillfortListActivity : AppCompatActivity(), HillfortListener, AnkoLogger{
 
     // When a hillfort is clicked start the hillfortActivity for the clicked hillfort
     override fun onHillfortClick(hillfort: HillfortModel) {
-        startActivityForResult(intentFor<HillfortActivity>().putExtra("hillfort_edit", hillfort).putExtra("user", user), 0)
+        startActivityForResult(intentFor<HillfortView>().putExtra("hillfort_edit", hillfort).putExtra("user", user), 0)
     }
 
     // when the hillfort visited checkbox is clicked set the value to true or false in the json file
