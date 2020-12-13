@@ -9,30 +9,31 @@ import org.wit.hillfort.views.usersettings.UserSettingsActivity
 import org.wit.hillfort.main.MainApp
 import org.wit.hillfort.models.HillfortModel
 import org.wit.hillfort.models.UserModel
+import org.wit.hillfort.views.BasePresenter
+import org.wit.hillfort.views.base.BaseView
+import org.wit.hillfort.views.base.VIEW
 import org.wit.hillfort.views.hillfort.HillfortView
 import java.text.SimpleDateFormat
 import java.util.*
 
-class HillfortListPresenter(val view: HillfortListView) {
-
-    var app: MainApp
-
-    init {
-        app = view.application as MainApp
-    }
+class HillfortListPresenter(view: BaseView): BasePresenter(view) {
 
     fun getHillforts(userId: Long) = app.hillforts.findAll(userId)
 
     fun doAddHillfort() {
-        view.startActivityForResult<HillfortView>(0)
+        view?.navigateTo(VIEW.HILLFORT)
     }
 
     fun doEditHillfort(hillfort: HillfortModel) {
-        view.startActivityForResult(view.intentFor<HillfortView>().putExtra("hillfort_edit", hillfort), 0)
+       view?.navigateTo(VIEW.HILLFORT, 0, "hillfort_edit", hillfort)
     }
 
     fun doShowHillfortsMap() {
-        view.startActivity<HillfortMapView>()
+        view?.navigateTo(VIEW.MAPS)
+    }
+
+    fun loadHillforts(){
+        view?.showHillforts(app.hillforts.findAll(0))
     }
 
     fun deleteAllHillforts(userId: Long){
@@ -40,11 +41,11 @@ class HillfortListPresenter(val view: HillfortListView) {
 
     }
     fun doLogout(){
-        view.startActivity<AuthenticationActivity>()
+        view?.startActivity<AuthenticationActivity>()
     }
 
     fun doShowSettings(user: UserModel){
-        view.startActivity<UserSettingsActivity>()
+        view?.startActivity<UserSettingsActivity>()
     }
 
     fun doSetVisted(hillfort:HillfortModel, visited: Boolean){
