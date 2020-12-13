@@ -1,17 +1,12 @@
-package org.wit.hillfort.activities
+package org.wit.hillfort.views.hillfort
 
 import android.content.Intent
-import android.view.View
-import android.widget.CheckBox
-import kotlinx.android.synthetic.main.activity_hillfort.*
 import org.jetbrains.anko.intentFor
-import org.wit.hillfort.R
 import org.wit.hillfort.helpers.showImagePicker
 import org.wit.hillfort.main.MainApp
 import org.wit.hillfort.models.Location
 import org.wit.hillfort.models.HillfortModel
-import java.text.SimpleDateFormat
-import java.util.*
+import org.wit.hillfort.views.location.EditLocationView
 
 class HillfortPresenter(val view: HillfortView) {
 
@@ -63,7 +58,7 @@ class HillfortPresenter(val view: HillfortView) {
             location.lng = hillfort.lng
             location.zoom = hillfort.zoom
         }
-        view.startActivityForResult(view.intentFor<MapActivity>().putExtra("location", location), LOCATION_REQUEST)
+        view.startActivityForResult(view.intentFor<EditLocationView>().putExtra("location", location), LOCATION_REQUEST)
     }
 
     fun doSetVisited(checked: Boolean){

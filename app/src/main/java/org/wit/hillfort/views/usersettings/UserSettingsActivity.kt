@@ -1,4 +1,4 @@
-package org.wit.hillfort.activities
+package org.wit.hillfort.views.usersettings
 
 import android.graphics.Color.RED
 import android.os.Bundle
@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_settings.*
 import org.jetbrains.anko.*
 import org.wit.hillfort.R
+import org.wit.hillfort.activities.AuthenticationActivity
 import org.wit.hillfort.main.MainApp
 import org.wit.hillfort.models.UserModel
 

@@ -1,4 +1,4 @@
-package org.wit.hillfort.activities
+package org.wit.hillfort.views.hillfort
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,13 +12,10 @@ import org.wit.hillfort.R
 import kotlinx.android.synthetic.main.activity_hillfort.*
 import org.wit.hillfort.models.HillfortModel
 import kotlinx.android.synthetic.main.activity_hillfort.hillfortName
-import kotlinx.android.synthetic.main.card_image.*
 import org.jetbrains.anko.*
-import org.wit.hillfort.helpers.readImageFromPath
-import org.wit.hillfort.helpers.showImagePicker
-import org.wit.hillfort.main.MainApp
-import org.wit.hillfort.models.Location
-import org.wit.hillfort.models.UserModel
+import org.wit.hillfort.views.image.ImageActivity
+import org.wit.hillfort.activities.ImageAdapter
+import org.wit.hillfort.activities.ImageListener
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -45,6 +42,8 @@ class HillfortView : AppCompatActivity(), AnkoLogger, ImageListener {
         val layoutManager = LinearLayoutManager(this)
         recyclerViewImages.layoutManager = layoutManager
 
+        chooseImage.setOnClickListener{presenter.doSelectImage()}
+        hillfortLocation.setOnClickListener{presenter.doSetLocation()}
 
         btnAdd.setOnClickListener() {
             if (hillfortName.text.toString().isEmpty()) {
@@ -53,8 +52,6 @@ class HillfortView : AppCompatActivity(), AnkoLogger, ImageListener {
             else{
                 presenter.doAddOrSave(hillfortName.text.toString(), hillfortDescription.text.toString())
             }
-            chooseImage.setOnClickListener{presenter.doSelectImage()}
-            hillfortLocation.setOnClickListener{presenter.doSetLocation()}
         }
     }
 
@@ -99,6 +96,13 @@ class HillfortView : AppCompatActivity(), AnkoLogger, ImageListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item?.itemId) {
+            R.id.item_save ->{
+             if(hillfortName.text.toString().isEmpty()){
+                 toast(R.string.enter_hillfort_name)
+             }else{
+                 presenter.doAddOrSave(hillfortName.text.toString(), hillfortDescription.text.toString())
+             }
+            }
             R.id.item_cancel -> {
                 presenter.doCancel()
             }
@@ -129,7 +133,7 @@ class HillfortView : AppCompatActivity(), AnkoLogger, ImageListener {
         startActivityForResult(intentFor<ImageActivity>().putExtra("image", image),DELETE_IMAGE)
     }
 
-//   Functions needed to return the user to the HillfortListActivity after the Up navigation is pressed
+//   Functions needed to return the user to the HillfortListView after the Up navigation is pressed
     override fun onPrepareSupportNavigateUpTaskStack(builder: TaskStackBuilder) {
         super.onPrepareSupportNavigateUpTaskStack(builder)
         builder.editIntentAt(builder.intentCount - 1)
@@ -161,5 +165,7 @@ class HillfortView : AppCompatActivity(), AnkoLogger, ImageListener {
             }
         }
     }
+
+
 
 }
