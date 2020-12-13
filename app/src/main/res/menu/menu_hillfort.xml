@@ -4,6 +4,12 @@
     tools:showIn="navigation_view">
 
         <item
+            android:id="@+id/item_save"
+            android:title="@string/menu_saveHillfort"
+            android:icon="@drawable/tick"
+            />
+        <item
+            android:visible="false"
             android:id="@+id/item_delete"
             android:icon="@drawable/delete"
             android:title="@string/menu_deleteHillfort" />

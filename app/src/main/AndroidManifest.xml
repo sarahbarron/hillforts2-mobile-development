@@ -14,16 +14,16 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".activities.HillfortMapsActivity"
+            android:name=".views.map.HillfortMapView"
             android:label="@string/title_activity_hillfort_maps"
-            >
+            android:theme="@style/AppTheme">
 
         </activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" /> <!-- Splash Screen -->
-        <activity android:name=".activities.SplashActivity">
+        <activity android:name=".views.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,18 +33,17 @@
         <activity
             android:name=".activities.AuthenticationActivity"
             android:label="@string/title_activity_login" /> <!-- List of hillforts activity -->
-        <activity android:name=".activities.HillfortListActivity" /> <!-- Single hillfort activity -->
+        <activity android:name=".views.hillfortlist.HillfortListView" /> <!-- Single hillfort activity -->
         <activity
-            android:name=".activities.HillfortActivity"
-            android:parentActivityName=".activities.HillfortListActivity" /> <!-- Map activity -->
+            android:name=".views.hillfort.HillfortView"
+            android:parentActivityName=".views.hillfortlist.HillfortListView" /> <!-- Map activity -->
         <activity
-            android:name=".activities.MapActivity"
-            android:label="@string/title_activity_map"
-            android:parentActivityName=".activities.HillfortActivity" />
+            android:name=".views.location.EditLocationView"
+            android:label="@string/title_activity_map" />
         <activity
-            android:name=".activities.ImageActivity"
-            android:parentActivityName=".activities.HillfortActivity" />
-        <activity android:name=".activities.UserSettingsActivity"></activity>
+            android:name=".views.image.ImageActivity"
+            android:parentActivityName=".views.hillfort.HillfortView" />
+        <activity android:name=".views.usersettings.UserSettingsActivity"></activity>
     </application>
 
 </manifest>

@@ -7,6 +7,7 @@ import org.jetbrains.anko.*
 import org.wit.hillfort.R
 import org.wit.hillfort.main.MainApp
 import org.wit.hillfort.models.UserModel
+import org.wit.hillfort.views.hillfortlist.HillfortListView
 
 // Class for Authentication - Creating a user and signing in a user
 class AuthenticationActivity: AppCompatActivity(), AnkoLogger{
@@ -52,7 +53,7 @@ class AuthenticationActivity: AppCompatActivity(), AnkoLogger{
                     if (user.id !== 0L) {
                         info("logging in user $user")
                         startActivityForResult(
-                            intentFor<HillfortListActivity>().putExtra(
+                            intentFor<HillfortListView>().putExtra(
                                 "user",
                                 user
                             ), 0
@@ -100,7 +101,7 @@ class AuthenticationActivity: AppCompatActivity(), AnkoLogger{
                 // check the user has entered a valid email address regex
                 if (user.username.matches(emailPattern.toRegex())){
                     // check if the user is already registered otherwise create the user and
-                    // start the HillfortListActivity
+                    // start the HillfortListView
                     val userIsRegistered = app.users.isUsernameRegistered(user.username)
                     if (userIsRegistered) {
                         longToast("Already Registered, please Sign In")
@@ -108,9 +109,9 @@ class AuthenticationActivity: AppCompatActivity(), AnkoLogger{
                     } else {
                         user = app.users.create(user.copy())
 
-                        info("$user created start HillfortListActivity")
+                        info("$user created start HillfortListView")
                         startActivityForResult(
-                            intentFor<HillfortListActivity>().putExtra(
+                            intentFor<HillfortListView>().putExtra(
                                 "user",
                                 user
                             ), 0

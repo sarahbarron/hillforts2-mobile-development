@@ -1,4 +1,4 @@
-package org.wit.hillfort.activities
+package org.wit.hillfort.views.image
 
 import android.content.Intent
 import android.os.Bundle
@@ -55,7 +55,7 @@ class ImageActivity: AppCompatActivity(), AnkoLogger {
        }
     }
 
-    //  Functions needed to return the user and the hillfort to the HillfortListActivity after the Up navigation is pressed
+    //  Functions needed to return the user and the hillfort to the HillfortListView after the Up navigation is pressed
     override fun onPrepareSupportNavigateUpTaskStack(builder: TaskStackBuilder) {
         super.onPrepareSupportNavigateUpTaskStack(builder)
         builder.editIntentAt(builder.intentCount - 1)?.putExtra("hillfort_edit", hillfort)?.putExtra("user",user)
