@@ -54,6 +54,7 @@ class HillfortJSONStore : HillfortStore, AnkoLogger {
     }
 
     //  Return one hillfort
+    //  Return one hillfort
     override fun findOne(hillfort: HillfortModel): HillfortModel{
         var foundHillfort: HillfortModel? = hillforts.find { p -> p.id == hillfort.id }
         if (foundHillfort != null) {
@@ -95,7 +96,8 @@ class HillfortJSONStore : HillfortStore, AnkoLogger {
 
     // delete a hillfort
     override fun delete(hillfort: HillfortModel) {
-        hillforts.remove(hillfort)
+        val foundHillfort: HillfortModel? = hillforts.find{it.id == hillfort.id}
+        hillforts.remove(foundHillfort)
         serialize()
     }
 

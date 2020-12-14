@@ -16,34 +16,44 @@ import org.jetbrains.anko.*
 import org.wit.hillfort.views.image.ImageActivity
 import org.wit.hillfort.activities.ImageAdapter
 import org.wit.hillfort.activities.ImageListener
+import org.wit.hillfort.views.base.BaseView
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
 
-class HillfortView : AppCompatActivity(), AnkoLogger, ImageListener {
+class HillfortView : BaseView(), AnkoLogger, ImageListener {
 
     lateinit var presenter: HillfortPresenter
     var hillfort = HillfortModel()
     val DELETE_IMAGE = 3
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        info("Hillforts activity started...")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hillfort)
-        toolbarAdd.title=title
+
+        init(toolbarAdd)
+
         setSupportActionBar(toolbarAdd)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        presenter = HillfortPresenter(this)
+        presenter = initPresenter (HillfortPresenter(this)) as HillfortPresenter
+
+        chooseImage.setOnClickListener{
+            presenter.cacheHillfort(hillfortName.text.toString(), hillfortDescription.text.toString())
+            presenter.doSelectImage()
+        }
+
+        hillfortLocation.setOnClickListener{
+            presenter.cacheHillfort(hillfortName.text.toString(), hillfortDescription.text.toString())
+            presenter.doSetLocation()
+        }
 
         val layoutManager = LinearLayoutManager(this)
         recyclerViewImages.layoutManager = layoutManager
 
-        chooseImage.setOnClickListener{presenter.doSelectImage()}
-        hillfortLocation.setOnClickListener{presenter.doSetLocation()}
+
 
         btnAdd.setOnClickListener() {
             if (hillfortName.text.toString().isEmpty()) {
@@ -55,7 +65,7 @@ class HillfortView : AppCompatActivity(), AnkoLogger, ImageListener {
         }
     }
 
-    fun showHillfort(hillfort: HillfortModel) {
+    override fun showHillfort(hillfort: HillfortModel) {
         hillfortName.setText(hillfort.name)
         hillfortDescription.setText(hillfort.description)
         showImages(hillfort.images)
@@ -167,5 +177,8 @@ class HillfortView : AppCompatActivity(), AnkoLogger, ImageListener {
     }
 
 
+    override fun onBackPressed(){
+        presenter.doCancel()
+    }
 
 }
