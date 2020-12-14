@@ -43,9 +43,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignTop="@+id/appBarLayout"
-            android:layout_alignParentBottom="true">
+            android:layout_height="wrap_content">
 
 
             <TextView
@@ -54,11 +52,11 @@
                 android:layout_height="40dp"
                 android:layout_marginTop="2dp"
                 android:background="@color/colorAccent"
-                android:padding="5px"
+                android:padding="5dp"
                 android:text="@string/heading_hillfort_name"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimary"
-                android:textSize="25dp"
+                android:textSize="25sp"
                 app:layout_constraintBottom_toTopOf="@+id/hillfortName"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -101,7 +99,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/hillfortName"
-                ></EditText>
+                android:autofillHints=""></EditText>
 
             <EditText
                 android:id="@+id/hillfortNotes"
@@ -116,8 +114,20 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/hillfortDescription"
-                ></EditText>
+                android:autofillHints=""></EditText>
 
+            <com.google.android.gms.maps.MapView
+                android:id="@+id/mapView"
+                android:layout_width="363dp"
+                android:layout_height="162dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="32dp"
+                android:padding= "20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/hillfortNotes"
+                />
             <TextView
                 android:id="@+id/hillfortLat"
                 android:layout_width="match_parent"
@@ -129,7 +139,7 @@
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/hillfortNotes">
+                app:layout_constraintTop_toBottomOf="@+id/mapView">
             </TextView>
             <TextView
                 android:id="@+id/hillfortLng"
@@ -236,8 +246,8 @@
                 android:id="@+id/dateVisited"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_marginLeft="20dp"
-                android:paddingLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:padding ="20dp"
                 android:text="@string/date_visited"
                 android:textSelectHandleLeft="@string/date_visited"
                 android:textSize="20sp"

@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.CheckBox
 import androidx.core.app.TaskStackBuilder
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.maps.GoogleMap
 import org.wit.hillfort.R
 import kotlinx.android.synthetic.main.activity_hillfort.*
 import org.wit.hillfort.models.HillfortModel
@@ -27,13 +28,19 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
     lateinit var presenter: HillfortPresenter
     var hillfort = HillfortModel()
     val DELETE_IMAGE = 3
+    lateinit var map: GoogleMap
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hillfort)
 
         init(toolbarAdd)
+
+        mapView.onCreate(savedInstanceState);
+        mapView.getMapAsync {
+            map = it
+            presenter.doConfigureMap(map)
+        }
 
         setSupportActionBar(toolbarAdd)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -50,9 +57,8 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
             presenter.doSetLocation()
         }
 
-        val layoutManager = LinearLayoutManager(this)
-        recyclerViewImages.layoutManager = layoutManager
-
+//        val layoutManager = LinearLayoutManager(this)
+//        recyclerViewImages.layoutManager = layoutManager
 
 
         btnAdd.setOnClickListener() {
@@ -114,7 +120,7 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
              }
             }
             R.id.item_cancel -> {
-                presenter.doCancel()
+                finish()
             }
             R.id.item_delete -> {
                 presenter.doDelete()
@@ -181,4 +187,28 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
         presenter.doCancel()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        mapView.onDestroy()
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        mapView.onLowMemory()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mapView.onPause()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mapView.onResume()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        mapView.onSaveInstanceState(outState)
+    }
 }
