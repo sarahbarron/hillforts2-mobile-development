@@ -1,6 +1,9 @@
 package org.wit.hillfort.views.hillfort
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
@@ -25,7 +28,7 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
     var defaultLocation = Location(52.245696, -7.139102, 15f)
     var edit = false;
     var map: GoogleMap? = null
-
+    var locationService: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(view)
 
     init {
         if (view.intent.hasExtra("hillfort_edit")) {
@@ -35,8 +38,7 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
         }
         else{
             if(checkLocationPermissions(view)) {
-                hillfort.lat = defaultLocation.lat
-                hillfort.lng = defaultLocation.lng
+                doSetCurrentLocation()
             }
         }
     }
@@ -132,10 +134,17 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
 
     override fun doRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         if (isPermissionGranted(requestCode, grantResults)) {
-            // todo get the current location
+           doSetCurrentLocation()
         } else {
             // permissions denied, so use the default location
             locationUpdate(defaultLocation.lat, defaultLocation.lng)
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    fun doSetCurrentLocation() {
+        locationService.lastLocation.addOnSuccessListener {
+            locationUpdate(it.latitude, it.longitude)
         }
     }
 
