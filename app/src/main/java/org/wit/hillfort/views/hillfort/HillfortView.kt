@@ -40,9 +40,15 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
 
         presenter = initPresenter (HillfortPresenter(this)) as HillfortPresenter
 
-        chooseImage.setOnClickListener{presenter.doSelectImage()}
+        chooseImage.setOnClickListener{
+            presenter.cacheHillfort(hillfortName.text.toString(), hillfortDescription.text.toString())
+            presenter.doSelectImage()
+        }
 
-        hillfortLocation.setOnClickListener{presenter.doSetLocation()}
+        hillfortLocation.setOnClickListener{
+            presenter.cacheHillfort(hillfortName.text.toString(), hillfortDescription.text.toString())
+            presenter.doSetLocation()
+        }
 
         val layoutManager = LinearLayoutManager(this)
         recyclerViewImages.layoutManager = layoutManager

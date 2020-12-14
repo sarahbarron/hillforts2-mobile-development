@@ -91,4 +91,9 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
             }
         }
     }
+
+    fun cacheHillfort(name: String, description: String){
+        hillfort.name = name;
+        hillfort.description = description
+    }
 }
