@@ -1,4 +1,4 @@
-package org.wit.hillfort.activities
+package org.wit.hillfort.views.authenetication
 
 
 import android.os.Bundle
@@ -12,10 +12,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_authentication.*
 import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.startActivity
 import org.wit.hillfort.R
 import org.wit.hillfort.helpers.createLoader
 import org.wit.hillfort.helpers.hideLoader
 import org.wit.hillfort.helpers.showLoader
+import org.wit.hillfort.views.hillfortlist.HillfortListView
 
 
 // Class for Authentication - Creating a user and signing in a user
@@ -185,6 +187,7 @@ class AuthenticationActivity: AppCompatActivity(), AnkoLogger, View.OnClickListe
             signedInButtons.visibility = View.VISIBLE
 
             verifyEmailButton.isEnabled = !user.isEmailVerified
+            startActivity<HillfortListView>()
         } else {
             status.setText(R.string.signed_out)
             detail.text = null

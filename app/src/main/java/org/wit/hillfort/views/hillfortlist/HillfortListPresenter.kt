@@ -1,24 +1,22 @@
 package org.wit.hillfort.views.hillfortlist
 
-import org.jetbrains.anko.intentFor
+import androidx.core.content.ContextCompat.startActivity
 import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.startActivityForResult
-import org.wit.hillfort.activities.AuthenticationActivity
-import org.wit.hillfort.views.map.HillfortMapView
+import org.wit.hillfort.views.authenetication.AuthenticationActivity
 import org.wit.hillfort.views.usersettings.UserSettingsActivity
-import org.wit.hillfort.main.MainApp
 import org.wit.hillfort.models.HillfortModel
 import org.wit.hillfort.models.UserModel
 import org.wit.hillfort.views.BasePresenter
 import org.wit.hillfort.views.base.BaseView
 import org.wit.hillfort.views.base.VIEW
-import org.wit.hillfort.views.hillfort.HillfortView
+import org.wit.hillfort.views.map.HillfortMapView
 import java.text.SimpleDateFormat
 import java.util.*
 
 class HillfortListPresenter(view: BaseView): BasePresenter(view) {
 
     fun getHillforts(userId: Long) = app.hillforts.findAll(userId)
+
 
     fun doAddHillfort() {
         view?.navigateTo(VIEW.HILLFORT)
@@ -41,7 +39,9 @@ class HillfortListPresenter(view: BaseView): BasePresenter(view) {
 
     }
     fun doLogout(){
+        view?.auth?.signOut()
         view?.startActivity<AuthenticationActivity>()
+        view?.finish()
     }
 
     fun doShowSettings(user: UserModel){

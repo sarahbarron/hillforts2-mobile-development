@@ -56,7 +56,6 @@
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign In</string>
     <string name="action_register">Create Account</string>
-    <string name="menu_logout">Logout</string>
     <string name="hint_userName">Username</string>
 
 

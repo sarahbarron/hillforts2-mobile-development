@@ -1,10 +1,11 @@
-package org.wit.hillfort.views.base
+package org.wit.hillfort.views
 
 import android.content.Intent
 
 import android.os.Parcelable
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.google.firebase.auth.FirebaseAuth
 import org.jetbrains.anko.AnkoLogger
 
 import org.wit.hillfort.models.HillfortModel
@@ -24,6 +25,7 @@ enum class VIEW {
 open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
 
     var basePresenter: BasePresenter? = null
+    lateinit var auth: FirebaseAuth
 
     fun navigateTo(view: VIEW, code: Int = 0, key: String = "", value: Parcelable? = null) {
         var intent = Intent(this, HillfortListView::class.java)
@@ -37,6 +39,12 @@ open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
             intent.putExtra(key, value)
         }
         startActivityForResult(intent, code)
+    }
+
+    fun init(toolbar: Toolbar, upEnabled: Boolean) {
+        toolbar.title = title
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(upEnabled)
     }
 
     fun initPresenter(presenter: BasePresenter): BasePresenter {
@@ -70,4 +78,6 @@ open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
     open fun showHillforts(hillforts: List<HillfortModel>) {}
     open fun showProgress() {}
     open fun hideProgress() {}
+    open fun showLocation(latitude : Double, longitude : Double) {}
+
 }

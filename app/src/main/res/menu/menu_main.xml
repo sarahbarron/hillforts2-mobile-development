@@ -23,8 +23,8 @@
             android:title="@string/menu_settings"
             />
         <item
-            android:id="@+id/item_logout"
+            android:id="@+id/nav_sign_out"
             android:icon="@drawable/logout"
-            android:title="@string/menu_logout"
+            android:title="@string/sign_out"
             />
 </menu>
