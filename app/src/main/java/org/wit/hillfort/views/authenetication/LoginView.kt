@@ -47,4 +47,8 @@ class LoginView : BaseView() {
     override fun hideProgress() {
         progressBar.visibility = View.GONE
     }
+
+
+
+
 }

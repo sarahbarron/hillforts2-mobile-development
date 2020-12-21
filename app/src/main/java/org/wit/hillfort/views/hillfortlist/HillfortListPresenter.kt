@@ -46,8 +46,9 @@ class HillfortListPresenter(view: BaseView): BasePresenter(view) {
         app.hillforts.deleteUserHillforts(userId)
 
     }
-    fun doLogout(){
+    fun doLogout() {
         FirebaseAuth.getInstance().signOut()
+        app.hillforts.clear()
         view?.navigateTo(VIEW.LOGIN)
     }
 
