@@ -9,7 +9,7 @@ import org.wit.hillfort.R
 
 import org.wit.hillfort.helpers.readImageFromPath
 import org.wit.hillfort.models.HillfortModel
-import org.wit.hillfort.views.base.BaseView
+import org.wit.hillfort.views.BaseView
 
 class HillfortMapView : BaseView(), GoogleMap.OnMarkerClickListener {
 

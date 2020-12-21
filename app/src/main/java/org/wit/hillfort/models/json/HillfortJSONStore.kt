@@ -42,15 +42,14 @@ class HillfortJSONStore : HillfortStore, AnkoLogger {
     }
 
     //    Return a list of all hillforts
-    override fun findAll(userId: Long): MutableList<HillfortModel> {
+    override fun findAll(): MutableList<HillfortModel> {
         var foundHillforts:ArrayList<HillfortModel> = ArrayList<HillfortModel>()
         for(hillfort in hillforts)
         {
-            if(hillfort.user == userId)
-            {
+
                 foundHillforts.add(hillfort.copy())
                 info("$hillfort added to foundHillforts Array")
-            }
+
         }
         return foundHillforts
     }
@@ -112,7 +111,7 @@ class HillfortJSONStore : HillfortStore, AnkoLogger {
 
     // Delete all hillforts for a certain user
     override fun deleteUserHillforts(userId: Long) {
-        val foundHillforts = findAll(userId)
+        val foundHillforts = findAll()
 
         for(hillfort in foundHillforts)
         {
@@ -129,14 +128,14 @@ class HillfortJSONStore : HillfortStore, AnkoLogger {
 
     //    Total number of hillforts a user has
     override fun totalHillforts(userId: Long): Int{
-        val total = findAll(userId).size
+        val total = findAll().size
         info("Total user hillforts: $total")
         return total
         }
 
     //    Total number of hillforts the user has viewed
     override fun viewedHillforts(userId: Long): Int{
-        val foundHillforts = findAll(userId)
+        val foundHillforts = findAll()
         var total = 0
         for (hillfort in foundHillforts)
         {

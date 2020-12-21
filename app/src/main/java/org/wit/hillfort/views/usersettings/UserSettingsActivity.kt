@@ -42,19 +42,19 @@ class UserSettingsActivity: AppCompatActivity(), AnkoLogger {
             statisticsHillfortsViewed.setText("Viewed: "+app.hillforts.viewedHillforts(user.id))
             statisticsHillfortsUnseen.setText("Unseen: "+app.hillforts.unseenHillforts(user.id))
 
-            // Class Average Statistics
-            val classViewed = app.hillforts.classAverageViewed(app.users.findAll().size)
-            statisticsClassTotal.setText("Average Total: "+app.hillforts.classAverageTotal(app.users.findAll().size))
-            statisticsClassViewed.setText("Average Viewed: $classViewed")
-            statisticsClassUnseen.setText("Average Unseen: "+app.hillforts.classAverageUnseen(app.users.findAll().size))
+//            // Class Average Statistics
+//            val classViewed = app.hillforts.classAverageViewed(app.users.findAll().size)
+//            statisticsClassTotal.setText("Average Total: "+app.hillforts.classAverageTotal(app.users.findAll().size))
+//            statisticsClassViewed.setText("Average Viewed: $classViewed")
+//            statisticsClassUnseen.setText("Average Unseen: "+app.hillforts.classAverageUnseen(app.users.findAll().size))
 
-            // if the user is equal to or above class average set a green message on the layout
-            if(userViewed>=classViewed){ statisticsUserPosition.setText("Keep up the good work!!")}
-            // if the user is below average set a red message on the layout
-            else {
-                statisticsUserPosition.setText("You are below average! \n It might be time to start catching up")
-                statisticsUserPosition.setTextColor(RED)
-            }
+//            // if the user is equal to or above class average set a green message on the layout
+//            if(userViewed>=classViewed){ statisticsUserPosition.setText("Keep up the good work!!")}
+//            // if the user is below average set a red message on the layout
+//            else {
+//                statisticsUserPosition.setText("You are below average! \n It might be time to start catching up")
+//                statisticsUserPosition.setTextColor(RED)
+//            }
         }
 
         // Update user details
@@ -67,7 +67,7 @@ class UserSettingsActivity: AppCompatActivity(), AnkoLogger {
                 if (user.username.matches(emailPattern.toRegex())) {
                     user.username = settingsUsername.text.toString()
                     user.password = settingsPassword.text.toString()
-                    app.users.update(user)
+//                    app.users.update(user)
                 }
                 else{
                     longToast("Username must be your email address")
@@ -81,7 +81,7 @@ class UserSettingsActivity: AppCompatActivity(), AnkoLogger {
         //  Delete User and return to the authentication screen
         btnDeleteUser.setOnClickListener(){
             app.hillforts.deleteUserHillforts(user.id)
-            app.users.delete(user.copy())
+//            app.users.delete(user.copy())
             startActivityForResult(intentFor<AuthenticationActivity>(),0)
         }
 
@@ -107,7 +107,7 @@ class UserSettingsActivity: AppCompatActivity(), AnkoLogger {
             R.id.item_deleteUser -> {
                 info("delete :"+user.id)
                 app.hillforts.deleteUserHillforts(user.id)
-                app.users.delete(user.copy())
+//                app.users.delete(user.copy())
                 startActivityForResult(intentFor<AuthenticationActivity>(),0)
             }
 
@@ -121,7 +121,7 @@ class UserSettingsActivity: AppCompatActivity(), AnkoLogger {
     }
     //    retrieve the current user from the JSON file
     fun loadUser(): UserModel{
-        user = app.users.findOne(user.copy())
+//        user = app.users.findOne(user.copy())
         return user
     }
 }

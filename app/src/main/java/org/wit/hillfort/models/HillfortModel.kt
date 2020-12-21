@@ -1,12 +1,18 @@
 package org.wit.hillfort.models
 import android.os.Parcelable
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverter
+import androidx.room.TypeConverters
 import kotlinx.android.parcel.Parcelize
 import java.time.LocalDate
 import kotlin.collections.ArrayList
 
 // Hillfort Model
 @Parcelize
-data class HillfortModel(var id: Long = 0,
+@Entity
+@TypeConverters
+data class HillfortModel(@PrimaryKey(autoGenerate = true) var id: Long = 0,
                          var name: String = "",
                          var description: String="",
                          var images: ArrayList<String> = ArrayList<String>(),

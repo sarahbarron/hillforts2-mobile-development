@@ -13,7 +13,7 @@ import org.wit.hillfort.activities.HillfortAdapter
 import org.wit.hillfort.activities.HillfortListener
 import org.wit.hillfort.models.HillfortModel
 import org.wit.hillfort.models.UserModel
-import org.wit.hillfort.views.base.BaseView
+import org.wit.hillfort.views.BaseView
 
 // Activity to show a list of hillforts
 class HillfortListView : BaseView(), HillfortListener, AnkoLogger{
@@ -24,9 +24,7 @@ class HillfortListView : BaseView(), HillfortListener, AnkoLogger{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hillfort_list)
-        // Support for a toolbar
-        toolbar.title = title
-        setSupportActionBar(toolbar)
+        super.init(toolbar,false)
 
         presenter = initPresenter(HillfortListPresenter(this)) as HillfortListPresenter
 
@@ -34,12 +32,6 @@ class HillfortListView : BaseView(), HillfortListener, AnkoLogger{
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = HillfortAdapter(presenter.getHillforts(user.id), this)
         recyclerView.adapter?.notifyDataSetChanged()
-        // retrieve user from the intent
-        if(intent.hasExtra("user"))
-        {
-            user = intent.extras?.getParcelable<UserModel>("user")!!
-            info("User: $user")
-        }
         presenter.loadHillforts()
     }
 

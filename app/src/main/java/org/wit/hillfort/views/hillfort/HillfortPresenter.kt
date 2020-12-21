@@ -8,14 +8,17 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import org.wit.hillfort.helpers.checkLocationPermissions
 import org.wit.hillfort.helpers.isPermissionGranted
 import org.wit.hillfort.helpers.showImagePicker
 import org.wit.hillfort.models.Location
 import org.wit.hillfort.models.HillfortModel
 import org.wit.hillfort.views.BasePresenter
-import org.wit.hillfort.views.base.BaseView
-import org.wit.hillfort.views.base.VIEW
+import org.wit.hillfort.views.BaseView
+import org.wit.hillfort.views.VIEW
+
 
 
 class HillfortPresenter(view: BaseView) : BasePresenter(view) {
@@ -62,12 +65,16 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
     fun doAddOrSave(name: String, description: String) {
         hillfort.name = name
         hillfort.description = description
-        if (edit) {
-            app.hillforts.update(hillfort)
-        } else {
-            app.hillforts.create(hillfort)
+        doAsync {
+            if (edit) {
+                app.hillforts.update(hillfort)
+            } else {
+                app.hillforts.create(hillfort)
+            }
+            uiThread {
+                view?.finish()
+            }
         }
-        view?.finish()
     }
 
     fun cacheHillfort(name: String, description: String){

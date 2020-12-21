@@ -19,7 +19,7 @@ class HillfortMemStore : HillfortStore, AnkoLogger {
     }
 
     // find all hillforts for a user
-    override fun findAll(userId: Long): List<HillfortModel> {
+    override fun findAll(): List<HillfortModel> {
         return hillforts
     }
 
@@ -90,14 +90,14 @@ class HillfortMemStore : HillfortStore, AnkoLogger {
 
     //    return the otal number of hillforts a user has
     override fun totalHillforts(userId: Long): Int {
-        val total = findAll(userId).size
+        val total = findAll().size
         info("Total user hillforts: $total")
         return total
     }
 
     //  return the total number of hillforts the user has viewed
     override fun viewedHillforts(userId: Long): Int {
-        val foundHillforts = findAll(userId)
+        val foundHillforts = findAll()
         var total = 0
         for (hillfort in foundHillforts) {
             if (hillfort.visited) {

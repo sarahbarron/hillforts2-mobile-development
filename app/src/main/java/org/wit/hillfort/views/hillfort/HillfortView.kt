@@ -17,7 +17,7 @@ import org.jetbrains.anko.*
 import org.wit.hillfort.views.image.ImageActivity
 import org.wit.hillfort.activities.ImageAdapter
 import org.wit.hillfort.activities.ImageListener
-import org.wit.hillfort.views.base.BaseView
+import org.wit.hillfort.views.BaseView
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
