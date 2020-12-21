@@ -43,6 +43,22 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
         }
     }
 
+    @SuppressLint("MissingPermission")
+    fun doSetCurrentLocation() {
+        locationService.lastLocation.addOnSuccessListener {
+            locationUpdate(it.latitude, it.longitude)
+        }
+    }
+
+    override fun doRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        if (isPermissionGranted(requestCode, grantResults)) {
+            doSetCurrentLocation()
+        } else {
+            // permissions denied, so use the default location
+            locationUpdate(defaultLocation.lat, defaultLocation.lng)
+        }
+    }
+
     fun doAddOrSave(name: String, description: String) {
         hillfort.name = name
         hillfort.description = description
@@ -93,19 +109,8 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
     }
 
     fun doSetLocation() {
-        if(edit==false)
-        {
-            view?.navigateTo(VIEW.LOCATION, LOCATION_REQUEST, "location", defaultLocation)
-        }else{
-            view?.navigateTo(
-                VIEW.LOCATION,
-                LOCATION_REQUEST,
-                "location",
-                Location(hillfort.lat, hillfort.lng, hillfort.zoom)
-            )
-        }
+        view?.navigateTo(VIEW.LOCATION, LOCATION_REQUEST, "location", Location(hillfort.lat, hillfort.lng, hillfort.zoom))
     }
-
 
     override fun doActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         when (requestCode) {
@@ -132,20 +137,5 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
         }
     }
 
-    override fun doRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        if (isPermissionGranted(requestCode, grantResults)) {
-           doSetCurrentLocation()
-        } else {
-            // permissions denied, so use the default location
-            locationUpdate(defaultLocation.lat, defaultLocation.lng)
-        }
-    }
-
-    @SuppressLint("MissingPermission")
-    fun doSetCurrentLocation() {
-        locationService.lastLocation.addOnSuccessListener {
-            locationUpdate(it.latitude, it.longitude)
-        }
-    }
 
 }

@@ -1,133 +1,206 @@
 package org.wit.hillfort.activities
 
+
 import android.os.Bundle
+import android.text.TextUtils
+import android.util.Log
+import android.view.View
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_authentication.*
-import org.jetbrains.anko.*
-import org.wit.hillfort.R
-import org.wit.hillfort.main.MainApp
-import org.wit.hillfort.models.UserModel
-import org.wit.hillfort.views.hillfortlist.HillfortListView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import org.jetbrains.anko.AnkoLogger
+
 
 // Class for Authentication - Creating a user and signing in a user
-class AuthenticationActivity: AppCompatActivity(), AnkoLogger{
+class AuthenticationActivity: AppCompatActivity(), AnkoLogger, View.OnClickListner{
 
-    var user = UserModel()
-    lateinit var app: MainApp
+    // [START declare_auth]
+    private lateinit var auth: FirebaseAuth
+    // [END declare_auth]
+    lateinit var loader : AlertDialog
 
-    //    Regex for an email address
-    var emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
-
-    override fun onCreate(savedInstanceState:Bundle?){
+    public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_authentication)
+        setContentView(R.layout.login)
 
-        app = application as MainApp
+        // Buttons
+        emailSignInButton.setOnClickListener(this)
+        emailCreateAccountButton.setOnClickListener(this)
+        signOutButton.setOnClickListener(this)
+        verifyEmailButton.setOnClickListener(this)
 
+        // [START initialize_auth]
+        // Initialize Firebase Auth
+        auth = FirebaseAuth.getInstance()
+        // [END initialize_auth]
 
-        //Sign In Button Click Listener & authentication
-        btnAuthenticate.setOnClickListener(){
-            user.username = username.text.toString()
-            user.password = password.text.toString()
+        loader = createLoader(this)
+    }
 
-            if(user.username.isEmpty() && user.password.isEmpty())
-            {
-                toast("Please Enter a Username and Password")
-            }
-            else if(user.username.isEmpty() && user.password.isNotEmpty())
-            {
-                toast("Please Enter a Username")
-            }
-            else if(user.username.isNotEmpty() && user.password.isEmpty())
-            {
-                toast("Please Enter a Password")
-            }
-            else if(user.username.isNotEmpty() && user.password.isNotEmpty())
-            {
-                // Check the username matches the email regex pattern
-                if (user.username.matches(emailPattern.toRegex())){
+    // [START on_start_check_user]
+    public override fun onStart() {
+        super.onStart()
+        // Check if user is signed in (non-null) and update UI accordingly.
+        val currentUser = auth.currentUser
+        updateUI(currentUser)
+    }
+    // [END on_start_check_user]
 
-                    // authenticate the user
-                    val user = app.users.authenticate(user.copy())
-                    // if a user with an id is returned they have been authenticated
-                    if (user.id !== 0L) {
-                        info("logging in user $user")
-                        startActivityForResult(
-                            intentFor<HillfortListView>().putExtra(
-                                "user",
-                                user
-                            ), 0
-                        )
-                    }
-                    // otherwise if the user has not been authenticated check to see if the username
-                    // Is a valid username
-                    else {
-                        val userIsRegistered = app.users.isUsernameRegistered(user.username)
-                        if (userIsRegistered) {
-                            longToast("Your password is incorrect please try again")
-                        } else {
-                            longToast("Please Register: no user registered with this username")
-                        }
-                        info("authentication failed")
-                    }
-                }
-                // If the user enters an invalid email address print a toast message
-                else{
-                    toast("Invalid  Email Address")
-                }
-            }
+    private fun createAccount(email: String, password: String) {
+        Log.d(TAG, "createAccount:$email")
+        if (!validateForm()) {
+            return
         }
 
-        // Register a user
-        btnRegister.setOnClickListener(){
+        showLoader(loader, "Creating Account...")
 
-            user.username = username.text.toString()
-            user.password = password.text.toString()
-
-            if(user.username.isEmpty() && user.password.isEmpty())
-            {
-                toast("Please Enter a Username and Password")
-            }
-            else if(user.username.isEmpty() && user.password.isNotEmpty())
-            {
-                toast("Please Enter a Username")
-            }
-            else if(user.username.isNotEmpty() && user.password.isEmpty())
-            {
-                toast("Please Enter a Password")
-            }
-            else if(user.username.isNotEmpty() && user.password.isNotEmpty())
-            {
-                // check the user has entered a valid email address regex
-                if (user.username.matches(emailPattern.toRegex())){
-                    // check if the user is already registered otherwise create the user and
-                    // start the HillfortListView
-                    val userIsRegistered = app.users.isUsernameRegistered(user.username)
-                    if (userIsRegistered) {
-                        longToast("Already Registered, please Sign In")
-                        info("authentication failed invalid username")
-                    } else {
-                        user = app.users.create(user.copy())
-
-                        info("$user created start HillfortListView")
-                        startActivityForResult(
-                            intentFor<HillfortListView>().putExtra(
-                                "user",
-                                user
-                            ), 0
-                        )
-                    }
+        // [START create_user_with_email]
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d(TAG, "createUserWithEmail:success")
+                    val user = auth.currentUser
+                    updateUI(user)
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w(TAG, "createUserWithEmail:failure", task.exception)
+                    Toast.makeText(baseContext, "Authentication failed.",
+                        Toast.LENGTH_SHORT).show()
+                    updateUI(null)
                 }
-                // if the username is not the proper email regex print a toast message
-                else{
-                    toast("Invalid  Email Address")
-                }
+
+                // [START_EXCLUDE]
+                hideLoader(loader)
+                // [END_EXCLUDE]
             }
+        // [END create_user_with_email]
+    }
+
+    private fun signIn(email: String, password: String) {
+        Log.d(TAG, "signIn:$email")
+        if (!validateForm()) {
+            return
+        }
+
+        showLoader(loader, "Logging In...")
+
+        // [START sign_in_with_email]
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d(TAG, "signInWithEmail:success")
+                    val user = auth.currentUser
+                    updateUI(user)
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w(TAG, "signInWithEmail:failure", task.exception)
+                    Toast.makeText(baseContext, "Authentication failed.",
+                        Toast.LENGTH_SHORT).show()
+                    updateUI(null)
+                }
+
+                // [START_EXCLUDE]
+                if (!task.isSuccessful) {
+                    status.setText(R.string.auth_failed)
+                }
+                hideLoader(loader)
+                // [END_EXCLUDE]
+            }
+        // [END sign_in_with_email]
+    }
+
+    private fun signOut() {
+        auth.signOut()
+        updateUI(null)
+    }
+
+    private fun sendEmailVerification() {
+        // Disable button
+        verifyEmailButton.isEnabled = false
+
+        // Send verification email
+        // [START send_email_verification]
+        val user = auth.currentUser
+        user?.sendEmailVerification()
+            ?.addOnCompleteListener(this) { task ->
+                // [START_EXCLUDE]
+                // Re-enable button
+                verifyEmailButton.isEnabled = true
+
+                if (task.isSuccessful) {
+                    Toast.makeText(baseContext,
+                        "Verification email sent to ${user.email} ",
+                        Toast.LENGTH_SHORT).show()
+                } else {
+                    Log.e(TAG, "sendEmailVerification", task.exception)
+                    Toast.makeText(baseContext,
+                        "Failed to send verification email.",
+                        Toast.LENGTH_SHORT).show()
+                }
+                // [END_EXCLUDE]
+            }
+        // [END send_email_verification]
+    }
+
+    private fun validateForm(): Boolean {
+        var valid = true
+
+        val email = fieldEmail.text.toString()
+        if (TextUtils.isEmpty(email)) {
+            fieldEmail.error = "Required."
+            valid = false
+        } else {
+            fieldEmail.error = null
+        }
+
+        val password = fieldPassword.text.toString()
+        if (TextUtils.isEmpty(password)) {
+            fieldPassword.error = "Required."
+            valid = false
+        } else {
+            fieldPassword.error = null
+        }
+
+        return valid
+    }
+
+    private fun updateUI(user: FirebaseUser?) {
+        hideLoader(loader)
+        if (user != null) {
+            status.text = getString(R.string.emailpassword_status_fmt,
+                user.email, user.isEmailVerified)
+            detail.text = getString(R.string.firebase_status_fmt, user.uid)
+
+            emailPasswordButtons.visibility = View.GONE
+            emailPasswordFields.visibility = View.GONE
+            signedInButtons.visibility = View.VISIBLE
+
+            verifyEmailButton.isEnabled = !user.isEmailVerified
+        } else {
+            status.setText(R.string.signed_out)
+            detail.text = null
+
+            emailPasswordButtons.visibility = View.VISIBLE
+            emailPasswordFields.visibility = View.VISIBLE
+            signedInButtons.visibility = View.GONE
         }
     }
 
-//    Don't allow a user to go back from the authentication screen
-    override fun onBackPressed() {
-        longToast("You must Sign In or Register")
+    override fun onClick(v: View) {
+        val i = v.id
+        when (i) {
+            R.id.emailCreateAccountButton -> createAccount(fieldEmail.text.toString(), fieldPassword.text.toString())
+            R.id.emailSignInButton -> signIn(fieldEmail.text.toString(), fieldPassword.text.toString())
+            R.id.signOutButton -> signOut()
+            R.id.verifyEmailButton -> sendEmailVerification()
+        }
+    }
+
+    companion object {
+        private const val TAG = "EmailPassword"
     }
 }
