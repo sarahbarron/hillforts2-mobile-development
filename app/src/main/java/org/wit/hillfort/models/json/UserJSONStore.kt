@@ -1,4 +1,4 @@
-package org.wit.hillfort.models
+package org.wit.hillfort.models.json
 
 
 import android.content.Context
@@ -8,6 +8,8 @@ import com.google.gson.reflect.TypeToken
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 import org.wit.hillfort.helpers.*
+import org.wit.hillfort.models.UserModel
+import org.wit.hillfort.models.UserStore
 import java.util.*
 
 val USER_JSON_FILE = "users.json"

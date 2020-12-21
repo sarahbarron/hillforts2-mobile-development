@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_settings.*
 import org.jetbrains.anko.*
 import org.wit.hillfort.R
-import org.wit.hillfort.activities.AuthenticationActivity
+import org.wit.hillfort.views.authenetication.AuthenticationActivity
 import org.wit.hillfort.main.MainApp
 import org.wit.hillfort.models.UserModel
 
@@ -112,7 +112,7 @@ class UserSettingsActivity: AppCompatActivity(), AnkoLogger {
             }
 
             // Logout - return the user to the AuthenticationActivity
-            R.id.item_logout -> {
+            R.id.nav_sign_out -> {
                 startActivityForResult(intentFor<AuthenticationActivity>(),0)
             }
 

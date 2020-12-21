@@ -1,6 +1,8 @@
-package org.wit.hillfort.models
+package org.wit.hillfort.models.mem
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
+import org.wit.hillfort.models.HillfortModel
+import org.wit.hillfort.models.HillfortStore
 
 var lastId = 0L
 internal fun getId(): Long {

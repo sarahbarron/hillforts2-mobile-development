@@ -1,4 +1,4 @@
-package org.wit.hillfort.activities
+package org.wit.hillfort.views.authenetication
 
 
 import android.os.Bundle
@@ -10,11 +10,18 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import kotlinx.android.synthetic.main.activity_authentication.*
 import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.startActivity
+import org.wit.hillfort.R
+import org.wit.hillfort.helpers.createLoader
+import org.wit.hillfort.helpers.hideLoader
+import org.wit.hillfort.helpers.showLoader
+import org.wit.hillfort.views.hillfortlist.HillfortListView
 
 
 // Class for Authentication - Creating a user and signing in a user
-class AuthenticationActivity: AppCompatActivity(), AnkoLogger, View.OnClickListner{
+class AuthenticationActivity: AppCompatActivity(), AnkoLogger, View.OnClickListener{
 
     // [START declare_auth]
     private lateinit var auth: FirebaseAuth
@@ -23,7 +30,7 @@ class AuthenticationActivity: AppCompatActivity(), AnkoLogger, View.OnClickListn
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.login)
+        setContentView(R.layout.activity_authentication)
 
         // Buttons
         emailSignInButton.setOnClickListener(this)
@@ -180,6 +187,7 @@ class AuthenticationActivity: AppCompatActivity(), AnkoLogger, View.OnClickListn
             signedInButtons.visibility = View.VISIBLE
 
             verifyEmailButton.isEnabled = !user.isEmailVerified
+            startActivity<HillfortListView>()
         } else {
             status.setText(R.string.signed_out)
             detail.text = null
@@ -190,7 +198,7 @@ class AuthenticationActivity: AppCompatActivity(), AnkoLogger, View.OnClickListn
         }
     }
 
-    override fun onClick(v: View) {
+  override fun onClick(v: View) {
         val i = v.id
         when (i) {
             R.id.emailCreateAccountButton -> createAccount(fieldEmail.text.toString(), fieldPassword.text.toString())

@@ -7,7 +7,7 @@ import android.os.Handler
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 import org.wit.hillfort.R
-import org.wit.hillfort.activities.AuthenticationActivity
+import org.wit.hillfort.views.authenetication.AuthenticationActivity
 import org.wit.hillfort.main.MainApp
 
 

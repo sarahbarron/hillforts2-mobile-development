@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_hillfort_list.*
 import org.jetbrains.anko.*
 import org.wit.hillfort.R
@@ -60,7 +61,7 @@ class HillfortListView : BaseView(), HillfortListener, AnkoLogger{
             R.id.item_add -> presenter.doAddHillfort()
             R.id.item_map -> presenter.doShowHillfortsMap()
             R.id.item_deleteAllHillforts -> presenter.deleteAllHillforts(user.id)
-            R.id.item_logout -> presenter.doLogout()
+            R.id.nav_sign_out -> presenter.doLogout()
             R.id.item_settings -> presenter.doShowSettings(user)
         }
         return super.onOptionsItemSelected(item)
