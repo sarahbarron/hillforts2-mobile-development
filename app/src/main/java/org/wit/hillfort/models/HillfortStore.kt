@@ -16,4 +16,5 @@ interface HillfortStore {
     fun classAverageViewed(numOfUsers:Int):Int
     fun classAverageUnseen(numOfUsers: Int):Int
     fun findById(id:Long) : HillfortModel?
+    fun clear()
 }

@@ -146,4 +146,8 @@ class HillfortMemStore : HillfortStore, AnkoLogger {
         info("Average number of hillforts unseen in the class: $averageUnseen")
         return averageUnseen
     }
+
+    override fun clear(){
+        hillforts.clear()
+    }
 }

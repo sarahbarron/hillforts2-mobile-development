@@ -76,4 +76,8 @@ class HillfortStoreRoom(val context: Context) : HillfortStore {
     override fun classAverageUnseen(numOfUsers: Int): Int {
         TODO("Not yet implemented")
     }
+
+    override fun clear() {
+        TODO("Not yet implemented")
+    }
 }

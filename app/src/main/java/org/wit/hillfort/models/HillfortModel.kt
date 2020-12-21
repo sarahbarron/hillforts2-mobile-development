@@ -10,6 +10,7 @@ import kotlin.collections.ArrayList
 @Entity
 @TypeConverters
 data class HillfortModel(@PrimaryKey(autoGenerate = true) var id: Long = 0,
+                         var fbId: String ="",
                          var name: String = "",
                          var description: String="",
                          var images: ArrayList<String> = ArrayList<String>(),
