@@ -17,6 +17,7 @@ import org.jetbrains.anko.*
 import org.wit.hillfort.views.image.ImageActivity
 import org.wit.hillfort.activities.ImageAdapter
 import org.wit.hillfort.activities.ImageListener
+import org.wit.hillfort.models.Location
 import org.wit.hillfort.views.BaseView
 import java.text.SimpleDateFormat
 import java.util.*
@@ -80,6 +81,12 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
             chooseImage.setText(R.string.change_hillfort_image)
         }
         btnAdd.setText(R.string.save_hillfort)
+        this.showLocation(hillfort.location)
+    }
+
+    override fun showLocation (loc : Location) {
+        hillfortLat.setText("%.6f".format(loc.lat))
+        hillfortLng.setText("%.6f".format(loc.lng))
     }
 
     //    Show the current images
