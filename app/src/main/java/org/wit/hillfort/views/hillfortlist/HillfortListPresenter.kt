@@ -1,6 +1,7 @@
 package org.wit.hillfort.views.hillfortlist
 
 import androidx.core.content.ContextCompat.startActivity
+import com.google.firebase.auth.FirebaseAuth
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.uiThread
@@ -46,9 +47,8 @@ class HillfortListPresenter(view: BaseView): BasePresenter(view) {
 
     }
     fun doLogout(){
-        view?.auth?.signOut()
-        view?.startActivity<AuthenticationActivity>()
-        view?.finish()
+        FirebaseAuth.getInstance().signOut()
+        view?.navigateTo(VIEW.LOGIN)
     }
 
     fun doShowSettings(user: UserModel){
