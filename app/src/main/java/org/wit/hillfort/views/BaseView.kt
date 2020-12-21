@@ -11,6 +11,7 @@ import org.jetbrains.anko.AnkoLogger
 import org.wit.hillfort.models.HillfortModel
 import org.wit.hillfort.models.Location
 import org.wit.hillfort.views.BasePresenter
+import org.wit.hillfort.views.authenetication.LoginView
 import org.wit.hillfort.views.location.EditLocationView
 import org.wit.hillfort.views.map.HillfortMapView
 import org.wit.hillfort.views.hillfort.HillfortView
@@ -20,7 +21,7 @@ val IMAGE_REQUEST = 1
 val LOCATION_REQUEST = 2
 
 enum class VIEW {
-    LOCATION, HILLFORT, MAPS, LIST
+    LOCATION, HILLFORT, MAPS, LIST, LOGIN
 }
 
 open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
@@ -35,6 +36,7 @@ open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
             VIEW.HILLFORT -> intent = Intent(this, HillfortView::class.java)
             VIEW.MAPS -> intent = Intent(this, HillfortMapView::class.java)
             VIEW.LIST -> intent = Intent(this, HillfortListView::class.java)
+            VIEW.LOGIN -> intent = Intent(this, LoginView::class.java)
         }
         if (key != "") {
             intent.putExtra(key, value)

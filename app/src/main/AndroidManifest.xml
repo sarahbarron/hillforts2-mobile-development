@@ -16,7 +16,8 @@
         <activity
             android:name=".views.map.HillfortMapView"
             android:label="@string/title_activity_hillfort_maps"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            android:launchMode="singleTop">
 
         </activity>
 
@@ -29,18 +30,18 @@
 
         <!-- Authentication Screen -->
         <activity
-
-        android:name=".views.authenetication.AuthenticationActivity"
-            android:label="@string/title_activity_login" >
+            android:name=".views.authenetication.LoginView"
+            android:label="@string/title_activity_login"
+            android:launchMode="singleTop">
         <intent-filter>
+            <action android:name="android.intent.action.VIEW"/>
             <action android:name="android.intent.action.MAIN" />
-
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
         </activity>
 
-
-        <activity android:name=".views.hillfortlist.HillfortListView" />
+        <activity android:name=".views.hillfortlist.HillfortListView"
+            android:launchMode="singleTop"/>
 
         <!-- Single hillfort activity -->
         <activity

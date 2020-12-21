@@ -52,7 +52,6 @@ class HillfortListView : BaseView(), HillfortListener, AnkoLogger{
         when(item?.itemId){
             R.id.item_add -> presenter.doAddHillfort()
             R.id.item_map -> presenter.doShowHillfortsMap()
-            R.id.item_deleteAllHillforts -> presenter.deleteAllHillforts(user.id)
             R.id.nav_sign_out -> presenter.doLogout()
             R.id.item_settings -> presenter.doShowSettings(user)
         }

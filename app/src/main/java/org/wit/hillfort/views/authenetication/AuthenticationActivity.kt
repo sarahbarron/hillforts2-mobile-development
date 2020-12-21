@@ -33,8 +33,8 @@ class AuthenticationActivity: AppCompatActivity(), AnkoLogger, View.OnClickListe
         setContentView(R.layout.activity_authentication)
 
         // Buttons
-        emailSignInButton.setOnClickListener(this)
-        emailCreateAccountButton.setOnClickListener(this)
+//        LogIn.setOnClickListener(this)
+//        SignUp.setOnClickListener(this)
         signOutButton.setOnClickListener(this)
         verifyEmailButton.setOnClickListener(this)
 
@@ -156,22 +156,15 @@ class AuthenticationActivity: AppCompatActivity(), AnkoLogger, View.OnClickListe
     private fun validateForm(): Boolean {
         var valid = true
 
-        val email = fieldEmail.text.toString()
+        val email = email.text.toString()
         if (TextUtils.isEmpty(email)) {
-            fieldEmail.error = "Required."
             valid = false
-        } else {
-            fieldEmail.error = null
         }
 
-        val password = fieldPassword.text.toString()
+        val password = password.text.toString()
         if (TextUtils.isEmpty(password)) {
-            fieldPassword.error = "Required."
             valid = false
-        } else {
-            fieldPassword.error = null
         }
-
         return valid
     }
 
@@ -201,8 +194,8 @@ class AuthenticationActivity: AppCompatActivity(), AnkoLogger, View.OnClickListe
   override fun onClick(v: View) {
         val i = v.id
         when (i) {
-            R.id.emailCreateAccountButton -> createAccount(fieldEmail.text.toString(), fieldPassword.text.toString())
-            R.id.emailSignInButton -> signIn(fieldEmail.text.toString(), fieldPassword.text.toString())
+            R.id.signUp -> createAccount(email.text.toString(), password.text.toString())
+            R.id.logIn -> signIn(email.text.toString(), password.text.toString())
             R.id.signOutButton -> signOut()
             R.id.verifyEmailButton -> sendEmailVerification()
         }
