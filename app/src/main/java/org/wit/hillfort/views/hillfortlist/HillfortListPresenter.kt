@@ -1,18 +1,16 @@
 package org.wit.hillfort.views.hillfortlist
 
-import androidx.core.content.ContextCompat.startActivity
+
 import com.google.firebase.auth.FirebaseAuth
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.uiThread
-import org.wit.hillfort.views.authenetication.AuthenticationActivity
 import org.wit.hillfort.views.usersettings.UserSettingsActivity
 import org.wit.hillfort.models.HillfortModel
 import org.wit.hillfort.models.UserModel
 import org.wit.hillfort.views.BasePresenter
 import org.wit.hillfort.views.BaseView
 import org.wit.hillfort.views.VIEW
-import org.wit.hillfort.views.map.HillfortMapView
 import java.text.SimpleDateFormat
 import java.util.*
 

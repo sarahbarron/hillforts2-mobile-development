@@ -28,6 +28,7 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
     var edit = false;
     var locationService: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(view)
     val locationRequest = createDefaultLocationRequest()
+    var locationManualyChanged = false;
 
     init {
         if (view.intent.hasExtra("hillfort_edit")) {
@@ -54,7 +55,9 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
             override fun onLocationResult(locationResult: LocationResult?) {
                 if (locationResult != null && locationResult.locations != null) {
                     val l = locationResult.locations.last()
-                    locationUpdate(Location(l.latitude, l.longitude))
+                    if(!locationManualyChanged) {
+                        locationUpdate(Location(l.latitude, l.longitude))
+                    }
                 }
             }
         }
@@ -126,6 +129,7 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
     }
 
     fun doSetLocation() {
+        locationManualyChanged = true;
         view?.navigateTo(VIEW.LOCATION, LOCATION_REQUEST, "location", Location(hillfort.location.lat, hillfort.location.lng, hillfort.location.zoom))
     }
 

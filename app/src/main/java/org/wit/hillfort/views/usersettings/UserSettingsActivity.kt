@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_settings.*
 import org.jetbrains.anko.*
 import org.wit.hillfort.R
-import org.wit.hillfort.views.authenetication.AuthenticationActivity
 import org.wit.hillfort.main.MainApp
 import org.wit.hillfort.models.UserModel
 
@@ -82,7 +81,7 @@ class UserSettingsActivity: AppCompatActivity(), AnkoLogger {
         btnDeleteUser.setOnClickListener(){
             app.hillforts.deleteUserHillforts(user.id)
 //            app.users.delete(user.copy())
-            startActivityForResult(intentFor<AuthenticationActivity>(),0)
+//            startActivityForResult(intentFor<AuthenticationView>(),0)
         }
 
     }
@@ -108,12 +107,12 @@ class UserSettingsActivity: AppCompatActivity(), AnkoLogger {
                 info("delete :"+user.id)
                 app.hillforts.deleteUserHillforts(user.id)
 //                app.users.delete(user.copy())
-                startActivityForResult(intentFor<AuthenticationActivity>(),0)
+//                startActivityForResult(intentFor<AuthenticationActivity>(),0)
             }
 
             // Logout - return the user to the AuthenticationActivity
             R.id.nav_sign_out -> {
-                startActivityForResult(intentFor<AuthenticationActivity>(),0)
+//                startActivityForResult(intentFor<AuthenticationActivity>(),0)
             }
 
         }
