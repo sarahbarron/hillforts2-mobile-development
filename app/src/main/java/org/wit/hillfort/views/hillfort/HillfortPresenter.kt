@@ -38,6 +38,7 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
         } else {
             if (checkLocationPermissions(view)) {
                 doSetCurrentLocation()
+                doSetEmptyImages()
             }
         }
     }
@@ -47,6 +48,11 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
         locationService.lastLocation.addOnSuccessListener {
             locationUpdate(Location(it.latitude, it.longitude))
         }
+    }
+
+    @SuppressLint("MissingPermission")
+    fun doSetEmptyImages(){
+        hillfort.images = arrayListOf<String>()
     }
 
     @SuppressLint("MissingPermission")
@@ -123,9 +129,9 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
     }
 
     fun doSelectImage() {
-        view?.let {
-            showImagePicker(view!!, IMAGE_REQUEST)
-        }
+            view?.let {
+                showImagePicker(view!!, IMAGE_REQUEST)
+            }
     }
 
     fun doSetLocation() {
@@ -141,13 +147,26 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
     override fun doActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         when (requestCode) {
             IMAGE_REQUEST -> {
-               hillfort.images[0] = data.data.toString()
-                view?.showHillfort(hillfort)
+                if(data!=null) {
+                      hillfort.images.add(data.getData().toString())
+                    view?.showHillfort(hillfort)
+                }
             }
             LOCATION_REQUEST -> {
                 val location = data.extras?.getParcelable<Location>("location")!!
                 hillfort.location = location
                 locationUpdate(location)
+            }
+        }
+    }
+
+    fun getImages()= hillfort.images
+
+    fun loadImages(){
+        doAsync{
+            val images = hillfort.images
+            uiThread{
+                view?.showImages(images)
             }
         }
     }

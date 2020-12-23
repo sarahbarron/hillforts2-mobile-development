@@ -13,11 +13,10 @@ data class HillfortModel(@PrimaryKey(autoGenerate = true) var id: Long = 0,
                          var fbId: String ="",
                          var name: String = "",
                          var description: String="",
-                         var images: ArrayList<String> = ArrayList<String>(),
+                         var images: ArrayList<String> = arrayListOf<String>(),
                          var visited: Boolean = false,
                          var notes: String ="",
                          var date: String="",
-                         var user: Long = 0,
                           @Embedded var location: Location = Location()): Parcelable
 
 // Map location model

@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.google.firebase.auth.FirebaseAuth
 import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.info
 
 import org.wit.hillfort.models.HillfortModel
 import org.wit.hillfort.models.Location
@@ -16,12 +17,13 @@ import org.wit.hillfort.views.location.EditLocationView
 import org.wit.hillfort.views.map.HillfortMapView
 import org.wit.hillfort.views.hillfort.HillfortView
 import org.wit.hillfort.views.hillfortlist.HillfortListView
+import org.wit.hillfort.views.image.ImageView
 
 val IMAGE_REQUEST = 1
 val LOCATION_REQUEST = 2
 
 enum class VIEW {
-    LOCATION, HILLFORT, MAPS, LIST, LOGIN
+    LOCATION, HILLFORT, MAPS, LIST, LOGIN, IMAGE
 }
 
 open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
@@ -37,6 +39,7 @@ open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
             VIEW.MAPS -> intent = Intent(this, HillfortMapView::class.java)
             VIEW.LIST -> intent = Intent(this, HillfortListView::class.java)
             VIEW.LOGIN -> intent = Intent(this, LoginView::class.java)
+            VIEW.IMAGE -> intent = Intent(this, ImageView::class.java)
         }
         if (key != "") {
             intent.putExtra(key, value)
@@ -86,6 +89,5 @@ open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
     open fun showProgress() {}
     open fun hideProgress() {}
     open fun showLocation(location : Location) {}
-
-
+    open fun showImages(images: ArrayList<String>){}
 }

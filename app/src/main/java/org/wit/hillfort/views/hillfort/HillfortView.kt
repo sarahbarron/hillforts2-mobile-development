@@ -14,7 +14,6 @@ import kotlinx.android.synthetic.main.activity_hillfort.*
 import org.wit.hillfort.models.HillfortModel
 import kotlinx.android.synthetic.main.activity_hillfort.hillfortName
 import org.jetbrains.anko.*
-import org.wit.hillfort.views.image.ImageActivity
 import org.wit.hillfort.activities.ImageAdapter
 import org.wit.hillfort.activities.ImageListener
 import org.wit.hillfort.models.Location
@@ -49,8 +48,11 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
         presenter = initPresenter (HillfortPresenter(this)) as HillfortPresenter
 
         chooseImage.setOnClickListener{
-            presenter.cacheHillfort(hillfortName.text.toString(), hillfortDescription.text.toString())
-            presenter.doSelectImage()
+                presenter.cacheHillfort(
+                    hillfortName.text.toString(),
+                    hillfortDescription.text.toString()
+                )
+                presenter.doSelectImage()
         }
 
         hillfortLocation.setOnClickListener{
@@ -58,8 +60,11 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
             presenter.doSetLocation()
         }
 
-//        val layoutManager = LinearLayoutManager(this)
-//        recyclerViewImages.layoutManager = layoutManager
+        val layoutManager = LinearLayoutManager(this)
+        recyclerViewImages.layoutManager = layoutManager
+        recyclerViewImages.adapter = ImageAdapter(presenter.getImages(), this)
+        recyclerViewImages.adapter?.notifyDataSetChanged()
+        presenter.loadImages()
 
 
         btnAdd.setOnClickListener() {
@@ -75,11 +80,7 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
     override fun showHillfort(hillfort: HillfortModel) {
         hillfortName.setText(hillfort.name)
         hillfortDescription.setText(hillfort.description)
-        showImages(hillfort.images)
-//        hillfortImage.setImageBitmap(readImageFromPath(this, hillfort.images[0]))
-        if (hillfort.images.size > 0) {
-            chooseImage.setText(R.string.change_hillfort_image)
-        }
+        this.showImages(hillfort.images)
         btnAdd.setText(R.string.save_hillfort)
         this.showLocation(hillfort.location)
     }
@@ -90,7 +91,7 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
     }
 
     //    Show the current images
-    fun showImages (images: ArrayList<String>) {
+    override fun showImages (images: ArrayList<String>) {
 //        recycler View
         recyclerViewImages.adapter = ImageAdapter(images, this)
         recyclerViewImages.adapter?.notifyDataSetChanged()
@@ -107,9 +108,6 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
             }
         }
     }
-
-
-
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_hillfort, menu)
@@ -137,23 +135,16 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
     }
 
 //
-//    //    retrieve the current hillfort from the JSON file
-//    fun loadHillfort(){
-//        hillfort = app.hillforts.findOne(hillfort.copy())
-//        showImages(hillfort.images)
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        if (data != null) {
+//            presenter.doActivityResult(requestCode, resultCode, data)
+//        }
 //    }
 
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (data != null) {
-            presenter.doActivityResult(requestCode, resultCode, data)
-        }
-    }
-
-
     override fun onImageClick(image: String){
-        startActivityForResult(intentFor<ImageActivity>().putExtra("image", image),DELETE_IMAGE)
+//        startActivityForResult(intentFor<ImageActivity>().putExtra("image", image),DELETE_IMAGE)
     }
 
 //   Functions needed to return the user to the HillfortListView after the Up navigation is pressed

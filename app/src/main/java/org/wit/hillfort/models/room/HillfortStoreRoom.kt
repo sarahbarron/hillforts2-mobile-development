@@ -49,33 +49,33 @@ class HillfortStoreRoom(val context: Context) : HillfortStore {
         TODO("Not yet implemented")
     }
 
-    override fun deleteUserHillforts(userId: Long) {
+    override fun deleteUserHillforts() {
         TODO("Not yet implemented")
     }
 
-    override fun totalHillforts(userId: Long): Int {
-        TODO("Not yet implemented")
-    }
-
-    override fun viewedHillforts(userId: Long): Int {
-        TODO("Not yet implemented")
-    }
-
-    override fun unseenHillforts(userId: Long): Int {
-        TODO("Not yet implemented")
-    }
-
-    override fun classAverageTotal(numOfUsers: Int): Int {
-        TODO("Not yet implemented")
-    }
-
-    override fun classAverageViewed(numOfUsers: Int): Int {
-        TODO("Not yet implemented")
-    }
-
-    override fun classAverageUnseen(numOfUsers: Int): Int {
-        TODO("Not yet implemented")
-    }
+//    override fun totalHillforts(userId: Long): Int {
+//        TODO("Not yet implemented")
+//    }
+//
+//    override fun viewedHillforts(userId: Long): Int {
+//        TODO("Not yet implemented")
+//    }
+//
+//    override fun unseenHillforts(userId: Long): Int {
+//        TODO("Not yet implemented")
+//    }
+//
+//    override fun classAverageTotal(numOfUsers: Int): Int {
+//        TODO("Not yet implemented")
+//    }
+//
+//    override fun classAverageViewed(numOfUsers: Int): Int {
+//        TODO("Not yet implemented")
+//    }
+//
+//    override fun classAverageUnseen(numOfUsers: Int): Int {
+//        TODO("Not yet implemented")
+//    }
 
     override fun clear() {
         TODO("Not yet implemented")

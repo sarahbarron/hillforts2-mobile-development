@@ -27,7 +27,6 @@ class ImageAdapter(private var images: ArrayList<String>,
 
     // create the view holder for the image card
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
-
         return MainHolder(
             LayoutInflater.from(parent?.context).inflate(
                 R.layout.card_image,
@@ -51,14 +50,7 @@ class ImageAdapter(private var images: ArrayList<String>,
     class MainHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(image: String, listener: ImageListener) {
-
-            Glide.with(itemView.context).load(image).into(itemView.imageIcon);
-//            itemView.hillfortImage.setImageBitmap(
-//                readImageFromPath(
-//                    itemView.context,
-//                    image
-//                )
-//            )
+            Glide.with(itemView.context).load(image).into(itemView.hillfortImage);
             itemView.setOnClickListener{listener.onImageClick(image)}
         }
 

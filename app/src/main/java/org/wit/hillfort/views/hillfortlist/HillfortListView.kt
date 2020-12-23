@@ -5,21 +5,18 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_hillfort_list.*
 import org.jetbrains.anko.*
 import org.wit.hillfort.R
 import org.wit.hillfort.activities.HillfortAdapter
 import org.wit.hillfort.activities.HillfortListener
 import org.wit.hillfort.models.HillfortModel
-import org.wit.hillfort.models.UserModel
 import org.wit.hillfort.views.BaseView
 
 // Activity to show a list of hillforts
 class HillfortListView : BaseView(), HillfortListener, AnkoLogger{
 
     lateinit var presenter: HillfortListPresenter
-    var user = UserModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +27,7 @@ class HillfortListView : BaseView(), HillfortListener, AnkoLogger{
 
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
-        recyclerView.adapter = HillfortAdapter(presenter.getHillforts(user.id), this)
+        recyclerView.adapter = HillfortAdapter(presenter.getHillforts(), this)
         recyclerView.adapter?.notifyDataSetChanged()
         presenter.loadHillforts()
     }
@@ -53,7 +50,7 @@ class HillfortListView : BaseView(), HillfortListener, AnkoLogger{
             R.id.item_add -> presenter.doAddHillfort()
             R.id.item_map -> presenter.doShowHillfortsMap()
             R.id.nav_sign_out -> presenter.doLogout()
-            R.id.item_settings -> presenter.doShowSettings(user)
+            R.id.item_settings -> presenter.doShowSettings()
         }
         return super.onOptionsItemSelected(item)
     }

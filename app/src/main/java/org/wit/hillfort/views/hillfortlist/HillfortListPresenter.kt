@@ -7,7 +7,6 @@ import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.uiThread
 import org.wit.hillfort.views.usersettings.UserSettingsActivity
 import org.wit.hillfort.models.HillfortModel
-import org.wit.hillfort.models.UserModel
 import org.wit.hillfort.views.BasePresenter
 import org.wit.hillfort.views.BaseView
 import org.wit.hillfort.views.VIEW
@@ -16,7 +15,7 @@ import java.util.*
 
 class HillfortListPresenter(view: BaseView): BasePresenter(view) {
 
-    fun getHillforts(userId: Long) = app.hillforts.findAll()
+    fun getHillforts() = app.hillforts.findAll()
 
 
     fun doAddHillfort() {
@@ -40,8 +39,8 @@ class HillfortListPresenter(view: BaseView): BasePresenter(view) {
         }
     }
 
-    fun deleteAllHillforts(userId: Long){
-        app.hillforts.deleteUserHillforts(userId)
+    fun deleteAllHillforts(){
+        app.hillforts.deleteUserHillforts()
 
     }
     fun doLogout() {
@@ -50,7 +49,7 @@ class HillfortListPresenter(view: BaseView): BasePresenter(view) {
         view?.navigateTo(VIEW.LOGIN)
     }
 
-    fun doShowSettings(user: UserModel){
+    fun doShowSettings(){
         view?.startActivity<UserSettingsActivity>()
     }
 
