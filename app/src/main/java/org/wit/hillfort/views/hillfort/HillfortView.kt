@@ -79,6 +79,9 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
                 presenter.doAddOrSave(hillfortName.text.toString(), hillfortDescription.text.toString(), hillfortNotes.text.toString(), visitedHillfort.isChecked, dateVisited.text.toString())
             }
         }
+        btnDeleteHillfort.setOnClickListener(){
+            presenter.doDelete()
+        }
     }
 
     override fun showHillfort(hillfort: HillfortModel) {
