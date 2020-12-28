@@ -1,27 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="navigation_view">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
         <item
             android:id="@+id/item_add"
             android:icon="@android:drawable/ic_menu_add"
             android:title="@string/menu_addHillfort"
-             />
+            app:showAsAction="never"/>
+
         <item
             android:id="@+id/item_map"
             android:icon="@android:drawable/ic_menu_mapmode"
-            android:title="@string/menu_mapHillforts" />
+            android:title="@string/menu_showMap"
+            app:showAsAction="never"/>
         <item
-            android:id="@+id/item_deleteAllHillforts"
-            android:icon="@drawable/delete"
-            android:title="@string/item_delete_all_hillforts"
-            />
-        <item
-            android:id="@+id/item_settings"
+            android:id="@id/item_settings"
             android:icon="@drawable/settings"
             android:title="@string/menu_settings"
+            app:showAsAction="never"
             />
+
         <item
             android:id="@+id/nav_sign_out"
             android:icon="@drawable/logout"

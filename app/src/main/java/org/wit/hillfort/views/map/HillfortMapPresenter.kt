@@ -15,20 +15,18 @@ import org.wit.hillfort.views.BaseView
 
 class HillfortMapPresenter(view: BaseView) : BasePresenter(view) {
 
-    fun doPopulateMap(map: GoogleMap, hillforts: List<HillfortModel>) {
+    fun doPopulateMap(map: GoogleMap, placemarks: List<HillfortModel>) {
         map.uiSettings.setZoomControlsEnabled(true)
-        hillforts.forEach{
-            val loc = LatLng(it.lat, it.lng)
+        placemarks.forEach {
+            val loc = LatLng(it.location.lat, it.location.lng)
             val options = MarkerOptions().title(it.name).position(loc)
-            map.addMarker(options).tag = it.id
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, it.zoom))
+            map.addMarker(options).tag = it
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, it.location.zoom))
         }
     }
-
     fun doMarkerSelected(marker: Marker) {
-        val tag = marker.tag as Long
+        val hillfort = marker.tag as HillfortModel
         doAsync {
-            val hillfort = app.hillforts.findById(tag)
             uiThread {
                 if (hillfort != null) view?.showHillfort(hillfort)
             }

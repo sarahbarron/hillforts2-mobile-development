@@ -1,9 +1,6 @@
 package org.wit.hillfort.models
 import android.os.Parcelable
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import androidx.room.TypeConverter
-import androidx.room.TypeConverters
+import androidx.room.*
 import kotlinx.android.parcel.Parcelize
 import java.time.LocalDate
 import kotlin.collections.ArrayList
@@ -13,17 +10,14 @@ import kotlin.collections.ArrayList
 @Entity
 @TypeConverters
 data class HillfortModel(@PrimaryKey(autoGenerate = true) var id: Long = 0,
+                         var fbId: String ="",
                          var name: String = "",
                          var description: String="",
-                         var images: ArrayList<String> = ArrayList<String>(),
-                         var lat: Double = 0.0,
-                         var lng: Double = 0.0,
-                         var zoom: Float = 0f,
+                         var images: ArrayList<String> = arrayListOf<String>(),
                          var visited: Boolean = false,
                          var notes: String ="",
                          var date: String="",
-                         var user: Long = 0
-                         ): Parcelable
+                          @Embedded var location: Location = Location()): Parcelable
 
 // Map location model
 @Parcelize

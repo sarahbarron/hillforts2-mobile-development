@@ -13,10 +13,11 @@ import org.wit.hillfort.R
 import kotlinx.android.synthetic.main.activity_hillfort.*
 import org.wit.hillfort.models.HillfortModel
 import kotlinx.android.synthetic.main.activity_hillfort.hillfortName
+import kotlinx.android.synthetic.main.activity_settings.view.*
 import org.jetbrains.anko.*
-import org.wit.hillfort.views.image.ImageActivity
 import org.wit.hillfort.activities.ImageAdapter
 import org.wit.hillfort.activities.ImageListener
+import org.wit.hillfort.models.Location
 import org.wit.hillfort.views.BaseView
 import java.text.SimpleDateFormat
 import java.util.*
@@ -48,17 +49,26 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
         presenter = initPresenter (HillfortPresenter(this)) as HillfortPresenter
 
         chooseImage.setOnClickListener{
-            presenter.cacheHillfort(hillfortName.text.toString(), hillfortDescription.text.toString())
-            presenter.doSelectImage()
+                presenter.cacheHillfort(
+                    hillfortName.text.toString(),
+                    hillfortDescription.text.toString(),
+                    hillfortNotes.text.toString(),
+                    visitedHillfort.isChecked,
+                    dateVisited.text.toString()
+                )
+                presenter.doSelectImage()
         }
 
         hillfortLocation.setOnClickListener{
-            presenter.cacheHillfort(hillfortName.text.toString(), hillfortDescription.text.toString())
+            presenter.cacheHillfort(hillfortName.text.toString(), hillfortDescription.text.toString(), hillfortNotes.text.toString(), visitedHillfort.isChecked, dateVisited.text.toString())
             presenter.doSetLocation()
         }
 
-//        val layoutManager = LinearLayoutManager(this)
-//        recyclerViewImages.layoutManager = layoutManager
+        val layoutManager = LinearLayoutManager(this)
+        recyclerViewImages.layoutManager = layoutManager
+        recyclerViewImages.adapter = ImageAdapter(presenter.getImages(), this)
+        recyclerViewImages.adapter?.notifyDataSetChanged()
+        presenter.loadImages()
 
 
         btnAdd.setOnClickListener() {
@@ -66,7 +76,7 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
                 toast(R.string.enter_hillfort_name)
             }
             else{
-                presenter.doAddOrSave(hillfortName.text.toString(), hillfortDescription.text.toString())
+                presenter.doAddOrSave(hillfortName.text.toString(), hillfortDescription.text.toString(), hillfortNotes.text.toString(), visitedHillfort.isChecked, dateVisited.text.toString())
             }
         }
     }
@@ -74,16 +84,24 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
     override fun showHillfort(hillfort: HillfortModel) {
         hillfortName.setText(hillfort.name)
         hillfortDescription.setText(hillfort.description)
-        showImages(hillfort.images)
-//        hillfortImage.setImageBitmap(readImageFromPath(this, hillfort.images[0]))
-        if (hillfort.images.size > 0) {
-            chooseImage.setText(R.string.change_hillfort_image)
+        hillfortNotes.setText(hillfort.notes)
+        if(hillfort.visited)
+        {
+            visitedHillfort.isChecked = true
+            dateVisited.setText("Date Visited: " + hillfort.date)
         }
+        this.showImages(hillfort.images)
         btnAdd.setText(R.string.save_hillfort)
+        this.showLocation(hillfort.location)
+    }
+
+    override fun showLocation (loc : Location) {
+        hillfortLat.setText("%.6f".format(loc.lat))
+        hillfortLng.setText("%.6f".format(loc.lng))
     }
 
     //    Show the current images
-    fun showImages (images: ArrayList<String>) {
+    override fun showImages (images: ArrayList<String>) {
 //        recycler View
         recyclerViewImages.adapter = ImageAdapter(images, this)
         recyclerViewImages.adapter?.notifyDataSetChanged()
@@ -101,12 +119,9 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
         }
     }
 
-
-
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_hillfort, menu)
-        if(presenter.edit) menu.getItem(0).setVisible(true)
+       if(presenter.edit) menu.findItem(R.id.item_delete).setVisible(true)
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -116,7 +131,7 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
              if(hillfortName.text.toString().isEmpty()){
                  toast(R.string.enter_hillfort_name)
              }else{
-                 presenter.doAddOrSave(hillfortName.text.toString(), hillfortDescription.text.toString())
+                 presenter.doAddOrSave(hillfortName.text.toString(), hillfortDescription.text.toString(), hillfortNotes.text.toString(), visitedHillfort.isChecked, dateVisited.text.toString())
              }
             }
             R.id.item_cancel -> {
@@ -125,28 +140,18 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
             R.id.item_delete -> {
                 presenter.doDelete()
             }
+            R.id.nav_sign_out ->{
+                presenter.doLogout()
+            }
         }
         return super.onOptionsItemSelected(item)
     }
 
-//
-//    //    retrieve the current hillfort from the JSON file
-//    fun loadHillfort(){
-//        hillfort = app.hillforts.findOne(hillfort.copy())
-//        showImages(hillfort.images)
-//    }
 
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (data != null) {
-            presenter.doActivityResult(requestCode, resultCode, data)
-        }
-    }
 
 
     override fun onImageClick(image: String){
-        startActivityForResult(intentFor<ImageActivity>().putExtra("image", image),DELETE_IMAGE)
+//        startActivityForResult(intentFor<ImageActivity>().putExtra("image", image),DELETE_IMAGE)
     }
 
 //   Functions needed to return the user to the HillfortListView after the Up navigation is pressed
@@ -167,14 +172,13 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
             when (view.id) {
                 R.id.visitedHillfort -> {
                     if (checked) {
-                        presenter.doSetVisited(true)
+
                         val simpleDateFormat = SimpleDateFormat("yyy.MM.dd 'at' HH:mm:ss")
                         val currentDateAndTime: String = simpleDateFormat.format(Date())
-                        hillfort.date = currentDateAndTime
+                        presenter.doSetVisited(true, currentDateAndTime)
                         dateVisited.setText("Date Visited: $currentDateAndTime")
                     } else {
-                       presenter.doSetVisited(false)
-                        hillfort.date = ""
+                       presenter.doSetVisited(false, "")
                         dateVisited.setText("Date Visited: ")
                     }
                 }
