@@ -13,10 +13,16 @@
             android:icon="@android:drawable/ic_menu_mapmode"
             android:title="@string/menu_showMap"
             app:showAsAction="never"/>
+        <item
+            android:id="@id/item_settings"
+            android:icon="@drawable/settings"
+            android:title="@string/menu_settings"
+            app:showAsAction="never"
+            />
 
         <item
-            android:id="@+id/item_logout"
-            android:title="@string/menu_logout"
-            android:visible="true"
-            app:showAsAction="never" />
+            android:id="@+id/nav_sign_out"
+            android:icon="@drawable/logout"
+            android:title="@string/sign_out"
+            />
 </menu>

@@ -10,6 +10,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.auth.FirebaseAuth
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import org.wit.hillfort.helpers.checkLocationPermissions
@@ -81,9 +82,12 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
         }
     }
 
-    fun cacheHillfort (name: String, description: String) {
+    fun cacheHillfort (name: String, description: String, notes: String, visited: Boolean, date: String) {
         hillfort.name = name;
         hillfort.description = description
+        hillfort.notes = notes
+        hillfort.visited = visited
+        hillfort.date = date
     }
 
     fun doConfigureMap(m: GoogleMap) {
@@ -101,9 +105,12 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
         view?.showLocation(hillfort.location)
     }
 
-    fun doAddOrSave(name: String, description: String) {
+    fun doAddOrSave(name: String, description: String, notes: String, visited: Boolean, date: String) {
         hillfort.name = name
         hillfort.description = description
+        hillfort.notes = notes
+        hillfort.visited = visited
+        hillfort.date = date
         doAsync {
             if (edit) {
                 app.hillforts.update(hillfort)
@@ -129,6 +136,12 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
         }
     }
 
+    fun doLogout() {
+        FirebaseAuth.getInstance().signOut()
+        app.hillforts.clear()
+        view?.navigateTo(VIEW.LOGIN)
+    }
+
     fun doSelectImage() {
             view?.let {
                 showImagePicker(view!!, IMAGE_REQUEST)
@@ -140,21 +153,17 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
         view?.navigateTo(VIEW.LOCATION, LOCATION_REQUEST, "location", Location(hillfort.location.lat, hillfort.location.lng, hillfort.location.zoom))
     }
 
-    fun doSetVisited(visited: Boolean){
+    fun doSetVisited(visited: Boolean, date:String){
         hillfort.visited = visited;
-
+        hillfort.date = date;
     }
 
     override fun doActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         when (requestCode) {
             IMAGE_REQUEST -> {
                 if(data!=null) {
-//                    if(hillfort.fbId != "") {
-//                        app.hillforts.updateImage(hillfort, data.getData().toString())
-//                    }
-//                    else {
                         hillfort.images.add(data.getData().toString())
-//                    }
+
                     view?.showHillfort(hillfort)
                 }
             }

@@ -13,6 +13,7 @@ import org.wit.hillfort.R
 import kotlinx.android.synthetic.main.activity_hillfort.*
 import org.wit.hillfort.models.HillfortModel
 import kotlinx.android.synthetic.main.activity_hillfort.hillfortName
+import kotlinx.android.synthetic.main.activity_settings.view.*
 import org.jetbrains.anko.*
 import org.wit.hillfort.activities.ImageAdapter
 import org.wit.hillfort.activities.ImageListener
@@ -50,13 +51,16 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
         chooseImage.setOnClickListener{
                 presenter.cacheHillfort(
                     hillfortName.text.toString(),
-                    hillfortDescription.text.toString()
+                    hillfortDescription.text.toString(),
+                    hillfortNotes.text.toString(),
+                    visitedHillfort.isChecked,
+                    dateVisited.text.toString()
                 )
                 presenter.doSelectImage()
         }
 
         hillfortLocation.setOnClickListener{
-            presenter.cacheHillfort(hillfortName.text.toString(), hillfortDescription.text.toString())
+            presenter.cacheHillfort(hillfortName.text.toString(), hillfortDescription.text.toString(), hillfortNotes.text.toString(), visitedHillfort.isChecked, dateVisited.text.toString())
             presenter.doSetLocation()
         }
 
@@ -72,7 +76,7 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
                 toast(R.string.enter_hillfort_name)
             }
             else{
-                presenter.doAddOrSave(hillfortName.text.toString(), hillfortDescription.text.toString())
+                presenter.doAddOrSave(hillfortName.text.toString(), hillfortDescription.text.toString(), hillfortNotes.text.toString(), visitedHillfort.isChecked, dateVisited.text.toString())
             }
         }
     }
@@ -80,6 +84,12 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
     override fun showHillfort(hillfort: HillfortModel) {
         hillfortName.setText(hillfort.name)
         hillfortDescription.setText(hillfort.description)
+        hillfortNotes.setText(hillfort.notes)
+        if(hillfort.visited)
+        {
+            visitedHillfort.isChecked = true
+            dateVisited.setText("Date Visited: " + hillfort.date)
+        }
         this.showImages(hillfort.images)
         btnAdd.setText(R.string.save_hillfort)
         this.showLocation(hillfort.location)
@@ -111,7 +121,7 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_hillfort, menu)
-        if(presenter.edit) menu.getItem(0).setVisible(true)
+       if(presenter.edit) menu.findItem(R.id.item_delete).setVisible(true)
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -121,7 +131,7 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
              if(hillfortName.text.toString().isEmpty()){
                  toast(R.string.enter_hillfort_name)
              }else{
-                 presenter.doAddOrSave(hillfortName.text.toString(), hillfortDescription.text.toString())
+                 presenter.doAddOrSave(hillfortName.text.toString(), hillfortDescription.text.toString(), hillfortNotes.text.toString(), visitedHillfort.isChecked, dateVisited.text.toString())
              }
             }
             R.id.item_cancel -> {
@@ -130,17 +140,14 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
             R.id.item_delete -> {
                 presenter.doDelete()
             }
+            R.id.nav_sign_out ->{
+                presenter.doLogout()
+            }
         }
         return super.onOptionsItemSelected(item)
     }
 
-//
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        if (data != null) {
-//            presenter.doActivityResult(requestCode, resultCode, data)
-//        }
-//    }
+
 
 
     override fun onImageClick(image: String){
@@ -165,14 +172,13 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
             when (view.id) {
                 R.id.visitedHillfort -> {
                     if (checked) {
-                        presenter.doSetVisited(true)
+
                         val simpleDateFormat = SimpleDateFormat("yyy.MM.dd 'at' HH:mm:ss")
                         val currentDateAndTime: String = simpleDateFormat.format(Date())
-                        hillfort.date = currentDateAndTime
+                        presenter.doSetVisited(true, currentDateAndTime)
                         dateVisited.setText("Date Visited: $currentDateAndTime")
                     } else {
-                       presenter.doSetVisited(false)
-                        hillfort.date = ""
+                       presenter.doSetVisited(false, "")
                         dateVisited.setText("Date Visited: ")
                     }
                 }
