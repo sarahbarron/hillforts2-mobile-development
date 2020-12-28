@@ -18,6 +18,7 @@ import org.wit.hillfort.helpers.isPermissionGranted
 import org.wit.hillfort.helpers.showImagePicker
 import org.wit.hillfort.models.Location
 import org.wit.hillfort.models.HillfortModel
+import org.wit.hillfort.models.firebase.HillfortFireStore
 import org.wit.hillfort.views.*
 
 class HillfortPresenter(view: BaseView) : BasePresenter(view) {
@@ -148,7 +149,12 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
         when (requestCode) {
             IMAGE_REQUEST -> {
                 if(data!=null) {
-                      hillfort.images.add(data.getData().toString())
+//                    if(hillfort.fbId != "") {
+//                        app.hillforts.updateImage(hillfort, data.getData().toString())
+//                    }
+//                    else {
+                        hillfort.images.add(data.getData().toString())
+//                    }
                     view?.showHillfort(hillfort)
                 }
             }

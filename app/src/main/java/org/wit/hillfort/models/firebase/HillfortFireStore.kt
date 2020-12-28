@@ -1,17 +1,24 @@
 package org.wit.hillfort.models.firebase
 
 import android.content.Context
+import android.graphics.Bitmap
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import org.jetbrains.anko.AnkoLogger
+import org.wit.hillfort.helpers.readImageFromPath
 import org.wit.hillfort.models.HillfortModel
 import org.wit.hillfort.models.HillfortStore
+import java.io.ByteArrayOutputStream
+import java.io.File
 
 class HillfortFireStore(val context: Context) : HillfortStore, AnkoLogger {
 
     val hillforts = ArrayList<HillfortModel>()
     lateinit var userId: String
     lateinit var db: DatabaseReference
+    lateinit var st: StorageReference
 
     override fun findAll(): List<HillfortModel> {
         return hillforts
@@ -28,6 +35,7 @@ class HillfortFireStore(val context: Context) : HillfortStore, AnkoLogger {
             hillfort.fbId = key
             hillforts.add(hillfort)
             db.child("users").child(userId).child("hillforts").child(key).setValue(hillfort)
+            updateImages(hillfort)
         }
     }
 
@@ -41,6 +49,7 @@ class HillfortFireStore(val context: Context) : HillfortStore, AnkoLogger {
         }
 
         db.child("users").child(userId).child("hillforts").child(hillfort.fbId).setValue(hillfort)
+        updateImages(hillfort)
 
     }
 
@@ -65,29 +74,6 @@ class HillfortFireStore(val context: Context) : HillfortStore, AnkoLogger {
         TODO("Not yet implemented")
     }
 
-//    override fun totalHillforts(userId: Long): Int {
-//        TODO("Not yet implemented")
-//    }
-//
-//    override fun viewedHillforts(userId: Long): Int {
-//        TODO("Not yet implemented")
-//    }
-//
-//    override fun unseenHillforts(userId: Long): Int {
-//        TODO("Not yet implemented")
-//    }
-//
-//    override fun classAverageTotal(numOfUsers: Int): Int {
-//        TODO("Not yet implemented")
-//    }
-//
-//    override fun classAverageViewed(numOfUsers: Int): Int {
-//        TODO("Not yet implemented")
-//    }
-//
-//    override fun classAverageUnseen(numOfUsers: Int): Int {
-//        TODO("Not yet implemented")
-//    }
 
     override fun clear() {
         hillforts.clear()
@@ -97,14 +83,48 @@ class HillfortFireStore(val context: Context) : HillfortStore, AnkoLogger {
         val valueEventListener = object : ValueEventListener {
             override fun onCancelled(dataSnapshot: DatabaseError) {
             }
+
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                dataSnapshot!!.children.mapNotNullTo(hillforts) { it.getValue<HillfortModel>(HillfortModel::class.java) }
+                dataSnapshot!!.children.mapNotNullTo(hillforts) {
+                    it.getValue<HillfortModel>(
+                        HillfortModel::class.java
+                    )
+                }
                 hillfortsReady()
             }
         }
         userId = FirebaseAuth.getInstance().currentUser!!.uid
         db = FirebaseDatabase.getInstance().reference
+        st = FirebaseStorage.getInstance().reference
         hillforts.clear()
-        db.child("users").child(userId).child("hillforts").addListenerForSingleValueEvent(valueEventListener)
+        db.child("users").child(userId).child("hillforts")
+            .addListenerForSingleValueEvent(valueEventListener)
+    }
+
+    fun updateImages(hillfort: HillfortModel) {
+            for (image in hillfort.images) {
+                val fileName = File(image)
+                val imageName = fileName.getName()
+
+                var imageRef = st.child(userId + '/' + imageName)
+                val baos = ByteArrayOutputStream()
+                val bitmap = readImageFromPath(context, image)
+
+                bitmap?.let {
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+                    val data = baos.toByteArray()
+                    val uploadTask = imageRef.putBytes(data)
+                    uploadTask.addOnFailureListener {
+                        println(it.message)
+                    }.addOnSuccessListener { taskSnapshot ->
+                        taskSnapshot.metadata!!.reference!!.downloadUrl.addOnSuccessListener {
+                            hillfort.images.remove(image)
+                            hillfort.images.add(it.toString())
+                            db.child("users").child(userId).child("hillforts").child(hillfort.fbId)
+                                .setValue(hillfort)
+                        }
+                    }
+                }
+            }
     }
 }

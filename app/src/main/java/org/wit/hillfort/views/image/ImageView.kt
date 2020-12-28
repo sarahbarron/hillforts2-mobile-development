@@ -39,7 +39,6 @@ class ImageView: BaseView(), AnkoLogger {
             // delete the image
             btnImageDelete.setOnClickListener(){
                 presenter.deleteImage(hillfort, image)
-               // app.hillforts.deleteImage(hillfort.copy(), image)
                 finish()
             }
         }
