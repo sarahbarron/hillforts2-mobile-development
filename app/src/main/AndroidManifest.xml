@@ -57,7 +57,11 @@
             android:name=".views.image.ImageView"
             android:parentActivityName=".views.hillfort.HillfortView" />
 
-        <activity android:name=".views.usersettings.UserSettingsActivity"></activity>
+        <activity
+            android:name=".views.usersettings.UserSettingsView"
+            android:parentActivityName="views.hillfortlist.HillfortListView"
+            android:launchMode="singleTop"/>
+
     </application>
 
 </manifest>
