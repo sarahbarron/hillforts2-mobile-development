@@ -1,4 +1,4 @@
-package org.wit.hillfort.models
+package org.wit.hillfort.models.json
 
 import android.content.Context
 import com.google.gson.Gson
@@ -7,6 +7,8 @@ import com.google.gson.reflect.TypeToken
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 import org.wit.hillfort.helpers.*
+import org.wit.hillfort.models.HillfortModel
+import org.wit.hillfort.models.HillfortStore
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -34,20 +36,25 @@ class HillfortJSONStore : HillfortStore, AnkoLogger {
         }
     }
 
+    override fun findById(id:Long) : HillfortModel? {
+        val foundPlacemark: HillfortModel? = hillforts.find { it.id == id }
+        return foundPlacemark
+    }
+
     //    Return a list of all hillforts
-    override fun findAll(userId: Long): MutableList<HillfortModel> {
+    override fun findAll(): MutableList<HillfortModel> {
         var foundHillforts:ArrayList<HillfortModel> = ArrayList<HillfortModel>()
         for(hillfort in hillforts)
         {
-            if(hillfort.user == userId)
-            {
+
                 foundHillforts.add(hillfort.copy())
                 info("$hillfort added to foundHillforts Array")
-            }
+
         }
         return foundHillforts
     }
 
+    //  Return one hillfort
     //  Return one hillfort
     override fun findOne(hillfort: HillfortModel): HillfortModel{
         var foundHillfort: HillfortModel? = hillforts.find { p -> p.id == hillfort.id }
@@ -55,6 +62,10 @@ class HillfortJSONStore : HillfortStore, AnkoLogger {
             return foundHillfort
         }
         return hillfort
+    }
+
+    override fun deleteUserHillforts() {
+        TODO("Not yet implemented")
     }
 
     //    Create a hillfort
@@ -72,9 +83,7 @@ class HillfortJSONStore : HillfortStore, AnkoLogger {
             foundHillfort.name = hillfort.name
             foundHillfort.description = hillfort.description
             foundHillfort.images = hillfort.images
-            foundHillfort.lat = hillfort.lat
-            foundHillfort.lng = hillfort.lng
-            foundHillfort.zoom = hillfort.zoom
+            foundHillfort.location = hillfort.location
             serialize()
         }
     }
@@ -90,7 +99,8 @@ class HillfortJSONStore : HillfortStore, AnkoLogger {
 
     // delete a hillfort
     override fun delete(hillfort: HillfortModel) {
-        hillforts.remove(hillfort)
+        val foundHillfort: HillfortModel? = hillforts.find{it.id == hillfort.id}
+        hillforts.remove(foundHillfort)
         serialize()
     }
 
@@ -101,82 +111,6 @@ class HillfortJSONStore : HillfortStore, AnkoLogger {
         serialize()
     }
 
-    // Delete all hillforts for a certain user
-    override fun deleteUserHillforts(userId: Long) {
-        val foundHillforts = findAll(userId)
-
-        for(hillfort in foundHillforts)
-        {
-            if(hillfort.user == userId)
-            {
-                info("deleting hillfort for $userId")
-                hillforts.remove(hillfort)
-            }
-            serialize()
-        }
-    }
-
-//    Statistics
-
-    //    Total number of hillforts a user has
-    override fun totalHillforts(userId: Long): Int{
-        val total = findAll(userId).size
-        info("Total user hillforts: $total")
-        return total
-        }
-
-    //    Total number of hillforts the user has viewed
-    override fun viewedHillforts(userId: Long): Int{
-        val foundHillforts = findAll(userId)
-        var total = 0
-        for (hillfort in foundHillforts)
-        {
-            if (hillfort.visited) total++
-        }
-        info("Average user visited: $total")
-        return total
-    }
-
-    //  Total number of hillforts the user still has to view
-    override fun unseenHillforts(userId:Long): Int{
-        val total = totalHillforts(userId) - viewedHillforts(userId)
-        info("Average user unseen: $total")
-        return total
-    }
-
-    //  return the average number of hillforts per student
-    override fun classAverageTotal(numOfUsers:Int): Int {
-        val averageViewed = hillforts.size / numOfUsers
-        return averageViewed
-    }
-
-    //   return the average number of hillforts viewed by the class
-    override fun classAverageViewed(numOfUsers: Int):Int{
-        var totalViewed = 0
-        for (hillfort in hillforts)
-        {
-            if(hillfort.visited){
-                totalViewed++
-            }
-        }
-        var averageViewed = totalViewed/numOfUsers
-        info("Average number of hillforts viewed in the class: $averageViewed")
-        return averageViewed
-    }
-
-    //    Return the average number of hillforts the class still has to view
-    override fun classAverageUnseen(numOfUsers: Int):Int{
-        var totalUnseen = 0
-        for (hillfort in hillforts)
-        {
-            if(!hillfort.visited){
-                totalUnseen++
-            }
-        }
-        var averageUnseen = totalUnseen / numOfUsers
-        info("Average number of hillforts unseen in the class: $averageUnseen")
-        return averageUnseen
-    }
 
     // Serialize / write data to the JSON file
     private fun serialize() {
@@ -189,4 +123,9 @@ class HillfortJSONStore : HillfortStore, AnkoLogger {
         val jsonString = read(context, JSON_FILE)
         hillforts = Gson().fromJson(jsonString, listType)
     }
+
+    override fun clear() {
+        hillforts.clear()
+    }
+
 }

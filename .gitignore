@@ -18,5 +18,6 @@ app/src/release/res/values/google_maps_api.xml
 <<<<<<< HEAD
 app/src/main/res/values/google_maps_api.xml
 google_maps_api.xml
+app/google-services.json
 =======
 >>>>>>> release/0.1.3

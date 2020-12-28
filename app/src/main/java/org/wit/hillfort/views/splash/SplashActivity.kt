@@ -1,4 +1,4 @@
-package org.wit.hillfort.activities
+package org.wit.hillfort.views.splash
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +8,7 @@ import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 import org.wit.hillfort.R
 import org.wit.hillfort.main.MainApp
+import org.wit.hillfort.views.authenetication.LoginView
 
 
 // Splash screen activity for initial loading of the app
@@ -24,7 +25,7 @@ class SplashActivity : AppCompatActivity(), AnkoLogger {
         // Once the timer has finished start the Authentication Activity
         Handler().postDelayed(
             {
-                startActivity(Intent(this, AuthenticationActivity::class.java))
+                startActivity(Intent(this, LoginView::class.java))
                 // Animate the loading of new activity
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
                 finish()

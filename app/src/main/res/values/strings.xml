@@ -22,17 +22,10 @@
     <string name="heading_hillfort_name">New Hillfort</string>
     <string name="menu_hillfort_image">Hillfort Image</string>
     <string name="title_activity_login">AuthenticationActivity</string>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign In</string>
-    <string name="action_register">Register</string>
-    <string name="menu_logout">Logout</string>
     <string name="notes_input">Hillfort Notes</string>
     <string name="date_visited"></string>
     <string name="menu_settings">Settings</string>
     <string name="settings_heading">User Settings</string>
-    <string name="hint_userName">Username</string>
-    <string name="hint_password">Password</string>
     <string name="button_save_user_settings">Save User Settings</string>
     <string name="menu_updateSettings">Update</string>
     <string name="menu_cancelSettings">Cancel</string>
@@ -53,4 +46,40 @@
     <string name="hillfort_lng">Location Lng</string>
     <string name="image_message"></string>
     <string name="title_activity_hillfort_maps">Map of Hillforts</string>
+    <string name="menu_mapHillforts">All Hillforts Map</string>
+    <string name="hillfort_image_placeholder">Hillfort Image</string>
+    <string name="hillfort_description_placeholder">Hillfort Description</string>
+    <string name="menu_saveHillfort">Save</string>
+
+
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign In</string>
+    <string name="action_register">Create Account</string>
+    <string name="hint_userName">Username</string>
+
+
+    <string name="label_emailpassword">Email/Password Authentication</string>
+    <string name="desc_emailpassword">Use an email and password to authenticate with Firebase.</string>
+    <string name="sign_in">Sign In</string>
+    <string name="create_account">Create Account</string>
+    <string name="send_link">Send Link</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="verify_email">Verify Email</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="loading">Loading…</string>
+    <string name="signed_in">Signed In</string>
+    <string name="signed_out">Signed Out</string>
+    <string name="token_null">Token: null</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="desc_firebase_lockup">Firebase logo and name</string>
+    <string name="auth_failed">Authentication failed</string>
+    <string name="firebase_status_fmt">Firebase User: %s</string>
+    <string name="firebase_user_management">Firebase User Management</string>
+    <string name="emailpassword_status_fmt">Email User: %1$s (verified: %2$b)</string>
+    <string name="emailpassword_title_text">Please Login Below</string>
+    <string name="menu_showMap">Show Map</string>
+    <string name="menu_logout">Logout</string>
+
 </resources>
