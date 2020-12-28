@@ -29,6 +29,7 @@ class HillfortFireStore(val context: Context) : HillfortStore, AnkoLogger {
         return foundHillfort
     }
 
+
     override fun create(hillfort: HillfortModel) {
         val key = db.child("users").child(userId).child("hillforts").push().key
         key?.let {
