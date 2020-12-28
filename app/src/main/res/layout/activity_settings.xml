@@ -74,7 +74,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
-                    android:hint="@string/hint_password"
+                    android:hint="@string/hint_update_password"
                     android:inputType="text"
                     android:maxLength="50"
                     android:maxLines="1"
@@ -114,17 +114,6 @@
                     android:textColor="@color/colorPrimary"
                     android:textSize="25dp"
                     android:padding="5px"
-                    android:layout_marginTop="30px"
-                    android:textAlignment="center"
-                    />
-                <TextView
-                    android:id="@+id/settings_statisticsHillfortHeading"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:text="@string/statistics_user_heading"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="25dp"
-                    android:padding="30px"
                     android:layout_marginTop="30px"
                     android:textAlignment="center"
                     />

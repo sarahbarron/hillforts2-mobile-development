@@ -74,7 +74,8 @@ class HillfortFireStore(val context: Context) : HillfortStore, AnkoLogger {
     }
 
     override fun deleteUserHillforts() {
-        TODO("Not yet implemented")
+       db.child("users").child(userId).removeValue()
+        clear()
     }
 
 

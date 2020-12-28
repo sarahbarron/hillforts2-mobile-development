@@ -50,15 +50,11 @@
     <string name="hillfort_image_placeholder">Hillfort Image</string>
     <string name="hillfort_description_placeholder">Hillfort Description</string>
     <string name="menu_saveHillfort">Save</string>
-
-
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign In</string>
     <string name="action_register">Create Account</string>
     <string name="hint_userName">Username</string>
-
-
     <string name="label_emailpassword">Email/Password Authentication</string>
     <string name="desc_emailpassword">Use an email and password to authenticate with Firebase.</string>
     <string name="sign_in">Sign In</string>
@@ -81,5 +77,6 @@
     <string name="emailpassword_title_text">Please Login Below</string>
     <string name="menu_showMap">Show Map</string>
     <string name="menu_logout">Logout</string>
+    <string name="hint_update_password">********</string>
 
 </resources>

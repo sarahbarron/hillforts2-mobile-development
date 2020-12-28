@@ -3,9 +3,7 @@ package org.wit.hillfort.views.hillfortlist
 
 import com.google.firebase.auth.FirebaseAuth
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.uiThread
-import org.wit.hillfort.views.usersettings.UserSettingsActivity
 import org.wit.hillfort.models.HillfortModel
 import org.wit.hillfort.views.BasePresenter
 import org.wit.hillfort.views.BaseView
@@ -50,7 +48,7 @@ class HillfortListPresenter(view: BaseView): BasePresenter(view) {
     }
 
     fun doShowSettings(){
-        view?.startActivity<UserSettingsActivity>()
+        view?.navigateTo(VIEW.SETTINGS)
     }
 
     fun doSetVisted(hillfort:HillfortModel, visited: Boolean){

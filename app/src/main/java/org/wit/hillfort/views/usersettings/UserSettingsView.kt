@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_authentication.view.*
 import kotlinx.android.synthetic.main.activity_settings.*
 import org.jetbrains.anko.AnkoLogger
 import org.wit.hillfort.R
@@ -11,8 +12,6 @@ import org.wit.hillfort.views.BaseView
 
 class UserSettingsView: BaseView(), AnkoLogger {
     lateinit var presenter: UserSettingsPresenter
-    var user = FirebaseAuth.getInstance().currentUser!!
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,23 +19,23 @@ class UserSettingsView: BaseView(), AnkoLogger {
 
         super.init(toolbarSettings, true)
 
+        presenter = initPresenter (UserSettingsPresenter(this)) as UserSettingsPresenter
+
         val totalHillforts = presenter.totalHillforts()
         val totalViewed = presenter.totalViewedHillforts()
         val totalToView = totalHillforts - totalViewed
 
-        settingsUsername.setText(user.email)
-        settingsPassword.setText("*******")
-        statisticsHillfortsTotal.setText("Total: "+totalHillforts)
-        statisticsHillfortsViewed.setText("Visited: "+totalViewed)
-        statisticsHillfortsUnseen.setText("Unseen: "+totalToView)
+        settingsUsername.setText(presenter.user.email)
+        statisticsHillfortsTotal.setText("Total Hillforts   : "+totalHillforts)
+        statisticsHillfortsViewed.setText("Hillforts Visited : "+totalViewed)
+        statisticsHillfortsUnseen.setText("Hillfort Unseen    : "+totalToView)
 
         btnUpdateSettings.setOnClickListener(){
-            user.updateEmail(settingsUsername.toString())
-            user.updatePassword(settingsPassword.toString())
+          presenter.updateSettings(settingsUsername.text.toString(), settingsPassword.text.toString())
         }
 
         btnDeleteUser.setOnClickListener(){
-            user.delete()
+            presenter.doDelete()
         }
 
     }
