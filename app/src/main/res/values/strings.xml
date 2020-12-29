@@ -82,5 +82,7 @@
     <string name="title_activity_hillforts_list">Hillforts</string>
     <string name="title_activity_hillfort">Hillfort</string>
     <string name="title_activity_location">Hillfort</string>
+    <string name="map_current_visited">"Date Visited:"</string>
+    <string name="button_map_edit_current_hillfort">Edit Hillfort</string>
 
 </resources>
