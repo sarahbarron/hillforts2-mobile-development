@@ -13,17 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity
-            android:name=".views.map.HillfortMapView"
-            android:label="@string/title_activity_hillfort_maps"
-            android:theme="@style/AppTheme"
-            android:launchMode="singleTop">
 
-        </activity>
-
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
 
         <!-- Splash Screen -->
         <activity android:name=".views.splash.SplashActivity">
@@ -49,18 +39,57 @@
         <!-- Single hillfort activity -->
         <activity
             android:name=".views.hillfort.HillfortView"
-            android:parentActivityName=".views.hillfortlist.HillfortListView" /> <!-- Map activity -->
+            android:label="@string/title_activity_hillfort">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".views.hillfortlist.HillfortListView"
+                />
+        </activity>
+
+        <!-- Map activity -->
         <activity
             android:name=".views.location.EditLocationView"
-            android:label="@string/title_activity_map" />
+            android:label="@string/title_activity_map">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".views.hillfort.HillfortView"
+                />
+        </activity>
+
+
         <activity
             android:name=".views.image.ImageView"
-            android:parentActivityName=".views.hillfort.HillfortView" />
+            android:label="@string/title_activity_hillfort">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".views.hillfort.HillfortView"
+                />
+        </activity>
 
         <activity
             android:name=".views.usersettings.UserSettingsView"
-            android:parentActivityName="views.hillfortlist.HillfortListView"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".views.hillfortlist.HillfortListView"
+                />
+        </activity>
+
+
+        <activity
+            android:name=".views.map.HillfortMapView"
+            android:label="@string/title_activity_hillfort_maps"
+            android:theme="@style/AppTheme"
+            android:launchMode="singleTop">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".views.hillfortlist.HillfortListView"
+                />
+        </activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
 
     </application>
 

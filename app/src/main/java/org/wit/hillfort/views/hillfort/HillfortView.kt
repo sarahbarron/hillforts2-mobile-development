@@ -35,16 +35,13 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hillfort)
 
-        init(toolbarAdd)
+        init(toolbarAdd,true)
 
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync {
             map = it
             presenter.doConfigureMap(map)
         }
-
-        setSupportActionBar(toolbarAdd)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         presenter = initPresenter (HillfortPresenter(this)) as HillfortPresenter
 
