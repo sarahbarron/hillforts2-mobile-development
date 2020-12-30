@@ -6,6 +6,7 @@ import com.bumptech.glide.Glide
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Marker
 import kotlinx.android.synthetic.main.activity_hillfort_maps.*
+import org.jetbrains.anko.info
 import org.wit.hillfort.R
 
 import org.wit.hillfort.helpers.readImageFromPath
@@ -33,6 +34,14 @@ class HillfortMapView : BaseView(), GoogleMap.OnMarkerClickListener {
     }
 
     override fun showHillfort(hillfort: HillfortModel) {
+        info(hillfort)
+        if(hillfort.date == "")
+        {
+            currentVisited.text = ""
+        }
+        else {
+            currentVisited.text = hillfort.date
+        }
         currentName.text = hillfort.name
         currentDescription.text = hillfort.description
         Glide.with(this).load(hillfort.images[0]).into(currentImage);

@@ -11,5 +11,4 @@ interface HillfortStore {
     fun deleteUserHillforts()
     fun findById(id:Long) : HillfortModel?
     fun clear()
-
 }

@@ -57,17 +57,19 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
+
                 <TextView
                     android:id="@+id/currentName"
                     android:layout_width="136dp"
                     android:layout_height="25dp"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="40dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:text="@string/hillfort_name"
                     app:layout_constraintEnd_toStartOf="@+id/currentImage"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
 
                 <TextView
                     android:id="@+id/currentDescription"
@@ -78,19 +80,21 @@
                     android:text="@string/hillfort_description_placeholder"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/currentImage"
+                    app:layout_constraintHorizontal_bias="0.486"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/currentName"
-                    app:layout_constraintVertical_bias="0.121" />
+                    app:layout_constraintVertical_bias="0.066" />
 
                 <TextView
                     android:id="@+id/currentVisited"
                     android:layout_width="136dp"
-                    android:layout_height="22dp"
-                    android:layout_marginBottom="11dp"
+                    android:layout_height="44dp"
                     android:text="@string/map_current_visited"
-                    app:layout_constraintBottom_toTopOf="@+id/currentName"
+                    android:layout_marginTop="8dp"
                     app:layout_constraintEnd_toStartOf="@+id/currentImage"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintHorizontal_bias="0.49"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/currentDescription" />
 
                 <Button
                     android:id="@+id/buttonMapEditCurrentHillfort"
@@ -100,6 +104,7 @@
                     android:layout_width="309dp"
                     android:layout_height="40dp"
                     android:layout_marginBottom="16dp"
+                    android:layout_marginTop="16dp"
                     android:text="@string/button_map_edit_current_hillfort"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

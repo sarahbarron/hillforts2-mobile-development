@@ -46,10 +46,8 @@ class HillfortJSONStore : HillfortStore, AnkoLogger {
         var foundHillforts:ArrayList<HillfortModel> = ArrayList<HillfortModel>()
         for(hillfort in hillforts)
         {
-
                 foundHillforts.add(hillfort.copy())
                 info("$hillfort added to foundHillforts Array")
-
         }
         return foundHillforts
     }
