@@ -95,10 +95,6 @@ class HillfortMapView : BaseView(), GoogleMap.OnMarkerClickListener {
 
     // Refreshes the view when a hillfort is updated
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        currentName.text = "Hillfort Name"
-        currentDescription.text = "Hillfort Description"
-        currentVisited.text = "Date Visited"
-        buttonMapEditCurrentHillfort.visibility = View.INVISIBLE
         presenter.loadHillforts()
         super.onActivityResult(requestCode, resultCode, data)
 
