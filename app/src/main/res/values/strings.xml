@@ -23,7 +23,7 @@
     <string name="menu_hillfort_image">Hillfort Image</string>
     <string name="title_activity_login">AuthenticationActivity</string>
     <string name="notes_input">Hillfort Notes</string>
-    <string name="date_visited"></string>
+    <string name="date_visited">Date Visited</string>
     <string name="menu_settings">Settings</string>
     <string name="settings_heading">User Settings</string>
     <string name="button_save_user_settings">Save User Settings</string>
@@ -82,5 +82,7 @@
     <string name="title_activity_hillforts_list">Hillforts</string>
     <string name="title_activity_hillfort">Hillfort</string>
     <string name="title_activity_location">Hillfort</string>
+    <string name="map_current_visited">"Date Visited:"</string>
+    <string name="button_map_edit_current_hillfort">Edit Hillfort</string>
 
 </resources>

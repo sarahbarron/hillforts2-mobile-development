@@ -57,7 +57,13 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
         }
 
         hillfortLocation.setOnClickListener{
-            presenter.cacheHillfort(hillfortName.text.toString(), hillfortDescription.text.toString(), hillfortNotes.text.toString(), visitedHillfort.isChecked, dateVisited.text.toString())
+            presenter.cacheHillfort(
+                hillfortName.text.toString(),
+                hillfortDescription.text.toString(),
+                hillfortNotes.text.toString(),
+                visitedHillfort.isChecked,
+                dateVisited.text.toString()
+            )
             presenter.doSetLocation()
         }
 
@@ -73,7 +79,13 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
                 toast(R.string.enter_hillfort_name)
             }
             else{
-                presenter.doAddOrSave(hillfortName.text.toString(), hillfortDescription.text.toString(), hillfortNotes.text.toString(), visitedHillfort.isChecked, dateVisited.text.toString())
+                presenter.doAddOrSave(
+                    hillfortName.text.toString(),
+                    hillfortDescription.text.toString(),
+                    hillfortNotes.text.toString(),
+                    visitedHillfort.isChecked,
+                    dateVisited.text.toString()
+                )
             }
         }
         btnDeleteHillfort.setOnClickListener(){
@@ -82,17 +94,19 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
     }
 
     override fun showHillfort(hillfort: HillfortModel) {
+        dateVisited.setText(hillfort.date)
         hillfortName.setText(hillfort.name)
         hillfortDescription.setText(hillfort.description)
         hillfortNotes.setText(hillfort.notes)
+
         if(hillfort.visited)
         {
             visitedHillfort.isChecked = true
-            dateVisited.setText("Date Visited: " + hillfort.date)
+            dateVisited.setText(hillfort.date)
         }
         this.showImages(hillfort.images)
-        btnAdd.setText(R.string.save_hillfort)
         this.showLocation(hillfort.location)
+        btnAdd.setText(R.string.save_hillfort)
     }
 
     override fun showLocation (loc : Location) {
@@ -131,7 +145,12 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
              if(hillfortName.text.toString().isEmpty()){
                  toast(R.string.enter_hillfort_name)
              }else{
-                 presenter.doAddOrSave(hillfortName.text.toString(), hillfortDescription.text.toString(), hillfortNotes.text.toString(), visitedHillfort.isChecked, dateVisited.text.toString())
+                 presenter.doAddOrSave(
+                     hillfortName.text.toString(),
+                     hillfortDescription.text.toString(),
+                     hillfortNotes.text.toString(),
+                     visitedHillfort.isChecked,
+                     dateVisited.text.toString())
              }
             }
             R.id.item_cancel -> {
@@ -147,9 +166,6 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
         return super.onOptionsItemSelected(item)
     }
 
-
-
-
     override fun onImageClick(image: String){
 //        startActivityForResult(intentFor<ImageActivity>().putExtra("image", image),DELETE_IMAGE)
     }
@@ -159,6 +175,7 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
         super.onPrepareSupportNavigateUpTaskStack(builder)
         builder.editIntentAt(builder.intentCount - 1)
     }
+
     override fun supportShouldUpRecreateTask(targetIntent: Intent): Boolean {
         info("Hillfort: supportShouldUpRecreateTask")
         return true
@@ -172,14 +189,13 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
             when (view.id) {
                 R.id.visitedHillfort -> {
                     if (checked) {
-
                         val simpleDateFormat = SimpleDateFormat("yyy.MM.dd 'at' HH:mm:ss")
                         val currentDateAndTime: String = simpleDateFormat.format(Date())
                         presenter.doSetVisited(true, currentDateAndTime)
-                        dateVisited.setText("Date Visited: $currentDateAndTime")
+                        dateVisited.setText(currentDateAndTime)
                     } else {
                        presenter.doSetVisited(false, "")
-                        dateVisited.setText("Date Visited: ")
+                        dateVisited.setText("")
                     }
                 }
             }

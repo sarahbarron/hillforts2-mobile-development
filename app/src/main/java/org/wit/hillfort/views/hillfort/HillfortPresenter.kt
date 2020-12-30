@@ -153,7 +153,7 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
         view?.navigateTo(VIEW.LOCATION, LOCATION_REQUEST, "location", Location(hillfort.location.lat, hillfort.location.lng, hillfort.location.zoom))
     }
 
-    fun doSetVisited(visited: Boolean, date:String){
+    fun doSetVisited(visited: Boolean, date: String){
         hillfort.visited = visited;
         hillfort.date = date;
     }
