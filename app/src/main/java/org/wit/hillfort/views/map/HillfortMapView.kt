@@ -1,5 +1,6 @@
 package org.wit.hillfort.views.map
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -7,13 +8,17 @@ import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Marker
+import kotlinx.android.synthetic.main.activity_hillfort.*
 import kotlinx.android.synthetic.main.activity_hillfort_maps.*
+import kotlinx.android.synthetic.main.activity_hillfort_maps.mapView
+import kotlinx.android.synthetic.main.card_hillfort.*
 import org.jetbrains.anko.info
 import org.wit.hillfort.R
 
 import org.wit.hillfort.helpers.readImageFromPath
 import org.wit.hillfort.models.HillfortModel
 import org.wit.hillfort.views.BaseView
+import org.wit.hillfort.views.VIEW
 
 class HillfortMapView : BaseView(), GoogleMap.OnMarkerClickListener {
 
@@ -36,7 +41,6 @@ class HillfortMapView : BaseView(), GoogleMap.OnMarkerClickListener {
     }
 
     override fun showHillfort(hillfort: HillfortModel) {
-        info(hillfort)
         if(hillfort.date == "")
         {
             currentVisited.text = "Not visited yet"
@@ -47,7 +51,12 @@ class HillfortMapView : BaseView(), GoogleMap.OnMarkerClickListener {
         buttonMapEditCurrentHillfort.visibility = View.VISIBLE
         currentName.text = hillfort.name
         currentDescription.text = hillfort.description
+
         Glide.with(this).load(hillfort.images[0]).into(currentImage);
+
+        buttonMapEditCurrentHillfort.setOnClickListener(){
+            presenter.doEditHillfort(hillfort)
+        }
     }
 
     override fun showHillforts(hillforts: List<HillfortModel>){
@@ -82,5 +91,16 @@ class HillfortMapView : BaseView(), GoogleMap.OnMarkerClickListener {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         mapView.onSaveInstanceState(outState)
+    }
+
+    // Refreshes the view when a hillfort is updated
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        currentName.text = "Hillfort Name"
+        currentDescription.text = "Hillfort Description"
+        currentVisited.text = "Date Visited"
+        buttonMapEditCurrentHillfort.visibility = View.INVISIBLE
+        presenter.loadHillforts()
+        super.onActivityResult(requestCode, resultCode, data)
+
     }
 }
