@@ -1,7 +1,9 @@
 package org.wit.hillfort.views.map
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Marker
@@ -37,11 +39,12 @@ class HillfortMapView : BaseView(), GoogleMap.OnMarkerClickListener {
         info(hillfort)
         if(hillfort.date == "")
         {
-            currentVisited.text = ""
+            currentVisited.text = "Not visited yet"
         }
         else {
             currentVisited.text = hillfort.date
         }
+        buttonMapEditCurrentHillfort.visibility = View.VISIBLE
         currentName.text = hillfort.name
         currentDescription.text = hillfort.description
         Glide.with(this).load(hillfort.images[0]).into(currentImage);
