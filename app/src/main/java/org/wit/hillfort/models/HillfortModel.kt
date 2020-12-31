@@ -17,6 +17,7 @@ data class HillfortModel(@PrimaryKey(autoGenerate = true) var id: Long = 0,
                          var visited: Boolean = false,
                          var notes: String ="",
                          var date: String ="",
+                         var rating: Float = 0F,
                           @Embedded var location: Location = Location()): Parcelable
 
 // Map location model
