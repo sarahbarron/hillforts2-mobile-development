@@ -190,11 +190,7 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
         }
     }
 
-    fun doShowHillfortList(){
-        view?.navigateTo(VIEW.LIST)
-    }
-
-    fun doShowHillfortsMap() {
-        view?.navigateTo(VIEW.MAPS)
-    }
+    fun doViewFavourites(){ view?.navigateTo(VIEW.LIST, 0, "hillfort_favourite") }
+    fun doViewHillfortsMap(){view?.navigateTo(VIEW.MAPS)}
+    fun doViewHillforts(){view?.navigateTo(VIEW.LIST)}
 }
