@@ -52,7 +52,8 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
                     hillfortDescription.text.toString(),
                     hillfortNotes.text.toString(),
                     visitedHillfort.isChecked,
-                    dateVisited.text.toString()
+                    dateVisited.text.toString(),
+                    hillfortRating.rating
                 )
                 presenter.doSelectImage()
         }
@@ -63,14 +64,15 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
                 hillfortDescription.text.toString(),
                 hillfortNotes.text.toString(),
                 visitedHillfort.isChecked,
-                dateVisited.text.toString()
+                dateVisited.text.toString(),
+                hillfortRating.rating
             )
             presenter.doSetLocation()
         }
 
         hillfortRating.setOnRatingBarChangeListener(object : RatingBar.OnRatingBarChangeListener {
             override fun onRatingChanged(p0: RatingBar?, p1: Float, p2: Boolean) {
-
+                hillfortRating.rating = p1
             }
         })
 
@@ -91,7 +93,8 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
                     hillfortDescription.text.toString(),
                     hillfortNotes.text.toString(),
                     visitedHillfort.isChecked,
-                    dateVisited.text.toString()
+                    dateVisited.text.toString(),
+                    hillfortRating.rating
                 )
             }
         }
@@ -105,7 +108,7 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
         hillfortName.setText(hillfort.name)
         hillfortDescription.setText(hillfort.description)
         hillfortNotes.setText(hillfort.notes)
-
+        hillfortRating.rating = hillfort.rating
         if(hillfort.visited)
         {
             visitedHillfort.isChecked = true
@@ -157,7 +160,9 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
                      hillfortDescription.text.toString(),
                      hillfortNotes.text.toString(),
                      visitedHillfort.isChecked,
-                     dateVisited.text.toString())
+                     dateVisited.text.toString(),
+                     hillfortRating.rating
+                     )
              }
             }
             R.id.item_cancel -> {
