@@ -14,6 +14,10 @@ import org.wit.hillfort.R
 import kotlinx.android.synthetic.main.activity_hillfort.*
 import org.wit.hillfort.models.HillfortModel
 import kotlinx.android.synthetic.main.activity_hillfort.hillfortName
+import kotlinx.android.synthetic.main.activity_hillfort.mapView
+import kotlinx.android.synthetic.main.activity_hillfort_maps.*
+import kotlinx.android.synthetic.main.activity_hillfort_maps.bottom_navigation
+import kotlinx.android.synthetic.main.activity_settings.*
 import kotlinx.android.synthetic.main.activity_settings.view.*
 import org.jetbrains.anko.*
 import org.wit.hillfort.activities.ImageAdapter
@@ -100,6 +104,18 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
         }
         btnDeleteHillfort.setOnClickListener(){
             presenter.doDelete()
+        }
+
+        bottom_navigation.setOnNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.bottomMain -> {presenter.doShowHillfortList()
+                    true}
+                //R.id.bottomFavourites -> {presenter.doShowFavourites()
+                // true}
+                R.id.bottomMap -> {presenter.doShowHillfortsMap()
+                    true}
+                else -> false
+            }
         }
     }
 
