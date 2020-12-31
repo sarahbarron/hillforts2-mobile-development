@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.CheckBox
+import android.widget.RatingBar
 import androidx.core.app.TaskStackBuilder
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.maps.GoogleMap
@@ -66,6 +67,12 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
             )
             presenter.doSetLocation()
         }
+
+        hillfortRating.setOnRatingBarChangeListener(object : RatingBar.OnRatingBarChangeListener {
+            override fun onRatingChanged(p0: RatingBar?, p1: Float, p2: Boolean) {
+
+            }
+        })
 
         val layoutManager = LinearLayoutManager(this)
         recyclerViewImages.layoutManager = layoutManager
