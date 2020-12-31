@@ -285,5 +285,16 @@
                     app:layout_constraintTop_toBottomOf="@id/btnAdd" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:menu="@menu/menu_bottom"
+            android:background="@color/colorAccent"
+            app:itemIconTint="@android:color/white"
+            app:itemTextColor="@android:color/white"/>
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
