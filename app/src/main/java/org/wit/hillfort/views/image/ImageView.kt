@@ -3,6 +3,7 @@ package org.wit.hillfort.views.image
 import android.content.Intent
 import android.os.Bundle
 import androidx.core.app.TaskStackBuilder
+import kotlinx.android.synthetic.main.activity_hillfort.*
 import kotlinx.android.synthetic.main.activity_image.*
 import org.jetbrains.anko.AnkoLogger
 import org.wit.hillfort.R
@@ -21,9 +22,7 @@ class ImageView: BaseView(), AnkoLogger {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_image)
 
-        toolbarImage.title = title
-        setSupportActionBar(toolbarImage)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        init(toolbarImage,true)
 
         // retrieve the image and hillfort from the intent
         if(intent.hasExtra("image") && intent.hasExtra("hillfort")) {

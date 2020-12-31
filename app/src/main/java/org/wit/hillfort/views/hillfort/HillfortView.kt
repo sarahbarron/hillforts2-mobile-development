@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.CheckBox
+import android.widget.RatingBar
 import androidx.core.app.TaskStackBuilder
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.maps.GoogleMap
@@ -35,16 +36,13 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hillfort)
 
-        init(toolbarAdd)
+        init(toolbarAdd,true)
 
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync {
             map = it
             presenter.doConfigureMap(map)
         }
-
-        setSupportActionBar(toolbarAdd)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         presenter = initPresenter (HillfortPresenter(this)) as HillfortPresenter
 
@@ -54,15 +52,29 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
                     hillfortDescription.text.toString(),
                     hillfortNotes.text.toString(),
                     visitedHillfort.isChecked,
-                    dateVisited.text.toString()
+                    dateVisited.text.toString(),
+                    hillfortRating.rating
                 )
                 presenter.doSelectImage()
         }
 
         hillfortLocation.setOnClickListener{
-            presenter.cacheHillfort(hillfortName.text.toString(), hillfortDescription.text.toString(), hillfortNotes.text.toString(), visitedHillfort.isChecked, dateVisited.text.toString())
+            presenter.cacheHillfort(
+                hillfortName.text.toString(),
+                hillfortDescription.text.toString(),
+                hillfortNotes.text.toString(),
+                visitedHillfort.isChecked,
+                dateVisited.text.toString(),
+                hillfortRating.rating
+            )
             presenter.doSetLocation()
         }
+
+        hillfortRating.setOnRatingBarChangeListener(object : RatingBar.OnRatingBarChangeListener {
+            override fun onRatingChanged(p0: RatingBar?, p1: Float, p2: Boolean) {
+                hillfortRating.rating = p1
+            }
+        })
 
         val layoutManager = LinearLayoutManager(this)
         recyclerViewImages.layoutManager = layoutManager
@@ -76,23 +88,35 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
                 toast(R.string.enter_hillfort_name)
             }
             else{
-                presenter.doAddOrSave(hillfortName.text.toString(), hillfortDescription.text.toString(), hillfortNotes.text.toString(), visitedHillfort.isChecked, dateVisited.text.toString())
+                presenter.doAddOrSave(
+                    hillfortName.text.toString(),
+                    hillfortDescription.text.toString(),
+                    hillfortNotes.text.toString(),
+                    visitedHillfort.isChecked,
+                    dateVisited.text.toString(),
+                    hillfortRating.rating
+                )
             }
+        }
+        btnDeleteHillfort.setOnClickListener(){
+            presenter.doDelete()
         }
     }
 
     override fun showHillfort(hillfort: HillfortModel) {
+        dateVisited.setText(hillfort.date)
         hillfortName.setText(hillfort.name)
         hillfortDescription.setText(hillfort.description)
         hillfortNotes.setText(hillfort.notes)
+        hillfortRating.rating = hillfort.rating
         if(hillfort.visited)
         {
             visitedHillfort.isChecked = true
-            dateVisited.setText("Date Visited: " + hillfort.date)
+            dateVisited.setText(hillfort.date)
         }
         this.showImages(hillfort.images)
-        btnAdd.setText(R.string.save_hillfort)
         this.showLocation(hillfort.location)
+        btnAdd.setText(R.string.save_hillfort)
     }
 
     override fun showLocation (loc : Location) {
@@ -131,7 +155,14 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
              if(hillfortName.text.toString().isEmpty()){
                  toast(R.string.enter_hillfort_name)
              }else{
-                 presenter.doAddOrSave(hillfortName.text.toString(), hillfortDescription.text.toString(), hillfortNotes.text.toString(), visitedHillfort.isChecked, dateVisited.text.toString())
+                 presenter.doAddOrSave(
+                     hillfortName.text.toString(),
+                     hillfortDescription.text.toString(),
+                     hillfortNotes.text.toString(),
+                     visitedHillfort.isChecked,
+                     dateVisited.text.toString(),
+                     hillfortRating.rating
+                     )
              }
             }
             R.id.item_cancel -> {
@@ -147,9 +178,6 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
         return super.onOptionsItemSelected(item)
     }
 
-
-
-
     override fun onImageClick(image: String){
 //        startActivityForResult(intentFor<ImageActivity>().putExtra("image", image),DELETE_IMAGE)
     }
@@ -159,6 +187,7 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
         super.onPrepareSupportNavigateUpTaskStack(builder)
         builder.editIntentAt(builder.intentCount - 1)
     }
+
     override fun supportShouldUpRecreateTask(targetIntent: Intent): Boolean {
         info("Hillfort: supportShouldUpRecreateTask")
         return true
@@ -172,14 +201,13 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
             when (view.id) {
                 R.id.visitedHillfort -> {
                     if (checked) {
-
                         val simpleDateFormat = SimpleDateFormat("yyy.MM.dd 'at' HH:mm:ss")
                         val currentDateAndTime: String = simpleDateFormat.format(Date())
                         presenter.doSetVisited(true, currentDateAndTime)
-                        dateVisited.setText("Date Visited: $currentDateAndTime")
+                        dateVisited.setText(currentDateAndTime)
                     } else {
                        presenter.doSetVisited(false, "")
-                        dateVisited.setText("Date Visited: ")
+                        dateVisited.setText("")
                     }
                 }
             }

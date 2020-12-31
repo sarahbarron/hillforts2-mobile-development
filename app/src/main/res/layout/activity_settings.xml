@@ -74,7 +74,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
-                    android:hint="@string/hint_password"
+                    android:hint="@string/hint_update_password"
                     android:inputType="text"
                     android:maxLength="50"
                     android:maxLines="1"
@@ -118,17 +118,6 @@
                     android:textAlignment="center"
                     />
                 <TextView
-                    android:id="@+id/settings_statisticsHillfortHeading"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:text="@string/statistics_user_heading"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="25dp"
-                    android:padding="30px"
-                    android:layout_marginTop="30px"
-                    android:textAlignment="center"
-                    />
-                <TextView
                     android:id="@+id/statisticsHillfortsTotal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -155,55 +144,6 @@
                     android:padding="8dp"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="20sp"/>
-
-                <TextView
-                    android:id="@+id/settings_statisticsClassHeading"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:text="@string/statistics_class_avg_heading"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="25dp"
-                    android:padding="30px"
-                    android:layout_marginTop="30px"
-                    android:textAlignment="center"
-                    />
-                <TextView
-                    android:id="@+id/statisticsClassTotal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:text="@string/statistics_class_avg_total_hillforts"
-                    android:padding="8dp"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="20sp"/>
-                <TextView
-                    android:id="@+id/statisticsClassViewed"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:text="@string/statistics_class_viewed"
-                    android:padding="8dp"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="20sp"/>
-                <TextView
-                    android:id="@+id/statisticsClassUnseen"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:text="@string/statistics_class_unseen"
-                    android:padding="8dp"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="20sp"/>
-                <TextView
-                    android:id="@+id/statisticsUserPosition"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:text="@string/statistics_position"
-                    android:padding="8dp"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="20sp"
-                    android:textAlignment="center"/>
             </LinearLayout>
         </ScrollView>
     </RelativeLayout>

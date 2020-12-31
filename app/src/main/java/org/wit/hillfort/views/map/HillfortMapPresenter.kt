@@ -10,14 +10,14 @@ import org.jetbrains.anko.uiThread
 import org.wit.hillfort.models.HillfortModel
 import org.wit.hillfort.views.BasePresenter
 import org.wit.hillfort.views.BaseView
-
+import org.wit.hillfort.views.VIEW
 
 
 class HillfortMapPresenter(view: BaseView) : BasePresenter(view) {
 
-    fun doPopulateMap(map: GoogleMap, placemarks: List<HillfortModel>) {
+    fun doPopulateMap(map: GoogleMap, hillforts: List<HillfortModel>) {
         map.uiSettings.setZoomControlsEnabled(true)
-        placemarks.forEach {
+        hillforts.forEach {
             val loc = LatLng(it.location.lat, it.location.lng)
             val options = MarkerOptions().title(it.name).position(loc)
             map.addMarker(options).tag = it
@@ -41,5 +41,9 @@ class HillfortMapPresenter(view: BaseView) : BasePresenter(view) {
                 view?.showHillforts(hillforts)
             }
         }
+    }
+
+    fun doEditHillfort(hillfort: HillfortModel) {
+        view?.navigateTo(VIEW.HILLFORT, 0, "hillfort_edit", hillfort)
     }
 }

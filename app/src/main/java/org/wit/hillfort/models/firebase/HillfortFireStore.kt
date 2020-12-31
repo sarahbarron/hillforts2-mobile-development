@@ -29,6 +29,7 @@ class HillfortFireStore(val context: Context) : HillfortStore, AnkoLogger {
         return foundHillfort
     }
 
+
     override fun create(hillfort: HillfortModel) {
         val key = db.child("users").child(userId).child("hillforts").push().key
         key?.let {
@@ -48,6 +49,8 @@ class HillfortFireStore(val context: Context) : HillfortStore, AnkoLogger {
             foundHillfort.location = hillfort.location
             foundHillfort.notes = hillfort.notes
             foundHillfort.visited = hillfort.visited
+            foundHillfort.date = hillfort.date
+            foundHillfort.rating = hillfort.rating
         }
 
         db.child("users").child(userId).child("hillforts").child(hillfort.fbId).setValue(hillfort)
@@ -73,7 +76,7 @@ class HillfortFireStore(val context: Context) : HillfortStore, AnkoLogger {
     }
 
     override fun deleteUserHillforts() {
-        TODO("Not yet implemented")
+       db.child("users").child(userId).removeValue()
     }
 
 
