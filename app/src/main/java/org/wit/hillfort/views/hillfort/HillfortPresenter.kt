@@ -82,13 +82,14 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
         }
     }
 
-    fun cacheHillfort (name: String, description: String, notes: String, visited: Boolean, date: String, rating: Float) {
+    fun cacheHillfort (name: String, description: String, notes: String, visited: Boolean, date: String, rating: Float, favourite: Boolean) {
         hillfort.name = name;
         hillfort.description = description
         hillfort.notes = notes
         hillfort.visited = visited
         hillfort.date = date
         hillfort.rating = rating
+        hillfort.favourite = favourite
     }
 
     fun doConfigureMap(m: GoogleMap) {
@@ -106,13 +107,14 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
         view?.showLocation(hillfort.location)
     }
 
-    fun doAddOrSave(name: String, description: String, notes: String, visited: Boolean, date: String, rating: Float) {
+    fun doAddOrSave(name: String, description: String, notes: String, visited: Boolean, date: String, rating: Float, favourite: Boolean) {
         hillfort.name = name
         hillfort.description = description
         hillfort.notes = notes
         hillfort.visited = visited
         hillfort.date = date
         hillfort.rating = rating
+        hillfort.favourite = favourite
         doAsync {
             if (edit) {
                 app.hillforts.update(hillfort)

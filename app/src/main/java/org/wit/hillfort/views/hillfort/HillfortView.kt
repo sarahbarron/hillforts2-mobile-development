@@ -61,7 +61,8 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
                     hillfortNotes.text.toString(),
                     visitedHillfort.isChecked,
                     dateVisited.text.toString(),
-                    hillfortRating.rating
+                    hillfortRating.rating,
+                    hillfortFavourite.isChecked
                 )
                 presenter.doSelectImage()
         }
@@ -73,7 +74,8 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
                 hillfortNotes.text.toString(),
                 visitedHillfort.isChecked,
                 dateVisited.text.toString(),
-                hillfortRating.rating
+                hillfortRating.rating,
+                hillfortFavourite.isChecked
             )
             presenter.doSetLocation()
         }
@@ -102,7 +104,8 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
                     hillfortNotes.text.toString(),
                     visitedHillfort.isChecked,
                     dateVisited.text.toString(),
-                    hillfortRating.rating
+                    hillfortRating.rating,
+                    hillfortFavourite.isChecked
                 )
             }
         }
@@ -133,6 +136,10 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
         {
             visitedHillfort.isChecked = true
             dateVisited.setText(hillfort.date)
+        }
+        if(hillfort.favourite)
+        {
+            hillfortFavourite.isChecked = true
         }
         this.showImages(hillfort.images)
         this.showLocation(hillfort.location)
@@ -181,7 +188,8 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
                      hillfortNotes.text.toString(),
                      visitedHillfort.isChecked,
                      dateVisited.text.toString(),
-                     hillfortRating.rating
+                     hillfortRating.rating,
+                     hillfortFavourite.isChecked
                      )
              }
             }
