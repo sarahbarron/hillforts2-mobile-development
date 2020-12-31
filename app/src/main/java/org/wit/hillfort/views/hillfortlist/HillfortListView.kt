@@ -35,8 +35,10 @@ class HillfortListView : BaseView(), HillfortListener, AnkoLogger{
 
         bottom_navigation.setOnNavigationItemSelectedListener {
             when (it.itemId) {
-                //R.id.bottomFavourites -> {presenter.doShowFavourites()
-                // true}
+                R.id.bottomMain -> {presenter.doViewHillforts()
+                    true}
+                R.id.bottomFavourites -> {presenter.doViewFavourites()
+                    true}
                 R.id.bottomMap -> {presenter.doShowHillfortsMap()
                     true}
                 else -> false

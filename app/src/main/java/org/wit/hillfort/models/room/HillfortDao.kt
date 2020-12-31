@@ -24,4 +24,7 @@ interface HillfortDao {
 
     @Delete
     fun deleteHillfort(hillfort: HillfortModel)
+
+    @Query("SELECT * FROM HillfortModel")
+    fun findFavourites(): List<HillfortModel>
 }

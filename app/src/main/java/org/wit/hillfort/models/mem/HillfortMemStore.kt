@@ -80,6 +80,10 @@ class HillfortMemStore : HillfortStore, AnkoLogger {
         foundHillfort?.images?.remove(image)
     }
 
+    override fun findFavourites(): List<HillfortModel> {
+        val foundHillforts: List<HillfortModel> = hillforts.filter{ p -> p.favourite == true }
+        return foundHillforts
+    }
     //    Statistics
 
 //    //    return the otal number of hillforts a user has

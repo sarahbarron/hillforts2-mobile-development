@@ -58,4 +58,7 @@ class HillfortStoreRoom(val context: Context) : HillfortStore {
         TODO("Not yet implemented")
     }
 
+    override fun findFavourites(): List<HillfortModel> {
+        return dao.findFavourites()
+    }
 }
