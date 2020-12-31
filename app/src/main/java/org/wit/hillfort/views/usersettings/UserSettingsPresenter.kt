@@ -63,4 +63,16 @@ class UserSettingsPresenter(view:BaseView):BasePresenter(view) {
             user.updatePassword(password)
         }
     }
+
+    fun doShowHillfortList(){
+        view?.navigateTo(VIEW.LIST)
+    }
+
+    fun doShowHillfortsMap() {
+        view?.navigateTo(VIEW.MAPS)
+    }
+
+    fun doShowFavourites(){
+
+    }
 }

@@ -6,6 +6,8 @@ import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_hillfort_list.*
+import kotlinx.android.synthetic.main.activity_hillfort_list.bottom_navigation
+import kotlinx.android.synthetic.main.activity_settings.*
 import org.jetbrains.anko.*
 import org.wit.hillfort.R
 import org.wit.hillfort.activities.HillfortAdapter
@@ -30,6 +32,16 @@ class HillfortListView : BaseView(), HillfortListener, AnkoLogger{
         recyclerView.adapter = HillfortAdapter(presenter.getHillforts(), this)
         recyclerView.adapter?.notifyDataSetChanged()
         presenter.loadHillforts()
+
+        bottom_navigation.setOnNavigationItemSelectedListener {
+            when (it.itemId) {
+                //R.id.bottomFavourites -> {presenter.doShowFavourites()
+                // true}
+                R.id.bottomMap -> {presenter.doShowHillfortsMap()
+                    true}
+                else -> false
+            }
+        }
     }
 
     // show hillforts in the recycler view

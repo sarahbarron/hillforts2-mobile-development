@@ -187,4 +187,12 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
             }
         }
     }
+
+    fun doShowHillfortList(){
+        view?.navigateTo(VIEW.LIST)
+    }
+
+    fun doShowHillfortsMap() {
+        view?.navigateTo(VIEW.MAPS)
+    }
 }

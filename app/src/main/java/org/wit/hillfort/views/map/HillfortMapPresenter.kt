@@ -46,4 +46,8 @@ class HillfortMapPresenter(view: BaseView) : BasePresenter(view) {
     fun doEditHillfort(hillfort: HillfortModel) {
         view?.navigateTo(VIEW.HILLFORT, 0, "hillfort_edit", hillfort)
     }
+
+    fun doShowHillfortList(){view?.navigateTo(VIEW.LIST)}
+    //fun doShowFavourites(){view?.navigateTo(VIEW.FAVOURITES)}
+
 }
