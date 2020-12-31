@@ -212,10 +212,10 @@
                     android:id="@+id/visitedHillfort"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
+                    android:layout_margin="8dp"
                     android:layoutDirection="rtl"
                     android:onClick="onCheckboxClicked"
-                    android:padding="20dp"
+                    android:padding="8dp"
                     android:text="@string/visited_checkbox"
                     android:textColor="@color/colorAccent"
                     android:textSize="25sp"
@@ -227,14 +227,30 @@
                     android:id="@+id/dateVisited"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:padding="20dp"
+                    android:layout_margin="8dp"
+                    android:layout_marginBottom="10dp"
+                    android:padding="8dp"
                     android:text="@string/date_visited"
                     android:hint="@string/date_visited"
                     android:textSize="20sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/visitedHillfort" />
+
+                <RatingBar
+                    android:id="@+id/hillfortRating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/colorPrimary"
+                    android:numStars="5"
+                    android:stepSize="1"
+                    android:theme="@style/Widget.AppCompat.RatingBar"
+                    app:layout_constraintTop_toBottomOf="@id/dateVisited"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    />
+
 
                 <Button
                     android:id="@+id/btnAdd"
@@ -250,7 +266,7 @@
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/dateVisited" />
+                    app:layout_constraintTop_toBottomOf="@+id/hillfortRating" />
 
                 <Button
                     android:id="@+id/btnDeleteHillfort"
