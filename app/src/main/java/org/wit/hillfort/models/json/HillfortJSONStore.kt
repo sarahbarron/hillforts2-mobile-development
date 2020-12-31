@@ -126,4 +126,9 @@ class HillfortJSONStore : HillfortStore, AnkoLogger {
         hillforts.clear()
     }
 
+    override fun findFavourites(): List<HillfortModel> {
+        val foundHillforts: List<HillfortModel> = hillforts.filter{ p -> p.favourite == true }
+        return foundHillforts
+    }
+
 }

@@ -35,9 +35,11 @@ class HillfortListView : BaseView(), HillfortListener, AnkoLogger{
 
         bottom_navigation.setOnNavigationItemSelectedListener {
             when (it.itemId) {
-                //R.id.bottomFavourites -> {presenter.doShowFavourites()
-                // true}
-                R.id.bottomMap -> {presenter.doShowHillfortsMap()
+                R.id.bottomMain -> {presenter.doViewHillforts()
+                    true}
+                R.id.bottomFavourites -> {presenter.doViewFavourites()
+                    true}
+                R.id.bottomMap -> {presenter.doViewHillfortsMap()
                     true}
                 else -> false
             }
@@ -60,7 +62,7 @@ class HillfortListView : BaseView(), HillfortListener, AnkoLogger{
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item?.itemId){
             R.id.item_add -> presenter.doAddHillfort()
-            R.id.item_map -> presenter.doShowHillfortsMap()
+            R.id.item_map -> presenter.doViewHillfortsMap()
             R.id.nav_sign_out -> presenter.doLogout()
             R.id.item_settings -> presenter.doShowSettings()
         }

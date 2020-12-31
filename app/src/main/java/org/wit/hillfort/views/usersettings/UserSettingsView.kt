@@ -40,11 +40,11 @@ class UserSettingsView: BaseView(), AnkoLogger {
 
         bottom_navigation.setOnNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.bottomMain -> {presenter.doShowHillfortList()
+                R.id.bottomMain -> {presenter.doViewHillforts()
                     true}
-                //R.id.bottomFavourites -> {presenter.doShowFavourites()
-                // true}
-                R.id.bottomMap -> {presenter.doShowHillfortsMap()
+                R.id.bottomFavourites -> {presenter.doViewFavourites()
+                 true}
+                R.id.bottomMap -> {presenter.doViewHillfortsMap()
                     true}
                 else -> false
             }

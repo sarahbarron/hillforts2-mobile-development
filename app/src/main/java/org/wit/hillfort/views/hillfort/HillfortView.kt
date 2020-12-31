@@ -1,13 +1,17 @@
 package org.wit.hillfort.views.hillfort
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.CheckBox
+import android.widget.Checkable
 import android.widget.RatingBar
 import androidx.core.app.TaskStackBuilder
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.maps.GoogleMap
 import org.wit.hillfort.R
@@ -57,7 +61,8 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
                     hillfortNotes.text.toString(),
                     visitedHillfort.isChecked,
                     dateVisited.text.toString(),
-                    hillfortRating.rating
+                    hillfortRating.rating,
+                    hillfortFavourite.isChecked
                 )
                 presenter.doSelectImage()
         }
@@ -69,7 +74,8 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
                 hillfortNotes.text.toString(),
                 visitedHillfort.isChecked,
                 dateVisited.text.toString(),
-                hillfortRating.rating
+                hillfortRating.rating,
+                hillfortFavourite.isChecked
             )
             presenter.doSetLocation()
         }
@@ -98,7 +104,8 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
                     hillfortNotes.text.toString(),
                     visitedHillfort.isChecked,
                     dateVisited.text.toString(),
-                    hillfortRating.rating
+                    hillfortRating.rating,
+                    hillfortFavourite.isChecked
                 )
             }
         }
@@ -108,11 +115,11 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
 
         bottom_navigation.setOnNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.bottomMain -> {presenter.doShowHillfortList()
+                R.id.bottomMain -> {presenter.doViewHillforts()
                     true}
-                //R.id.bottomFavourites -> {presenter.doShowFavourites()
-                // true}
-                R.id.bottomMap -> {presenter.doShowHillfortsMap()
+                R.id.bottomFavourites -> {presenter.doViewFavourites()
+                 true}
+                R.id.bottomMap -> {presenter.doViewHillfortsMap()
                     true}
                 else -> false
             }
@@ -129,6 +136,10 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
         {
             visitedHillfort.isChecked = true
             dateVisited.setText(hillfort.date)
+        }
+        if(hillfort.favourite)
+        {
+            hillfortFavourite.isChecked = true
         }
         this.showImages(hillfort.images)
         this.showLocation(hillfort.location)
@@ -177,7 +188,8 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
                      hillfortNotes.text.toString(),
                      visitedHillfort.isChecked,
                      dateVisited.text.toString(),
-                     hillfortRating.rating
+                     hillfortRating.rating,
+                     hillfortFavourite.isChecked
                      )
              }
             }
@@ -229,7 +241,6 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
             }
         }
     }
-
 
     override fun onBackPressed(){
         presenter.doCancel()

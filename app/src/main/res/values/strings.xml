@@ -87,4 +87,5 @@
     <string name="bottom_menu_favourites">Favourites</string>
     <string name="bottom_menu_home">Home</string>
     <string name="bottom_menu_map">Map</string>
+    <string name="fav_checkbox">Favourite</string>
 </resources>

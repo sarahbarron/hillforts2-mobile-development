@@ -51,6 +51,7 @@ class HillfortFireStore(val context: Context) : HillfortStore, AnkoLogger {
             foundHillfort.visited = hillfort.visited
             foundHillfort.date = hillfort.date
             foundHillfort.rating = hillfort.rating
+            foundHillfort.favourite = hillfort.favourite
         }
 
         db.child("users").child(userId).child("hillforts").child(hillfort.fbId).setValue(hillfort)
@@ -82,6 +83,11 @@ class HillfortFireStore(val context: Context) : HillfortStore, AnkoLogger {
 
     override fun clear() {
         hillforts.clear()
+    }
+
+    override fun findFavourites(): List<HillfortModel> {
+        val foundHillforts: List<HillfortModel> = hillforts.filter{ p -> p.favourite == true }
+        return foundHillforts
     }
 
     fun fetchHillforts(hillfortsReady: () -> Unit) {

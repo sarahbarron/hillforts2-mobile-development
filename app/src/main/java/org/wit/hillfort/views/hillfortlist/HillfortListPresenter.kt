@@ -13,6 +13,7 @@ import java.util.*
 
 class HillfortListPresenter(view: BaseView): BasePresenter(view) {
 
+
     fun getHillforts() = app.hillforts.findAll()
 
 
@@ -24,12 +25,16 @@ class HillfortListPresenter(view: BaseView): BasePresenter(view) {
        view?.navigateTo(VIEW.HILLFORT, 0, "hillfort_edit", hillfort)
     }
 
-    fun doShowHillfortsMap(){view?.navigateTo(VIEW.MAPS)}
-    fun doShowFavourites(){}
-
     fun loadHillforts(){
         doAsync {
-            val hillforts = app.hillforts.findAll()
+
+            var hillforts: List<HillfortModel>
+            if (view?.intent!!.hasExtra("hillfort_favourite")){
+                hillforts = app.hillforts.findFavourites()
+            }
+            else {
+                hillforts = app.hillforts.findAll()
+            }
             uiThread {
                 view?.showHillforts(hillforts)
             }
@@ -62,4 +67,8 @@ class HillfortListPresenter(view: BaseView): BasePresenter(view) {
            hillfort.date = ""
        }
     }
+
+    fun doViewFavourites(){ view?.navigateTo(VIEW.LIST, 0, "hillfort_favourite") }
+    fun doViewHillfortsMap(){view?.navigateTo(VIEW.MAPS)}
+    fun doViewHillforts(){view?.navigateTo(VIEW.LIST)}
 }
