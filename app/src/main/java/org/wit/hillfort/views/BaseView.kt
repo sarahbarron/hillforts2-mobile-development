@@ -39,6 +39,7 @@ open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
             VIEW.LOGIN -> intent = Intent(this, LoginView::class.java)
             VIEW.IMAGE -> intent = Intent(this, ImageView::class.java)
             VIEW.SETTINGS -> intent = Intent(this, UserSettingsView::class.java)
+
         }
         if (key != "") {
             intent.putExtra(key, value)

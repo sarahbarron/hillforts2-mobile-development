@@ -2,6 +2,7 @@ package org.wit.hillfort.views.hillfort
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -10,6 +11,7 @@ import android.view.View
 import android.widget.CheckBox
 import android.widget.Checkable
 import android.widget.RatingBar
+import android.widget.Toast
 import androidx.core.app.TaskStackBuilder
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -113,9 +115,26 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
             presenter.doDelete()
         }
 
-        sendEmailBtn.setOnClickListener{
-
+        shareBtn.setOnClickListener{
+            btnDeleteHillfort.visibility = View.INVISIBLE
+            shareBtn.visibility = View.INVISIBLE
+            emailAddress.visibility = View.VISIBLE
+            sendEmailBtn.visibility = View.VISIBLE
         }
+
+        sendEmailBtn.setOnClickListener{
+            val email = emailAddress.text.toString()
+            val subject = hillfortName.text.toString()
+            val message = "Hillfort Name: "+hillfortName.text.toString()+
+                    "\br Hillfort Description: "+hillfortDescription.text.toString()+
+                    "\br Hillfort Location: "+hillfortLat+" Lat, "+hillfortLng+" Lng "+
+                    "\br Hillfort Notes: "+hillfortNotes+
+                    "\br Hillfort Rating: "+hillfortRating
+
+            sendEmail(email, subject, message)
+        }
+
+
         bottom_navigation.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.bottomMain -> {presenter.doViewHillforts()
@@ -126,6 +145,25 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
                     true}
                 else -> false
             }
+        }
+    }
+
+    fun sendEmail(email: String, subject: String, message: String){
+        // launch email client
+        val mIntent = Intent(Intent.ACTION_SEND)
+        mIntent.data = Uri.parse("mailto:")
+        mIntent.type = "text/plain"
+        // set the email address you want to email too
+        mIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(email))
+        //set the subject
+        mIntent.putExtra(Intent.EXTRA_SUBJECT, subject)
+        // set the message
+        mIntent.putExtra(Intent.EXTRA_TEXT, message)
+
+        try{
+            startActivity(Intent.createChooser(mIntent, "Choose Email Client..."))
+        }catch (e: Exception){
+           toast("Error sending email: "+e.message)
         }
     }
 
