@@ -125,11 +125,13 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
         sendEmailBtn.setOnClickListener{
             val email = emailAddress.text.toString()
             val subject = hillfortName.text.toString()
-            val message = "Hillfort Name: "+hillfortName.text.toString()+
-                    "\br Hillfort Description: "+hillfortDescription.text.toString()+
-                    "\br Hillfort Location: "+hillfortLat+" Lat, "+hillfortLng+" Lng "+
-                    "\br Hillfort Notes: "+hillfortNotes+
-                    "\br Hillfort Rating: "+hillfortRating
+            val name = hillfortName.text.toString().trim()
+            val description = hillfortDescription.text.toString().trim()
+            val notes = hillfortDescription.text.toString().trim()
+            val lat = hillfortLat.text.toString().trim()
+            val lng = hillfortLng.text.toString().trim()
+            val rating = hillfortRating.rating
+            val message = "Hillfort Name: \t $name,\n Description: \t $description,\n Notes: \t $notes, \n Location:\t $lat lat, $lng lng, \n Rating: \t $rating"
 
             sendEmail(email, subject, message)
         }
