@@ -29,7 +29,7 @@ class HillfortListPresenter(view: BaseView): BasePresenter(view) {
 
             var hillforts: List<HillfortModel>
             if (view?.intent!!.hasExtra("hillfort_favourite")) {
-                hillforts = app.hillforts.findFavourites()gi
+                hillforts = app.hillforts.findFavourites()
             }
             else hillforts = app.hillforts.findAll()
 
