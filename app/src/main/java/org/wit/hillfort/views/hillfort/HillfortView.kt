@@ -113,6 +113,9 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
             presenter.doDelete()
         }
 
+        sendEmailBtn.setOnClickListener{
+
+        }
         bottom_navigation.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.bottomMain -> {presenter.doViewHillforts()
