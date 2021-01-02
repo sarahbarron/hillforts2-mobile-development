@@ -28,12 +28,11 @@ class HillfortListPresenter(view: BaseView): BasePresenter(view) {
         doAsync {
 
             var hillforts: List<HillfortModel>
-            if (view?.intent!!.hasExtra("hillfort_favourite")){
-                hillforts = app.hillforts.findFavourites()
+            if (view?.intent!!.hasExtra("hillfort_favourite")) {
+                hillforts = app.hillforts.findFavourites()gi
             }
-            else {
-                hillforts = app.hillforts.findAll()
-            }
+            else hillforts = app.hillforts.findAll()
+
             uiThread {
                 view?.showHillforts(hillforts)
             }
@@ -42,7 +41,9 @@ class HillfortListPresenter(view: BaseView): BasePresenter(view) {
 
     fun loadSearchedHillforts(text: String?){
         doAsync {
-            var hillforts = app.hillforts.search(text)
+            var hillforts: List<HillfortModel>
+            var fav:Boolean = view?.intent!!.hasExtra("hillfort_favourite")
+            hillforts = app.hillforts.search(text, fav)
             uiThread {
                 view?.showHillforts(hillforts)
             }

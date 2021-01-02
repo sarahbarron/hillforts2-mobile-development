@@ -62,7 +62,7 @@ class HillfortStoreRoom(val context: Context) : HillfortStore {
         return dao.findFavourites()
     }
 
-    override fun search(searchQuery: String?): List<HillfortModel> {
+    override fun search(searchQuery: String?, fav:Boolean): List<HillfortModel> {
        return dao.search(searchQuery)
     }
 }
