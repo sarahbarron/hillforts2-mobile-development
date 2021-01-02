@@ -27,4 +27,7 @@ interface HillfortDao {
 
     @Query("SELECT * FROM HillfortModel")
     fun findFavourites(): List<HillfortModel>
+
+    @Query("SELECT * FROM HillfortModel where name=:text")
+    fun search(text: String?): List<HillfortModel>
 }

@@ -90,6 +90,16 @@ class HillfortFireStore(val context: Context) : HillfortStore, AnkoLogger {
         return foundHillforts
     }
 
+    override fun search(searchQuery: String?, fav:Boolean): List<HillfortModel> {
+        var hillforts: List<HillfortModel>
+        hillforts = if (fav) findFavourites()
+        else findAll()
+        return hillforts.filter{ p -> p.name.contains(searchQuery!!, ignoreCase = true)}
+
+    }
+
+
+
     fun fetchHillforts(hillfortsReady: () -> Unit) {
         val valueEventListener = object : ValueEventListener {
             override fun onCancelled(dataSnapshot: DatabaseError) {
