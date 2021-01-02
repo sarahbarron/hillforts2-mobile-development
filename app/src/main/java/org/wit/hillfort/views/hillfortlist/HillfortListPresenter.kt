@@ -16,7 +16,6 @@ class HillfortListPresenter(view: BaseView): BasePresenter(view) {
 
     fun getHillforts() = app.hillforts.findAll()
 
-
     fun doAddHillfort() {
         view?.navigateTo(VIEW.HILLFORT)
     }
@@ -40,6 +39,16 @@ class HillfortListPresenter(view: BaseView): BasePresenter(view) {
             }
         }
     }
+
+    fun loadSearchedHillforts(text: String?){
+        doAsync {
+            var hillforts = app.hillforts.search(text)
+            uiThread {
+                view?.showHillforts(hillforts)
+            }
+        }
+    }
+
 
     fun deleteAllHillforts(){
         app.hillforts.deleteUserHillforts()

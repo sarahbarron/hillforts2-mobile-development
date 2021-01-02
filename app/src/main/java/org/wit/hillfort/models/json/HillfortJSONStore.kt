@@ -131,4 +131,9 @@ class HillfortJSONStore : HillfortStore, AnkoLogger {
         return foundHillforts
     }
 
+    override fun search(searchQuery: String?): List<HillfortModel> {
+        val hillforts = findAll()
+        return hillforts.filter{ p -> p.name.contains(searchQuery!!)}
+    }
+
 }

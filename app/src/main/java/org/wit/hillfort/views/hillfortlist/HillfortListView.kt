@@ -3,6 +3,8 @@ package org.wit.hillfort.views.hillfortlist
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.widget.SearchView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_hillfort_list.*
@@ -32,6 +34,25 @@ class HillfortListView : BaseView(), HillfortListener, AnkoLogger{
         recyclerView.adapter = HillfortAdapter(presenter.getHillforts(), this)
         recyclerView.adapter?.notifyDataSetChanged()
         presenter.loadHillforts()
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(text: String?): Boolean {
+                if(text.isNullOrBlank())
+                    presenter.loadHillforts()
+                else
+                    presenter.loadSearchedHillforts(text)
+
+                return false
+            }
+            override fun onQueryTextChange(text: String?): Boolean {
+                if(text.isNullOrBlank())
+                    presenter.loadHillforts()
+                else
+                    presenter.loadSearchedHillforts(text)
+                return false
+            }
+        })
+
 
         bottom_navigation.setOnNavigationItemSelectedListener {
             when (it.itemId) {

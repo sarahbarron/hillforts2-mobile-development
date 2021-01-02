@@ -150,4 +150,9 @@ class HillfortMemStore : HillfortStore, AnkoLogger {
     override fun clear(){
         hillforts.clear()
     }
+
+    override fun search(searchQuery: String?): List<HillfortModel> {
+        val hillforts = findAll()
+        return hillforts.filter{ p -> p.name.contains(searchQuery!!)}
+    }
 }

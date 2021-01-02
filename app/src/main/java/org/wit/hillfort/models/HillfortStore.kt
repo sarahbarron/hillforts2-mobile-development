@@ -12,4 +12,5 @@ interface HillfortStore {
     fun findById(id:Long) : HillfortModel?
     fun clear()
     fun findFavourites(): List<HillfortModel>
+    fun search(searchQuery: String?): List<HillfortModel>
 }
