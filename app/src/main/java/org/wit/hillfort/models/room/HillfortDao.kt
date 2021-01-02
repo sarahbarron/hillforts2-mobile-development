@@ -24,4 +24,10 @@ interface HillfortDao {
 
     @Delete
     fun deleteHillfort(hillfort: HillfortModel)
+
+    @Query("SELECT * FROM HillfortModel")
+    fun findFavourites(): List<HillfortModel>
+
+    @Query("SELECT * FROM HillfortModel where name=:text")
+    fun search(text: String?): List<HillfortModel>
 }

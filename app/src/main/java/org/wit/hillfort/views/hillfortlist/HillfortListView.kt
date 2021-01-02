@@ -3,9 +3,13 @@ package org.wit.hillfort.views.hillfortlist
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.widget.SearchView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_hillfort_list.*
+import kotlinx.android.synthetic.main.activity_hillfort_list.bottom_navigation
+import kotlinx.android.synthetic.main.activity_settings.*
 import org.jetbrains.anko.*
 import org.wit.hillfort.R
 import org.wit.hillfort.activities.HillfortAdapter
@@ -30,6 +34,37 @@ class HillfortListView : BaseView(), HillfortListener, AnkoLogger{
         recyclerView.adapter = HillfortAdapter(presenter.getHillforts(), this)
         recyclerView.adapter?.notifyDataSetChanged()
         presenter.loadHillforts()
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(text: String?): Boolean {
+                if(text.isNullOrBlank())
+                    presenter.loadHillforts()
+                else
+                    presenter.loadSearchedHillforts(text)
+
+                return false
+            }
+            override fun onQueryTextChange(text: String?): Boolean {
+                if(text.isNullOrBlank())
+                    presenter.loadHillforts()
+                else
+                    presenter.loadSearchedHillforts(text)
+                return false
+            }
+        })
+
+
+        bottom_navigation.setOnNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.bottomMain -> {presenter.doViewHillforts()
+                    true}
+                R.id.bottomFavourites -> {presenter.doViewFavourites()
+                    true}
+                R.id.bottomMap -> {presenter.doViewHillfortsMap()
+                    true}
+                else -> false
+            }
+        }
     }
 
     // show hillforts in the recycler view
@@ -48,7 +83,7 @@ class HillfortListView : BaseView(), HillfortListener, AnkoLogger{
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item?.itemId){
             R.id.item_add -> presenter.doAddHillfort()
-            R.id.item_map -> presenter.doShowHillfortsMap()
+            R.id.item_map -> presenter.doViewHillfortsMap()
             R.id.nav_sign_out -> presenter.doLogout()
             R.id.item_settings -> presenter.doShowSettings()
         }

@@ -38,6 +38,17 @@ class UserSettingsView: BaseView(), AnkoLogger {
             presenter.doDelete()
         }
 
+        bottom_navigation.setOnNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.bottomMain -> {presenter.doViewHillforts()
+                    true}
+                R.id.bottomFavourites -> {presenter.doViewFavourites()
+                 true}
+                R.id.bottomMap -> {presenter.doViewHillfortsMap()
+                    true}
+                else -> false
+            }
+        }
     }
 
     // Create a menu
@@ -49,23 +60,15 @@ class UserSettingsView: BaseView(), AnkoLogger {
     // functions for options on the menu
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-
             // cancel - finish and return
-            R.id.item_settingsCancel -> {
-                presenter.doCancel()
-            }
+            R.id.item_settingsCancel -> presenter.doCancel()
 
             // delete user - delete all users hillforts and then delete the user from json file.
             // return to the user to the authenticationActivity
-            R.id.item_deleteUser -> {
-               presenter.doDelete()
-            }
+            R.id.item_deleteUser -> presenter.doDelete()
 
             // Logout - return the user to the AuthenticationActivity
-            R.id.nav_sign_out -> {
-                presenter.doLogout()
-            }
-
+            R.id.nav_sign_out -> presenter.doLogout()
         }
         return super.onOptionsItemSelected(item)
     }

@@ -10,7 +10,9 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Marker
 import kotlinx.android.synthetic.main.activity_hillfort.*
 import kotlinx.android.synthetic.main.activity_hillfort_maps.*
+import kotlinx.android.synthetic.main.activity_hillfort_maps.bottom_navigation
 import kotlinx.android.synthetic.main.activity_hillfort_maps.mapView
+import kotlinx.android.synthetic.main.activity_settings.*
 import kotlinx.android.synthetic.main.card_hillfort.*
 import org.jetbrains.anko.info
 import org.wit.hillfort.R
@@ -38,6 +40,16 @@ class HillfortMapView : BaseView(), GoogleMap.OnMarkerClickListener {
             map.setOnMarkerClickListener(this)
             presenter.loadHillforts()
         }
+
+        bottom_navigation.setOnNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.bottomMain -> {presenter.doViewHillforts()
+                    true}
+                R.id.bottomFavourites -> {presenter.doViewFavourites()
+                 true}
+                else -> false
+            }
+        }
     }
 
     override fun showHillfort(hillfort: HillfortModel) {
@@ -52,8 +64,9 @@ class HillfortMapView : BaseView(), GoogleMap.OnMarkerClickListener {
         currentName.text = hillfort.name
         currentDescription.text = hillfort.description
 
-        Glide.with(this).load(hillfort.images[0]).into(currentImage);
-
+        if(hillfort.images.size>0) {
+            Glide.with(this).load(hillfort.images[0]).into(currentImage);
+        }
         buttonMapEditCurrentHillfort.setOnClickListener(){
             presenter.doEditHillfort(hillfort)
         }

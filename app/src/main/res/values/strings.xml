@@ -84,5 +84,9 @@
     <string name="title_activity_location">Hillfort</string>
     <string name="map_current_visited">"Date Visited:"</string>
     <string name="button_map_edit_current_hillfort">Edit Hillfort</string>
-
+    <string name="bottom_menu_favourites">Favourites</string>
+    <string name="bottom_menu_home">Home</string>
+    <string name="bottom_menu_map">Map</string>
+    <string name="fav_checkbox">Favourite</string>
+    <string name="search_hint">Search Hillforts</string>
 </resources>
