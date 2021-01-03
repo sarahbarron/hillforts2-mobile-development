@@ -124,7 +124,7 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
 
         sendEmailBtn.setOnClickListener{
             val email = emailAddress.text.toString()
-            val subject = hillfortName.text.toString()
+            val subject = "Hillfort: "+hillfortName.text.toString()
             val name = hillfortName.text.toString().trim()
             val description = hillfortDescription.text.toString().trim()
             val notes = hillfortDescription.text.toString().trim()
@@ -132,7 +132,6 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
             val lng = hillfortLng.text.toString().trim()
             val rating = hillfortRating.rating
             val message = "Hillfort Name: \t $name,\n Description: \t $description,\n Notes: \t $notes, \n Location:\t $lat lat, $lng lng, \n Rating: \t $rating"
-
             sendEmail(email, subject, message)
         }
 
@@ -151,22 +150,29 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
     }
 
     fun sendEmail(email: String, subject: String, message: String){
-        // launch email client
-        val mIntent = Intent(Intent.ACTION_SEND)
-        mIntent.data = Uri.parse("mailto:")
-        mIntent.type = "text/plain"
-        // set the email address you want to email too
-        mIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(email))
-        //set the subject
-        mIntent.putExtra(Intent.EXTRA_SUBJECT, subject)
-        // set the message
-        mIntent.putExtra(Intent.EXTRA_TEXT, message)
 
-        try{
-            startActivity(Intent.createChooser(mIntent, "Choose Email Client..."))
-        }catch (e: Exception){
-           toast("Error sending email: "+e.message)
-        }
+            // launch email client
+            val mIntent = Intent(Intent.ACTION_SEND)
+            mIntent.data = Uri.parse("mailto:")
+            mIntent.type = "text/plain"
+            // set the email address you want to email too
+            mIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(email))
+            //set the subject
+            mIntent.putExtra(Intent.EXTRA_SUBJECT, subject)
+            // set the message
+            mIntent.putExtra(Intent.EXTRA_TEXT, message)
+
+            try {
+                startActivity(Intent.createChooser(mIntent, "Choose Email Client..."))
+
+            } catch (e: Exception) {
+                toast("Error sending email: " + e.message)
+            }
+
+        btnDeleteHillfort.visibility = View.VISIBLE
+        shareBtn.visibility = View.VISIBLE
+        emailAddress.visibility = View.INVISIBLE
+        sendEmailBtn.visibility = View.INVISIBLE
     }
 
     override fun showHillfort(hillfort: HillfortModel) {
