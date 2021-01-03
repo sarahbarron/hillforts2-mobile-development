@@ -89,4 +89,7 @@
     <string name="bottom_menu_map">Map</string>
     <string name="fav_checkbox">Favourite</string>
     <string name="search_hint">Search Hillforts</string>
+    <string name="btn_share">Share</string>
+    <string name="btn_send">Send</string>
+    <string name="hint_input_email_address">Enter Email Address</string>
 </resources>

@@ -7,11 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.google.firebase.auth.FirebaseAuth
 import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.info
-
 import org.wit.hillfort.models.HillfortModel
 import org.wit.hillfort.models.Location
-import org.wit.hillfort.views.BasePresenter
 import org.wit.hillfort.views.authenetication.LoginView
 import org.wit.hillfort.views.location.EditLocationView
 import org.wit.hillfort.views.map.HillfortMapView
@@ -42,6 +39,7 @@ open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
             VIEW.LOGIN -> intent = Intent(this, LoginView::class.java)
             VIEW.IMAGE -> intent = Intent(this, ImageView::class.java)
             VIEW.SETTINGS -> intent = Intent(this, UserSettingsView::class.java)
+
         }
         if (key != "") {
             intent.putExtra(key, value)

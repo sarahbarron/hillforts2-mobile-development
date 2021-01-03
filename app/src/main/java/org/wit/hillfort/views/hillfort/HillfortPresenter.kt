@@ -2,6 +2,9 @@ package org.wit.hillfort.views.hillfort
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.net.Uri
+import android.view.View
+import androidx.core.content.ContextCompat.startActivity
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
@@ -11,6 +14,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_hillfort.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import org.wit.hillfort.helpers.checkLocationPermissions
@@ -19,8 +23,8 @@ import org.wit.hillfort.helpers.isPermissionGranted
 import org.wit.hillfort.helpers.showImagePicker
 import org.wit.hillfort.models.Location
 import org.wit.hillfort.models.HillfortModel
-import org.wit.hillfort.models.firebase.HillfortFireStore
 import org.wit.hillfort.views.*
+import java.lang.Exception
 
 class HillfortPresenter(view: BaseView) : BasePresenter(view) {
 
@@ -35,6 +39,8 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
     init {
         if (view.intent.hasExtra("hillfort_edit")) {
             edit = true
+            view.btnDeleteHillfort.visibility = View.VISIBLE
+            view.shareBtn.visibility = View.VISIBLE
             hillfort = view.intent.extras?.getParcelable<HillfortModel>("hillfort_edit")!!
             view.showHillfort(hillfort)
         } else {
@@ -189,6 +195,7 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
             }
         }
     }
+
 
     fun doViewFavourites(){ view?.navigateTo(VIEW.LIST, 0, "hillfort_favourite") }
     fun doViewHillfortsMap(){view?.navigateTo(VIEW.MAPS)}
