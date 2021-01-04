@@ -2,9 +2,13 @@ package org.wit.hillfort.views.hillfort
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.net.Uri
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.provider.MediaStore
 import android.view.View
-import androidx.core.content.ContextCompat.startActivity
+import android.widget.Toast
+import org.jetbrains.anko.*
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
@@ -17,14 +21,11 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_hillfort.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
-import org.wit.hillfort.helpers.checkLocationPermissions
-import org.wit.hillfort.helpers.createDefaultLocationRequest
-import org.wit.hillfort.helpers.isPermissionGranted
-import org.wit.hillfort.helpers.showImagePicker
+import org.wit.hillfort.helpers.*
 import org.wit.hillfort.models.Location
 import org.wit.hillfort.models.HillfortModel
 import org.wit.hillfort.views.*
-import java.lang.Exception
+
 
 class HillfortPresenter(view: BaseView) : BasePresenter(view) {
 
@@ -158,6 +159,12 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
             }
     }
 
+    fun doSelectCameraImage(){
+        view?.let{
+            showCameraPicker(view!!, CAMERA_REQUEST)
+        }
+    }
+
     fun doSetLocation() {
         locationManualyChanged = true;
         view?.navigateTo(VIEW.LOCATION, LOCATION_REQUEST, "location", Location(hillfort.location.lat, hillfort.location.lng, hillfort.location.zoom))
@@ -175,6 +182,14 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
                         hillfort.images.add(data.getData().toString())
 
                     view?.showHillfort(hillfort)
+                }
+            }
+            CAMERA_REQUEST ->{
+                if(data!=null){
+                    hillfort.images.add(data.data.toString())
+//                    hillfort.images.add(data?.extras?.get("data").toString())
+                    view?.showHillfort(hillfort)
+
                 }
             }
             LOCATION_REQUEST -> {
@@ -195,7 +210,6 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
             }
         }
     }
-
 
     fun doViewFavourites(){ view?.navigateTo(VIEW.LIST, 0, "hillfort_favourite") }
     fun doViewHillfortsMap(){view?.navigateTo(VIEW.MAPS)}
