@@ -1,18 +1,13 @@
 package org.wit.hillfort.views.hillfort
-import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.CheckBox
 import android.widget.RatingBar
-import androidx.core.app.ActivityCompat
 import androidx.core.app.TaskStackBuilder
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.maps.GoogleMap
 import org.wit.hillfort.R
@@ -26,10 +21,10 @@ import org.wit.hillfort.activities.ImageAdapter
 import org.wit.hillfort.activities.ImageListener
 import org.wit.hillfort.models.Location
 import org.wit.hillfort.views.BaseView
-import org.wit.hillfort.views.CAMERA_REQUEST
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+import androidx.core.content.FileProvider
 
 
 class HillfortView : BaseView(), AnkoLogger, ImageListener {

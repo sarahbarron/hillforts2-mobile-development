@@ -2,13 +2,7 @@ package org.wit.hillfort.views.hillfort
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.provider.MediaStore
 import android.view.View
-import android.widget.Toast
-import org.jetbrains.anko.*
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
@@ -25,6 +19,7 @@ import org.wit.hillfort.helpers.*
 import org.wit.hillfort.models.Location
 import org.wit.hillfort.models.HillfortModel
 import org.wit.hillfort.views.*
+import androidx.core.content.FileProvider
 
 
 class HillfortPresenter(view: BaseView) : BasePresenter(view) {
@@ -160,9 +155,11 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
     }
 
     fun doSelectCameraImage(){
-        view?.let{
-            showCameraPicker(view!!, CAMERA_REQUEST)
-        }
+        if(checkImagePersmission(view!!)) {
+            view?.let {
+                showCameraPicker(view!!, CAMERA_REQUEST)
+            }
+        }else requestImagePermission(view!!)
     }
 
     fun doSetLocation() {
@@ -186,9 +183,10 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
             }
             CAMERA_REQUEST ->{
                 if(data!=null){
-                    hillfort.images.add(data.data.toString())
-//                    hillfort.images.add(data?.extras?.get("data").toString())
-                    view?.showHillfort(hillfort)
+                    hillfort.images.add(getCurrentPhotoPath()!!)
+              //        hillfort.images.add(getCurrentPhotoPath()!!)
+           //         hillfort.images.add(data.data.toString())
+             //       view?.showHillfort(hillfort)
 
                 }
             }
@@ -198,6 +196,12 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
                 locationUpdate(location)
             }
         }
+    }
+
+
+    // return current photo path
+    fun getCurrentPhotoPath(): String? {
+        return mCurrentPhotoPath
     }
 
     fun getImages()= hillfort.images
