@@ -1,19 +1,13 @@
 package org.wit.hillfort.views.hillfort
 import android.content.Intent
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.CheckBox
-import android.widget.Checkable
 import android.widget.RatingBar
-import android.widget.Toast
 import androidx.core.app.TaskStackBuilder
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.maps.GoogleMap
 import org.wit.hillfort.R
@@ -21,10 +15,7 @@ import kotlinx.android.synthetic.main.activity_hillfort.*
 import org.wit.hillfort.models.HillfortModel
 import kotlinx.android.synthetic.main.activity_hillfort.hillfortName
 import kotlinx.android.synthetic.main.activity_hillfort.mapView
-import kotlinx.android.synthetic.main.activity_hillfort_maps.*
 import kotlinx.android.synthetic.main.activity_hillfort_maps.bottom_navigation
-import kotlinx.android.synthetic.main.activity_settings.*
-import kotlinx.android.synthetic.main.activity_settings.view.*
 import org.jetbrains.anko.*
 import org.wit.hillfort.activities.ImageAdapter
 import org.wit.hillfort.activities.ImageListener
@@ -33,13 +24,13 @@ import org.wit.hillfort.views.BaseView
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+import androidx.core.content.FileProvider
 
 
 class HillfortView : BaseView(), AnkoLogger, ImageListener {
 
     lateinit var presenter: HillfortPresenter
     var hillfort = HillfortModel()
-    val DELETE_IMAGE = 3
     lateinit var map: GoogleMap
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,6 +58,19 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
                     hillfortFavourite.isChecked
                 )
                 presenter.doSelectImage()
+        }
+
+        btn_camera.setOnClickListener {
+            presenter.cacheHillfort(
+                hillfortName.text.toString(),
+                hillfortDescription.text.toString(),
+                hillfortNotes.text.toString(),
+                visitedHillfort.isChecked,
+                dateVisited.text.toString(),
+                hillfortRating.rating,
+                hillfortFavourite.isChecked
+            )
+            presenter.doSelectCameraImage()
         }
 
         hillfortLocation.setOnClickListener{

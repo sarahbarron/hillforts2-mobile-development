@@ -2,9 +2,7 @@ package org.wit.hillfort.views.hillfort
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.net.Uri
 import android.view.View
-import androidx.core.content.ContextCompat.startActivity
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
@@ -17,14 +15,12 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_hillfort.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
-import org.wit.hillfort.helpers.checkLocationPermissions
-import org.wit.hillfort.helpers.createDefaultLocationRequest
-import org.wit.hillfort.helpers.isPermissionGranted
-import org.wit.hillfort.helpers.showImagePicker
+import org.wit.hillfort.helpers.*
 import org.wit.hillfort.models.Location
 import org.wit.hillfort.models.HillfortModel
 import org.wit.hillfort.views.*
-import java.lang.Exception
+import androidx.core.content.FileProvider
+
 
 class HillfortPresenter(view: BaseView) : BasePresenter(view) {
 
@@ -158,6 +154,14 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
             }
     }
 
+    fun doSelectCameraImage(){
+        if(checkImagePersmission(view!!)) {
+            view?.let {
+                showCameraPicker(view!!, CAMERA_REQUEST)
+            }
+        }else requestImagePermission(view!!)
+    }
+
     fun doSetLocation() {
         locationManualyChanged = true;
         view?.navigateTo(VIEW.LOCATION, LOCATION_REQUEST, "location", Location(hillfort.location.lat, hillfort.location.lng, hillfort.location.zoom))
@@ -177,12 +181,27 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
                     view?.showHillfort(hillfort)
                 }
             }
+            CAMERA_REQUEST ->{
+                if(data!=null){
+                    hillfort.images.add(getCurrentPhotoPath()!!)
+              //        hillfort.images.add(getCurrentPhotoPath()!!)
+           //         hillfort.images.add(data.data.toString())
+             //       view?.showHillfort(hillfort)
+
+                }
+            }
             LOCATION_REQUEST -> {
                 val location = data.extras?.getParcelable<Location>("location")!!
                 hillfort.location = location
                 locationUpdate(location)
             }
         }
+    }
+
+
+    // return current photo path
+    fun getCurrentPhotoPath(): String? {
+        return mCurrentPhotoPath
     }
 
     fun getImages()= hillfort.images
@@ -195,7 +214,6 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
             }
         }
     }
-
 
     fun doViewFavourites(){ view?.navigateTo(VIEW.LIST, 0, "hillfort_favourite") }
     fun doViewHillfortsMap(){view?.navigateTo(VIEW.MAPS)}
