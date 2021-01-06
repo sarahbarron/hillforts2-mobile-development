@@ -57,20 +57,23 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
                     hillfortRating.rating,
                     hillfortFavourite.isChecked
                 )
-                presenter.doSelectImage()
+                val lessThanFourImages = presenter.doSelectImage()
+                if(!lessThanFourImages)toast("Max number of images saved")
         }
 
         btn_camera.setOnClickListener {
-            presenter.cacheHillfort(
-                hillfortName.text.toString(),
-                hillfortDescription.text.toString(),
-                hillfortNotes.text.toString(),
-                visitedHillfort.isChecked,
-                dateVisited.text.toString(),
-                hillfortRating.rating,
-                hillfortFavourite.isChecked
-            )
-            presenter.doSelectCameraImage()
+                presenter.cacheHillfort(
+                    hillfortName.text.toString(),
+                    hillfortDescription.text.toString(),
+                    hillfortNotes.text.toString(),
+                    visitedHillfort.isChecked,
+                    dateVisited.text.toString(),
+                    hillfortRating.rating,
+                    hillfortFavourite.isChecked
+                )
+                val lessThanFourImages = presenter.doSelectCameraImage()
+                if (!lessThanFourImages)toast("Max number of images saved")
+
         }
 
         hillfortLocation.setOnClickListener{

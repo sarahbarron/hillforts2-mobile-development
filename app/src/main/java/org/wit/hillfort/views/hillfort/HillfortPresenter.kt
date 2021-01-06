@@ -31,6 +31,7 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
     var locationService: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(view)
     val locationRequest = createDefaultLocationRequest()
     var locationManualyChanged = false;
+    var image_count = 0;
 
     init {
         if (view.intent.hasExtra("hillfort_edit")) {
@@ -123,6 +124,7 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
             } else {
                 app.hillforts.create(hillfort)
             }
+            image_count = 0
             uiThread {
                 view?.finish()
             }
@@ -148,18 +150,26 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
         view?.navigateTo(VIEW.LOGIN)
     }
 
-    fun doSelectImage() {
+    fun doSelectImage():Boolean{
+        if(hillfort.images.size < 4) {
             view?.let {
                 showImagePicker(view!!, IMAGE_REQUEST)
             }
+            return true
+        }
+        return false
     }
 
-    fun doSelectCameraImage(){
-        if(checkImagePersmission(view!!)) {
-            view?.let {
-                showCameraPicker(view!!, CAMERA_REQUEST)
-            }
-        }else requestImagePermission(view!!)
+    fun doSelectCameraImage():Boolean{
+        if(hillfort.images.size < 4) {
+            if (checkImagePersmission(view!!)) {
+                view?.let {
+                    showCameraPicker(view!!, CAMERA_REQUEST)
+                }
+            } else requestImagePermission(view!!)
+            return true
+        }
+        return false
     }
 
     fun doSetLocation() {
@@ -184,10 +194,6 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
             CAMERA_REQUEST ->{
                 if(data!=null){
                     hillfort.images.add(getCurrentPhotoPath()!!)
-              //        hillfort.images.add(getCurrentPhotoPath()!!)
-           //         hillfort.images.add(data.data.toString())
-             //       view?.showHillfort(hillfort)
-
                 }
             }
             LOCATION_REQUEST -> {
