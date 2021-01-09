@@ -45,7 +45,7 @@
     <string name="hillfort_lat">Location Lat</string>
     <string name="hillfort_lng">Location Lng</string>
     <string name="image_message"></string>
-    <string name="title_activity_hillfort_maps">Map of Hillforts</string>
+    <string name="title_activity_hillfort_maps">Map</string>
     <string name="menu_mapHillforts">All Hillforts Map</string>
     <string name="hillfort_image_placeholder">Hillfort Image</string>
     <string name="hillfort_description_placeholder">Hillfort Description</string>
