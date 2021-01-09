@@ -63,8 +63,9 @@ class HillfortFireStore(val context: Context) : HillfortStore, AnkoLogger {
     }
 
     override fun delete(hillfort: HillfortModel) {
+        hillforts.remove(hillfort)
         db.child("users").child(userId).child("hillforts").child(hillfort.fbId).removeValue()
-        findAll()
+
     }
 
     override fun visited(hillfort: HillfortModel, boolean: Boolean, date: String) {
