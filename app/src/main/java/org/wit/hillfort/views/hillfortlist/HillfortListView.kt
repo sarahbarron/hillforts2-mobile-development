@@ -111,10 +111,15 @@ class HillfortListView : BaseView(), HillfortListener, AnkoLogger{
 
     override fun onFavouriteButtonClick(hillfort: HillfortModel) {
         if(hillfort.favourite) {
-             btnFavourite.setColorFilter(Color.LTGRAY);
+            btnFavourite.setColorFilter(Color.LTGRAY);
+            presenter.doSetFavourite(hillfort, false)
+            presenter.loadHillforts()
 
-            // btnFavourite.setColorFilter(Color.argb(100, 255, 255, 255));
-            presenter.doSetFavourite(hillfort)
+        }
+        else{
+           btnFavourite.setColorFilter(Color.RED)
+            presenter.doSetFavourite(hillfort,true)
+            presenter.loadHillforts()
         }
     }
     // Refreshes the view when a hillfort is updated

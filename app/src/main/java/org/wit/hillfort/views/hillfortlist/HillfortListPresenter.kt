@@ -80,13 +80,8 @@ class HillfortListPresenter(view: BaseView): BasePresenter(view) {
        }
     }
 
-    fun doSetFavourite(hillfort: HillfortModel){
-        if (hillfort.favourite)
-        {
-            hillfort.favourite = false
-         //   app.hillforts.setFavourite(hillfort, false)
-
-        }
+    fun doSetFavourite(hillfort: HillfortModel, favourite: Boolean){
+       app.hillforts.setFavourite(hillfort, favourite)
     }
 
     fun doViewFavourites(){ view?.navigateTo(VIEW.LIST, 0, "hillfort_favourite") }
