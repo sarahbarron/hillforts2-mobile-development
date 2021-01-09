@@ -7,7 +7,7 @@
     <string name="menu_cancelHillfort">Cancel</string>
     <string name="enter_hillfort_name"> Please enter a Hillfort name </string>
     <string name="save_hillfort"> Save Hillfort</string>
-    <string name="button_addImage"> Add Image </string>
+    <string name="button_addImage"> Upload Image </string>
     <string name="select_hillfort_image">Select hillfort image</string>
     <string name="change_hillfort_image">Change Hillfort Image</string>
     <string name="add_four_hillfort_image">Add Another Image</string>
@@ -45,7 +45,7 @@
     <string name="hillfort_lat">Location Lat</string>
     <string name="hillfort_lng">Location Lng</string>
     <string name="image_message"></string>
-    <string name="title_activity_hillfort_maps">Map of Hillforts</string>
+    <string name="title_activity_hillfort_maps">Map</string>
     <string name="menu_mapHillforts">All Hillforts Map</string>
     <string name="hillfort_image_placeholder">Hillfort Image</string>
     <string name="hillfort_description_placeholder">Hillfort Description</string>
@@ -89,4 +89,8 @@
     <string name="bottom_menu_map">Map</string>
     <string name="fav_checkbox">Favourite</string>
     <string name="search_hint">Search Hillforts</string>
+    <string name="btn_share">Share</string>
+    <string name="btn_send">Send</string>
+    <string name="hint_input_email_address">Enter Email Address</string>
+    <string name="btn_camera">Camera</string>
 </resources>

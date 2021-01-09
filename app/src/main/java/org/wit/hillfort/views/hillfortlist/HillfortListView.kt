@@ -1,6 +1,7 @@
 package org.wit.hillfort.views.hillfortlist
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.*
 import android.widget.SearchView
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_hillfort_list.*
 import kotlinx.android.synthetic.main.activity_hillfort_list.bottom_navigation
 import kotlinx.android.synthetic.main.activity_settings.*
+import kotlinx.android.synthetic.main.card_hillfort.*
 import org.jetbrains.anko.*
 import org.wit.hillfort.R
 import org.wit.hillfort.activities.HillfortAdapter
@@ -105,7 +107,20 @@ class HillfortListView : BaseView(), HillfortListener, AnkoLogger{
         else{
             presenter.doSetVisted(hillfort, false)
         }
+    }
 
+    override fun onFavouriteButtonClick(hillfort: HillfortModel) {
+        if(hillfort.favourite) {
+            btnFavourite.setColorFilter(Color.LTGRAY);
+            presenter.doSetFavourite(hillfort, false)
+            presenter.loadHillforts()
+
+        }
+        else{
+           btnFavourite.setColorFilter(Color.RED)
+            presenter.doSetFavourite(hillfort,true)
+            presenter.loadHillforts()
+        }
     }
     // Refreshes the view when a hillfort is updated
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -117,4 +132,6 @@ class HillfortListView : BaseView(), HillfortListener, AnkoLogger{
     override fun onBackPressed() {
         longToast("Logout from the menu to go back")
     }
+
+
 }

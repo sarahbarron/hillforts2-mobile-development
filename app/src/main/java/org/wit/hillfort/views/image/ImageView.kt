@@ -26,7 +26,6 @@ class ImageView: BaseView(), AnkoLogger {
 
         // retrieve the image and hillfort from the intent
         if(intent.hasExtra("image") && intent.hasExtra("hillfort")) {
-
             image = intent.extras?.getString("image")!!
             hillfort = intent.extras?.getParcelable<HillfortModel>("hillfort")!!
 

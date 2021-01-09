@@ -30,4 +30,8 @@ interface HillfortDao {
 
     @Query("SELECT * FROM HillfortModel where name=:text")
     fun search(text: String?): List<HillfortModel>
+
+//    @Update
+//    fun visited(hillfort: HillfortModel, visited: Boolean, date: String)
+
 }

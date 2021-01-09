@@ -1,17 +1,13 @@
 package org.wit.hillfort.views.hillfort
 import android.content.Intent
-import android.content.res.ColorStateList
-import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.CheckBox
-import android.widget.Checkable
 import android.widget.RatingBar
 import androidx.core.app.TaskStackBuilder
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.maps.GoogleMap
 import org.wit.hillfort.R
@@ -19,10 +15,7 @@ import kotlinx.android.synthetic.main.activity_hillfort.*
 import org.wit.hillfort.models.HillfortModel
 import kotlinx.android.synthetic.main.activity_hillfort.hillfortName
 import kotlinx.android.synthetic.main.activity_hillfort.mapView
-import kotlinx.android.synthetic.main.activity_hillfort_maps.*
 import kotlinx.android.synthetic.main.activity_hillfort_maps.bottom_navigation
-import kotlinx.android.synthetic.main.activity_settings.*
-import kotlinx.android.synthetic.main.activity_settings.view.*
 import org.jetbrains.anko.*
 import org.wit.hillfort.activities.ImageAdapter
 import org.wit.hillfort.activities.ImageListener
@@ -31,13 +24,13 @@ import org.wit.hillfort.views.BaseView
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlinx.android.synthetic.main.activity_hillfort.hillfortDescription
 
 
 class HillfortView : BaseView(), AnkoLogger, ImageListener {
 
     lateinit var presenter: HillfortPresenter
     var hillfort = HillfortModel()
-    val DELETE_IMAGE = 3
     lateinit var map: GoogleMap
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,7 +57,23 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
                     hillfortRating.rating,
                     hillfortFavourite.isChecked
                 )
-                presenter.doSelectImage()
+                val lessThanFourImages = presenter.doSelectImage()
+                if(!lessThanFourImages)toast("Max number of images saved")
+        }
+
+        btn_camera.setOnClickListener {
+                presenter.cacheHillfort(
+                    hillfortName.text.toString(),
+                    hillfortDescription.text.toString(),
+                    hillfortNotes.text.toString(),
+                    visitedHillfort.isChecked,
+                    dateVisited.text.toString(),
+                    hillfortRating.rating,
+                    hillfortFavourite.isChecked
+                )
+                val lessThanFourImages = presenter.doSelectCameraImage()
+                if (!lessThanFourImages)toast("Max number of images saved")
+
         }
 
         hillfortLocation.setOnClickListener{
@@ -113,6 +122,27 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
             presenter.doDelete()
         }
 
+        shareBtn.setOnClickListener{
+            btnDeleteHillfort.visibility = View.INVISIBLE
+            shareBtn.visibility = View.INVISIBLE
+            emailAddress.visibility = View.VISIBLE
+            sendEmailBtn.visibility = View.VISIBLE
+        }
+
+        sendEmailBtn.setOnClickListener{
+            val email = emailAddress.text.toString()
+            val subject = "Hillfort: "+hillfortName.text.toString()
+            val name = hillfortName.text.toString().trim()
+            val description = hillfortDescription.text.toString().trim()
+            val notes = hillfortDescription.text.toString().trim()
+            val lat = hillfortLat.text.toString().trim()
+            val lng = hillfortLng.text.toString().trim()
+            val rating = hillfortRating.rating
+            val message = "Hillfort Name: \t $name,\n Description: \t $description,\n Notes: \t $notes, \n Location:\t $lat lat, $lng lng, \n Rating: \t $rating"
+            sendEmail(email, subject, message)
+        }
+
+
         bottom_navigation.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.bottomMain -> {presenter.doViewHillforts()
@@ -124,6 +154,32 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
                 else -> false
             }
         }
+    }
+
+    fun sendEmail(email: String, subject: String, message: String){
+
+            // launch email client
+            val mIntent = Intent(Intent.ACTION_SEND)
+            mIntent.data = Uri.parse("mailto:")
+            mIntent.type = "text/plain"
+            // set the email address you want to email too
+            mIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf(email))
+            //set the subject
+            mIntent.putExtra(Intent.EXTRA_SUBJECT, subject)
+            // set the message
+            mIntent.putExtra(Intent.EXTRA_TEXT, message)
+
+            try {
+                startActivity(Intent.createChooser(mIntent, "Choose Email Client..."))
+
+            } catch (e: Exception) {
+                toast("Error sending email: " + e.message)
+            }
+
+        btnDeleteHillfort.visibility = View.VISIBLE
+        shareBtn.visibility = View.VISIBLE
+        emailAddress.visibility = View.INVISIBLE
+        sendEmailBtn.visibility = View.INVISIBLE
     }
 
     override fun showHillfort(hillfort: HillfortModel) {
@@ -206,9 +262,11 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onImageClick(image: String){
-//        startActivityForResult(intentFor<ImageActivity>().putExtra("image", image),DELETE_IMAGE)
+    override fun onDeleteImage(image: String) {
+        info("image: $image")
+        presenter.doDeleteImage(image)
     }
+
 
 //   Functions needed to return the user to the HillfortListView after the Up navigation is pressed
     override fun onPrepareSupportNavigateUpTaskStack(builder: TaskStackBuilder) {
@@ -237,6 +295,19 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
                        presenter.doSetVisited(false, "")
                         dateVisited.setText("")
                     }
+                }
+            }
+        }
+    }
+
+    fun onFavCheckboxClicked(view:View){
+        if(view is CheckBox){
+            val checked: Boolean = view.isChecked
+
+            when(view.id){
+                R.id.hillfortFavourite ->{
+                    if(checked)presenter.doSetFavourite(true)
+                    else presenter.doSetFavourite(false)
                 }
             }
         }

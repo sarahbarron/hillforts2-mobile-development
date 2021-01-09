@@ -7,11 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.google.firebase.auth.FirebaseAuth
 import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.info
-
 import org.wit.hillfort.models.HillfortModel
 import org.wit.hillfort.models.Location
-import org.wit.hillfort.views.BasePresenter
 import org.wit.hillfort.views.authenetication.LoginView
 import org.wit.hillfort.views.location.EditLocationView
 import org.wit.hillfort.views.map.HillfortMapView
@@ -22,6 +19,8 @@ import org.wit.hillfort.views.usersettings.UserSettingsView
 
 val IMAGE_REQUEST = 1
 val LOCATION_REQUEST = 2
+val CAMERA_REQUEST=3
+var mCurrentPhotoPath: String? = null;
 
 enum class VIEW {
     LOCATION, HILLFORT, MAPS, LIST, LOGIN, IMAGE, SETTINGS
@@ -40,13 +39,26 @@ open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
             VIEW.MAPS -> intent = Intent(this, HillfortMapView::class.java)
             VIEW.LIST -> intent = Intent(this, HillfortListView::class.java)
             VIEW.LOGIN -> intent = Intent(this, LoginView::class.java)
-            VIEW.IMAGE -> intent = Intent(this, ImageView::class.java)
+
             VIEW.SETTINGS -> intent = Intent(this, UserSettingsView::class.java)
+
         }
         if (key != "") {
             intent.putExtra(key, value)
         }
         startActivityForResult(intent, code)
+    }
+
+    fun navigateToImage(view: VIEW, code: Int = 0, key: String = "", value: Parcelable? = null, image: String = "", imageString: String) {
+        var intent = Intent(this, HillfortListView::class.java)
+        when(view) {
+            VIEW.IMAGE -> intent = Intent(this, ImageView::class.java)
+        }
+        if (key != "") {
+            intent.putExtra(key, value).putExtra(image,imageString)
+        }
+        startActivityForResult(intent, code)
+
     }
 
     fun init(toolbar: Toolbar, upEnabled: Boolean) {

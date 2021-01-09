@@ -2,6 +2,7 @@ package org.wit.hillfort.views.hillfort
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.view.View
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
@@ -11,16 +12,15 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_hillfort.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
-import org.wit.hillfort.helpers.checkLocationPermissions
-import org.wit.hillfort.helpers.createDefaultLocationRequest
-import org.wit.hillfort.helpers.isPermissionGranted
-import org.wit.hillfort.helpers.showImagePicker
+import org.wit.hillfort.helpers.*
 import org.wit.hillfort.models.Location
 import org.wit.hillfort.models.HillfortModel
-import org.wit.hillfort.models.firebase.HillfortFireStore
 import org.wit.hillfort.views.*
+import androidx.core.content.FileProvider
+
 
 class HillfortPresenter(view: BaseView) : BasePresenter(view) {
 
@@ -32,9 +32,12 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
     val locationRequest = createDefaultLocationRequest()
     var locationManualyChanged = false;
 
+
     init {
         if (view.intent.hasExtra("hillfort_edit")) {
             edit = true
+            view.btnDeleteHillfort.visibility = View.VISIBLE
+            view.shareBtn.visibility = View.VISIBLE
             hillfort = view.intent.extras?.getParcelable<HillfortModel>("hillfort_edit")!!
             view.showHillfort(hillfort)
         } else {
@@ -133,7 +136,13 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
 
     fun doDelete() {
         doAsync {
+            for(image in hillfort.images)
+            {
+                doDeleteImage(image)
+            }
+
             app.hillforts.delete(hillfort)
+
             uiThread {
                 view?.finish()
             }
@@ -146,10 +155,26 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
         view?.navigateTo(VIEW.LOGIN)
     }
 
-    fun doSelectImage() {
+    fun doSelectImage():Boolean{
+        if(hillfort.images.size < 4) {
             view?.let {
                 showImagePicker(view!!, IMAGE_REQUEST)
             }
+            return true
+        }
+        return false
+    }
+
+    fun doSelectCameraImage():Boolean{
+        if(hillfort.images.size < 4) {
+            if (checkImagePersmission(view!!)) {
+                view?.let {
+                    showCameraPicker(view!!, CAMERA_REQUEST)
+                }
+            } else requestImagePermission(view!!)
+            return true
+        }
+        return false
     }
 
     fun doSetLocation() {
@@ -157,17 +182,38 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
         view?.navigateTo(VIEW.LOCATION, LOCATION_REQUEST, "location", Location(hillfort.location.lat, hillfort.location.lng, hillfort.location.zoom))
     }
 
+    fun doViewImage(image: String){
+
+        view?.navigateToImage(VIEW.IMAGE, 0, "hillfort" , hillfort, "image", image)
+    }
+
+    fun doDeleteImage(image:String){
+        app.hillforts.deleteImage(hillfort.copy(), image)
+        loadImages()
+    }
+
+
     fun doSetVisited(visited: Boolean, date: String){
         hillfort.visited = visited;
         hillfort.date = date;
+    }
+
+    fun doSetFavourite(favourite: Boolean)
+    {
+        hillfort.favourite = favourite;
     }
 
     override fun doActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         when (requestCode) {
             IMAGE_REQUEST -> {
                 if(data!=null) {
-                        hillfort.images.add(data.getData().toString())
-
+                    hillfort.images.add(data.getData().toString())
+                    view?.showHillfort(hillfort)
+                }
+            }
+            CAMERA_REQUEST ->{
+                if(data!=null){
+                    hillfort.images.add(getCurrentPhotoPath()!!)
                     view?.showHillfort(hillfort)
                 }
             }
@@ -177,6 +223,12 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
                 locationUpdate(location)
             }
         }
+    }
+
+
+    // return current photo path
+    fun getCurrentPhotoPath(): String? {
+        return mCurrentPhotoPath
     }
 
     fun getImages()= hillfort.images

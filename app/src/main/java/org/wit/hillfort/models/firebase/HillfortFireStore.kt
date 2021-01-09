@@ -2,11 +2,14 @@ package org.wit.hillfort.models.firebase
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import org.jetbrains.anko.AnkoLogger
+import org.jetbrains.anko.*
 import org.wit.hillfort.helpers.readImageFromPath
 import org.wit.hillfort.models.HillfortModel
 import org.wit.hillfort.models.HillfortStore
@@ -55,22 +58,29 @@ class HillfortFireStore(val context: Context) : HillfortStore, AnkoLogger {
         }
 
         db.child("users").child(userId).child("hillforts").child(hillfort.fbId).setValue(hillfort)
-        updateImages(hillfort)
+        if(hillfort.images.size >0 ) updateImages(hillfort)
 
     }
 
     override fun delete(hillfort: HillfortModel) {
-        db.child("users").child(userId).child("hillforts").child(hillfort.fbId).removeValue()
         hillforts.remove(hillfort)
+        db.child("users").child(userId).child("hillforts").child(hillfort.fbId).removeValue()
+
     }
 
-    override fun visited(hillfort: HillfortModel, boolean: Boolean) {
-        TODO("Not yet implemented")
+    override fun visited(hillfort: HillfortModel, boolean: Boolean, date: String) {
+        db.child("users").child(userId).child("hillforts").child(hillfort.fbId).child("visited").setValue(boolean)
+        db.child("users").child(userId).child("hillforts").child(hillfort.fbId).child("date").setValue(date)
+        hillfort.visited = boolean
+        hillfort.date = date
+       // findAll()
     }
 
-    override fun deleteImage(hillfort: HillfortModel, image: String) {
-        TODO("Not yet implemented")
+    override fun setFavourite(hillfort: HillfortModel, boolean: Boolean) {
+        db.child("users").child(userId).child("hillforts").child(hillfort.fbId).child("visited").setValue(boolean)
+        hillfort.favourite=boolean
     }
+
 
     override fun findOne(hillfort: HillfortModel): HillfortModel {
         TODO("Not yet implemented")
@@ -80,6 +90,21 @@ class HillfortFireStore(val context: Context) : HillfortStore, AnkoLogger {
        db.child("users").child(userId).removeValue()
     }
 
+
+    override fun deleteImage(hillfort: HillfortModel,image: String) {
+
+        if (image.startsWith("https://firebasestorage.googleapis.com/")) {
+            val imageRef: StorageReference =
+                FirebaseStorage.getInstance().getReferenceFromUrl(image)
+            info(imageRef)
+            imageRef.delete().addOnSuccessListener {
+                Toast.makeText(context, "Image Deleted", Toast.LENGTH_LONG)
+            }.addOnFailureListener {
+                Toast.makeText(context, "Failed to Delete Image", Toast.LENGTH_LONG)
+            }
+        }
+        hillfort.images.remove(image)
+    }
 
     override fun clear() {
         hillforts.clear()
@@ -122,27 +147,39 @@ class HillfortFireStore(val context: Context) : HillfortStore, AnkoLogger {
             .addListenerForSingleValueEvent(valueEventListener)
     }
 
+
     fun updateImages(hillfort: HillfortModel) {
             for (image in hillfort.images) {
-                val fileName = File(image)
-                val imageName = fileName.getName()
 
-                var imageRef = st.child(userId + '/' + imageName)
-                val baos = ByteArrayOutputStream()
-                val bitmap = readImageFromPath(context, image)
+                if (!image.startsWith("https://firebasestorage.googleapis.com/")) {
+                    val fileName = File(image)
+                    val imageName = fileName.getName()
 
-                bitmap?.let {
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
-                    val data = baos.toByteArray()
-                    val uploadTask = imageRef.putBytes(data)
-                    uploadTask.addOnFailureListener {
-                        println(it.message)
-                    }.addOnSuccessListener { taskSnapshot ->
-                        taskSnapshot.metadata!!.reference!!.downloadUrl.addOnSuccessListener {
-                            hillfort.images.remove(image)
-                            hillfort.images.add(it.toString())
-                            db.child("users").child(userId).child("hillforts").child(hillfort.fbId)
-                                .setValue(hillfort)
+                    var bitmap: Bitmap?
+                    var imageRef = st.child(userId).child(hillfort.fbId).child(hillfort.fbId+ '/' + imageName)
+
+                    //  var imageRef = st.child(userId + '/' + imageName)
+                    val baos = ByteArrayOutputStream()
+                    if (image.startsWith("/storage")) {
+                        bitmap = BitmapFactory.decodeFile(image)
+                    } else {
+                        bitmap = readImageFromPath(context, image)
+                    }
+
+                    bitmap?.let {
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+                        val data = baos.toByteArray()
+                        val uploadTask = imageRef.putBytes(data)
+                        uploadTask.addOnFailureListener {
+                            println(it.message)
+                        }.addOnSuccessListener { taskSnapshot ->
+                            taskSnapshot.metadata!!.reference!!.downloadUrl.addOnSuccessListener {
+                                hillfort.images.remove(image)
+                                hillfort.images.add(it.toString())
+                                db.child("users").child(userId).child("hillforts")
+                                    .child(hillfort.fbId)
+                                    .setValue(hillfort)
+                            }
                         }
                     }
                 }
