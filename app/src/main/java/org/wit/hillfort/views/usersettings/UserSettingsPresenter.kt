@@ -1,5 +1,6 @@
 package org.wit.hillfort.views.usersettings
 
+import android.widget.Toast
 import com.bumptech.glide.Glide.init
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -62,6 +63,7 @@ class UserSettingsPresenter(view:BaseView):BasePresenter(view) {
         if (password.length>0) {
             user.updatePassword(password)
         }
+        Toast.makeText(view,"Settings Updated", Toast.LENGTH_LONG)
     }
 
     fun doViewFavourites(){ view?.navigateTo(VIEW.LIST, 0, "hillfort_favourite") }

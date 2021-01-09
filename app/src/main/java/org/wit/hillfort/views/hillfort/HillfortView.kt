@@ -73,7 +73,6 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
                 )
                 val lessThanFourImages = presenter.doSelectCameraImage()
                 if (!lessThanFourImages)toast("Max number of images saved")
-
         }
 
         hillfortLocation.setOnClickListener{
@@ -157,7 +156,7 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
             }
         }
     }
-
+// Send hillfort details in email
     fun sendEmail(email: String, subject: String, message: String){
 
             // launch email client
@@ -172,6 +171,8 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
             mIntent.putExtra(Intent.EXTRA_TEXT, message)
 
             try {
+                // creates a choose for email clients such as google, yahoo etc.
+                    // this opens the email client and your message, email & subject is added
                 startActivity(Intent.createChooser(mIntent, "Choose Email Client..."))
 
             } catch (e: Exception) {

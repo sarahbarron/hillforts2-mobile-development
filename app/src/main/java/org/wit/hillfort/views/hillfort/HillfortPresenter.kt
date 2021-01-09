@@ -136,12 +136,14 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
 
     fun doDelete() {
         doAsync {
+
+            app.hillforts.delete(hillfort)
             for(image in hillfort.images)
             {
                 doDeleteImage(image)
             }
 
-            app.hillforts.delete(hillfort)
+
 
             uiThread {
                 view?.finish()

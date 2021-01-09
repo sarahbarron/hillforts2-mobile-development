@@ -49,7 +49,8 @@ class HillfortAdapter constructor(private var hillforts: List<HillfortModel>,
         // for each hillfort bind values to the hillfort card
         fun bind(hillfort: HillfortModel, listener: HillfortListener) {
             itemView.hillfortName.text = hillfort.name
-            itemView.hillfortDescription.text = hillfort.description
+            itemView.hillfortListLat.text = (hillfort.location.lat.toString()+" lat")
+            itemView.hillfortListLng.text = (hillfort.location.lng.toString()+" lng")
             // icon image on the hillfort list
             if (hillfort.images.size >0)
             {

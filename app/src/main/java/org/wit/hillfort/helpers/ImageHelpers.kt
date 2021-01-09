@@ -33,16 +33,16 @@ fun showImagePicker(parent: Activity, id: Int) {
     parent.startActivityForResult(chooser, id)
 }
 
-fun showCameraPicker(parent: Activity, id: Int){
-    val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-    val file: File = createFile(parent)
-    val uri: Uri = FileProvider.getUriForFile(
-        parent?.applicationContext!!,
-        "com.example.android.fileprovider",
-        file
-    )
-    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
-    parent.startActivityForResult(cameraIntent, id)
+fun checkImagePersmission(view: Activity): Boolean {
+    return (ContextCompat.checkSelfPermission(view, android.Manifest.permission.CAMERA) ==
+            PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(view,
+        android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+}
+
+// Camera setup tutorial http://www.kotlincodes.com/kotlin/camera-intent-with-kotlin-android/
+fun requestImagePermission(view: Activity) {
+    ActivityCompat.requestPermissions(view, arrayOf(READ_EXTERNAL_STORAGE, CAMERA),
+       CAMERA_REQUEST)
 }
 
 fun createFile(activity: Activity): File {
@@ -59,17 +59,17 @@ fun createFile(activity: Activity): File {
     }
 }
 
-fun checkImagePersmission(view: Activity): Boolean {
-    return (ContextCompat.checkSelfPermission(view, android.Manifest.permission.CAMERA) ==
-            PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(view,
-        android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+fun showCameraPicker(parent: Activity, id: Int){
+    val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+    val file: File = createFile(parent)
+    val uri: Uri = FileProvider.getUriForFile(
+        parent?.applicationContext!!,
+        "com.example.android.fileprovider",
+        file
+    )
+    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
+    parent.startActivityForResult(cameraIntent, id)
 }
-
-fun requestImagePermission(view: Activity) {
-    ActivityCompat.requestPermissions(view, arrayOf(READ_EXTERNAL_STORAGE, CAMERA),
-       CAMERA_REQUEST)
-}
-
 
 // Function needed when we want to edit a hillfort
 fun readImageFromPath(context: Context, path : String) : Bitmap? {
