@@ -150,7 +150,9 @@ class HillfortFireStore(val context: Context) : HillfortStore, AnkoLogger {
                     val imageName = fileName.getName()
 
                     var bitmap: Bitmap?
-                    var imageRef = st.child(userId + '/' + imageName)
+                    var imageRef = st.child(userId).child(hillfort.fbId).child(hillfort.fbId+ '/' + imageName)
+
+                    //  var imageRef = st.child(userId + '/' + imageName)
                     val baos = ByteArrayOutputStream()
                     if (image.startsWith("/storage")) {
                         bitmap = BitmapFactory.decodeFile(image)
