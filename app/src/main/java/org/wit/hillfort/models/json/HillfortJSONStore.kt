@@ -87,10 +87,11 @@ class HillfortJSONStore : HillfortStore, AnkoLogger {
     }
 
     // Check if a hillfort has been visited or not
-    override fun visited(hillfort: HillfortModel, boolean: Boolean) {
+    override fun visited(hillfort: HillfortModel, boolean: Boolean, date:String) {
         var foundHillfort: HillfortModel? = hillforts.find { p -> p.id == hillfort.id }
         if (foundHillfort != null) {
             foundHillfort.visited = boolean
+            foundHillfort.date=date
             serialize()
         }
     }

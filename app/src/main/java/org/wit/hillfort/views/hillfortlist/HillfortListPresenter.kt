@@ -67,14 +67,16 @@ class HillfortListPresenter(view: BaseView): BasePresenter(view) {
 
     fun doSetVisted(hillfort:HillfortModel, visited: Boolean){
        if (visited) {
-           app.hillforts.visited(hillfort, true)
            val simpleDateFormat = SimpleDateFormat("yyy.MM.dd 'at' HH:mm:ss")
            val currentDateAndTime: String = simpleDateFormat.format(Date())
            hillfort.date = currentDateAndTime
+           app.hillforts.visited(hillfort, true, currentDateAndTime)
+           app.hillforts
        }
         else{
-           app.hillforts.visited(hillfort, false)
-           hillfort.date = ""
+           app.hillforts.visited(hillfort, false, "")
+           app.hillforts
+
        }
     }
 

@@ -32,6 +32,7 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
     val locationRequest = createDefaultLocationRequest()
     var locationManualyChanged = false;
 
+
     init {
         if (view.intent.hasExtra("hillfort_edit")) {
             edit = true
@@ -135,7 +136,13 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
 
     fun doDelete() {
         doAsync {
+            for(image in hillfort.images)
+            {
+                doDeleteImage(image)
+            }
+
             app.hillforts.delete(hillfort)
+
             uiThread {
                 view?.finish()
             }
@@ -148,24 +155,43 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
         view?.navigateTo(VIEW.LOGIN)
     }
 
-    fun doSelectImage() {
+    fun doSelectImage():Boolean{
+        if(hillfort.images.size < 4) {
             view?.let {
                 showImagePicker(view!!, IMAGE_REQUEST)
             }
+            return true
+        }
+        return false
     }
 
-    fun doSelectCameraImage(){
-        if(checkImagePersmission(view!!)) {
-            view?.let {
-                showCameraPicker(view!!, CAMERA_REQUEST)
-            }
-        }else requestImagePermission(view!!)
+    fun doSelectCameraImage():Boolean{
+        if(hillfort.images.size < 4) {
+            if (checkImagePersmission(view!!)) {
+                view?.let {
+                    showCameraPicker(view!!, CAMERA_REQUEST)
+                }
+            } else requestImagePermission(view!!)
+            return true
+        }
+        return false
     }
 
     fun doSetLocation() {
         locationManualyChanged = true;
         view?.navigateTo(VIEW.LOCATION, LOCATION_REQUEST, "location", Location(hillfort.location.lat, hillfort.location.lng, hillfort.location.zoom))
     }
+
+    fun doViewImage(image: String){
+
+        view?.navigateToImage(VIEW.IMAGE, 0, "hillfort" , hillfort, "image", image)
+    }
+
+    fun doDeleteImage(image:String){
+        app.hillforts.deleteImage(hillfort.copy(), image)
+        loadImages()
+    }
+
 
     fun doSetVisited(visited: Boolean, date: String){
         hillfort.visited = visited;
@@ -176,18 +202,14 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
         when (requestCode) {
             IMAGE_REQUEST -> {
                 if(data!=null) {
-                        hillfort.images.add(data.getData().toString())
-
+                    hillfort.images.add(data.getData().toString())
                     view?.showHillfort(hillfort)
                 }
             }
             CAMERA_REQUEST ->{
                 if(data!=null){
                     hillfort.images.add(getCurrentPhotoPath()!!)
-              //        hillfort.images.add(getCurrentPhotoPath()!!)
-           //         hillfort.images.add(data.data.toString())
-             //       view?.showHillfort(hillfort)
-
+                    view?.showHillfort(hillfort)
                 }
             }
             LOCATION_REQUEST -> {

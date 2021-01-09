@@ -24,7 +24,7 @@ import org.wit.hillfort.views.BaseView
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
-import androidx.core.content.FileProvider
+import kotlinx.android.synthetic.main.activity_hillfort.hillfortDescription
 
 
 class HillfortView : BaseView(), AnkoLogger, ImageListener {
@@ -57,20 +57,23 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
                     hillfortRating.rating,
                     hillfortFavourite.isChecked
                 )
-                presenter.doSelectImage()
+                val lessThanFourImages = presenter.doSelectImage()
+                if(!lessThanFourImages)toast("Max number of images saved")
         }
 
         btn_camera.setOnClickListener {
-            presenter.cacheHillfort(
-                hillfortName.text.toString(),
-                hillfortDescription.text.toString(),
-                hillfortNotes.text.toString(),
-                visitedHillfort.isChecked,
-                dateVisited.text.toString(),
-                hillfortRating.rating,
-                hillfortFavourite.isChecked
-            )
-            presenter.doSelectCameraImage()
+                presenter.cacheHillfort(
+                    hillfortName.text.toString(),
+                    hillfortDescription.text.toString(),
+                    hillfortNotes.text.toString(),
+                    visitedHillfort.isChecked,
+                    dateVisited.text.toString(),
+                    hillfortRating.rating,
+                    hillfortFavourite.isChecked
+                )
+                val lessThanFourImages = presenter.doSelectCameraImage()
+                if (!lessThanFourImages)toast("Max number of images saved")
+
         }
 
         hillfortLocation.setOnClickListener{
@@ -259,9 +262,11 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onImageClick(image: String){
-//        startActivityForResult(intentFor<ImageActivity>().putExtra("image", image),DELETE_IMAGE)
+    override fun onDeleteImage(image: String) {
+        info("image: $image")
+        presenter.doDeleteImage(image)
     }
+
 
 //   Functions needed to return the user to the HillfortListView after the Up navigation is pressed
     override fun onPrepareSupportNavigateUpTaskStack(builder: TaskStackBuilder) {

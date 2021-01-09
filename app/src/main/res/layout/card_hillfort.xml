@@ -13,14 +13,12 @@
         <CheckBox
             android:id="@+id/visitedCard"
             android:layout_alignParentStart="true"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="64dp"
             android:padding="7dp"
             android:layout_marginLeft="2dp"
             android:onClick="onCheckboxClicked"
             />
-
-
         <ImageView
             android:id="@+id/imageIcon"
             android:layout_width="64dp"
@@ -46,6 +44,15 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/hillfortName"
             android:layout_toEndOf="@+id/imageIcon"
+            />
+        <ImageButton
+            android:id="@+id/btnFavourite"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:src="@drawable/heart"
+            android:layout_alignParentEnd="true"
+            android:backgroundTint="@color/colorPrimary"
+            android:tint="@color/colorRed"
             />
 
     </RelativeLayout>

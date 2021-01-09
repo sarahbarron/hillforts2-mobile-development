@@ -5,7 +5,7 @@ interface HillfortStore {
     fun create(hillfort: HillfortModel)
     fun update(hillfort: HillfortModel)
     fun delete(hillfort: HillfortModel)
-    fun visited(hillfort: HillfortModel, boolean: Boolean)
+    fun visited(hillfort: HillfortModel, boolean: Boolean, date: String)
     fun deleteImage(hillfort: HillfortModel, image: String)
     fun findOne(hillfort: HillfortModel): HillfortModel
     fun deleteUserHillforts()
