@@ -72,7 +72,7 @@ class HillfortFireStore(val context: Context) : HillfortStore, AnkoLogger {
         db.child("users").child(userId).child("hillforts").child(hillfort.fbId).child("date").setValue(date)
         hillfort.visited = boolean
         hillfort.date = date
-        findAll()
+       // findAll()
     }
 
 
@@ -145,30 +145,33 @@ class HillfortFireStore(val context: Context) : HillfortStore, AnkoLogger {
     fun updateImages(hillfort: HillfortModel) {
             for (image in hillfort.images) {
 
-                val fileName = File(image)
-                val imageName = fileName.getName()
+                if (!image.startsWith("https://firebasestorage.googleapis.com/")) {
+                    val fileName = File(image)
+                    val imageName = fileName.getName()
 
-                var bitmap: Bitmap?
-                var imageRef = st.child(userId + '/' + imageName)
-                val baos = ByteArrayOutputStream()
-                if (image.startsWith("/storage")) {
-                  bitmap = BitmapFactory.decodeFile(image)
-                }else {
-                    bitmap = readImageFromPath(context, image)
-                }
+                    var bitmap: Bitmap?
+                    var imageRef = st.child(userId + '/' + imageName)
+                    val baos = ByteArrayOutputStream()
+                    if (image.startsWith("/storage")) {
+                        bitmap = BitmapFactory.decodeFile(image)
+                    } else {
+                        bitmap = readImageFromPath(context, image)
+                    }
 
-                bitmap?.let {
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
-                    val data = baos.toByteArray()
-                    val uploadTask = imageRef.putBytes(data)
-                    uploadTask.addOnFailureListener {
-                        println(it.message)
-                    }.addOnSuccessListener { taskSnapshot ->
-                        taskSnapshot.metadata!!.reference!!.downloadUrl.addOnSuccessListener {
-                            hillfort.images.remove(image)
-                            hillfort.images.add(it.toString())
-                            db.child("users").child(userId).child("hillforts").child(hillfort.fbId)
-                                .setValue(hillfort)
+                    bitmap?.let {
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+                        val data = baos.toByteArray()
+                        val uploadTask = imageRef.putBytes(data)
+                        uploadTask.addOnFailureListener {
+                            println(it.message)
+                        }.addOnSuccessListener { taskSnapshot ->
+                            taskSnapshot.metadata!!.reference!!.downloadUrl.addOnSuccessListener {
+                                hillfort.images.remove(image)
+                                hillfort.images.add(it.toString())
+                                db.child("users").child(userId).child("hillforts")
+                                    .child(hillfort.fbId)
+                                    .setValue(hillfort)
+                            }
                         }
                     }
                 }

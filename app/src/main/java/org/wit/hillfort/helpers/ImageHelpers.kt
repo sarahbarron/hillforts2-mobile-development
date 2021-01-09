@@ -19,7 +19,6 @@ import org.wit.hillfort.R
 import org.wit.hillfort.views.CAMERA_REQUEST
 import org.wit.hillfort.views.mCurrentPhotoPath
 import java.io.File
-import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -71,18 +70,6 @@ fun requestImagePermission(view: Activity) {
        CAMERA_REQUEST)
 }
 
-// Function to help in displaying the image
-fun readImage(activity: Activity, resultCode: Int, data: Intent?): Bitmap? {
-    var bitmap: Bitmap? = null
-    if (resultCode == Activity.RESULT_OK && data != null && data.data != null) {
-        try {
-            bitmap = MediaStore.Images.Media.getBitmap(activity.contentResolver, data.data)
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-    }
-    return bitmap
-}
 
 // Function needed when we want to edit a hillfort
 fun readImageFromPath(context: Context, path : String) : Bitmap? {
