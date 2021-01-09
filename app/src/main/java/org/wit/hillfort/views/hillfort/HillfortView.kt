@@ -151,6 +151,8 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
                  true}
                 R.id.bottomMap -> {presenter.doViewHillfortsMap()
                     true}
+                R.id.bottomSettings -> {presenter.doViewSettings()
+                    true}
                 else -> false
             }
         }

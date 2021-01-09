@@ -47,6 +47,8 @@ class HillfortMapView : BaseView(), GoogleMap.OnMarkerClickListener {
                     true}
                 R.id.bottomFavourites -> {presenter.doViewFavourites()
                  true}
+                R.id.bottomSettings -> {presenter.doViewSettings()
+                 true}
                 else -> false
             }
         }
