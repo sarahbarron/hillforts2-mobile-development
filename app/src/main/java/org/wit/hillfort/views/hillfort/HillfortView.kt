@@ -300,6 +300,19 @@ class HillfortView : BaseView(), AnkoLogger, ImageListener {
         }
     }
 
+    fun onFavCheckboxClicked(view:View){
+        if(view is CheckBox){
+            val checked: Boolean = view.isChecked
+
+            when(view.id){
+                R.id.hillfortFavourite ->{
+                    if(checked)presenter.doSetFavourite(true)
+                    else presenter.doSetFavourite(false)
+                }
+            }
+        }
+    }
+
     override fun onBackPressed(){
         presenter.doCancel()
     }
