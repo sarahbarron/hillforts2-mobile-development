@@ -52,7 +52,8 @@
             android:src="@drawable/heart"
             android:layout_alignParentEnd="true"
             android:backgroundTint="@color/colorPrimary"
-            android:tint="@color/colorRed"
+            android:tint="@color/grey_300"
+            android:onClick="onFavouriteButtonClick"
             />
 
     </RelativeLayout>

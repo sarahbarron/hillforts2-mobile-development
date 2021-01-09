@@ -76,6 +76,11 @@ class HillfortFireStore(val context: Context) : HillfortStore, AnkoLogger {
        // findAll()
     }
 
+    override fun setFavourite(hillfort: HillfortModel, boolean: Boolean) {
+        db.child("users").child(userId).child("hillforts").child(hillfort.fbId).child("visited").setValue(boolean)
+        hillfort.favourite=boolean
+    }
+
 
     override fun findOne(hillfort: HillfortModel): HillfortModel {
         TODO("Not yet implemented")

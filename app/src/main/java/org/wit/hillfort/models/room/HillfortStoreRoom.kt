@@ -42,6 +42,10 @@ class HillfortStoreRoom(val context: Context) : HillfortStore {
         TODO("Not yet implemented")
     }
 
+    override fun setFavourite(hillfort: HillfortModel, boolean: Boolean) {
+        TODO("Not yet implemented")
+    }
+
 
     override fun deleteImage(hillfort: HillfortModel, image: String) {
 

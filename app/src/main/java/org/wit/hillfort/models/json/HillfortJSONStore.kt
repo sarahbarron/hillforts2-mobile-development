@@ -96,6 +96,14 @@ class HillfortJSONStore : HillfortStore, AnkoLogger {
         }
     }
 
+
+    override fun setFavourite(hillfort: HillfortModel, boolean: Boolean) {
+        var foundHillfort: HillfortModel? = hillforts.find { p -> p.id == hillfort.id }
+        if (foundHillfort != null) {
+            foundHillfort.favourite = boolean
+            serialize()
+        }
+    }
     // delete a hillfort
     override fun delete(hillfort: HillfortModel) {
         val foundHillfort: HillfortModel? = hillforts.find{it.id == hillfort.id}

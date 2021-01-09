@@ -198,6 +198,11 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
         hillfort.date = date;
     }
 
+    fun doSetFavourite(favourite: Boolean)
+    {
+        hillfort.favourite = favourite;
+    }
+
     override fun doActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         when (requestCode) {
             IMAGE_REQUEST -> {

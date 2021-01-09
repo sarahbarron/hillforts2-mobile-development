@@ -1,5 +1,6 @@
 package org.wit.hillfort.activities
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,6 +8,7 @@ import android.widget.CheckBox
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_hillfort.*
+import kotlinx.android.synthetic.main.card_hillfort.*
 import kotlinx.android.synthetic.main.card_hillfort.view.*
 import org.wit.hillfort.R
 import org.wit.hillfort.helpers.readImageFromPath
@@ -17,6 +19,7 @@ import org.wit.hillfort.models.HillfortModel
 interface HillfortListener {
     fun onHillfortClick(hillfort: HillfortModel)
     fun onVisitedCheckboxClick(hillfort: HillfortModel, isChecked: Boolean)
+    fun onFavouriteButtonClick(hillfort: HillfortModel)
 }
 
 // Hillfort Adapter for recycler view of hillforts
@@ -55,8 +58,15 @@ class HillfortAdapter constructor(private var hillforts: List<HillfortModel>,
             if (hillfort.visited){
                 itemView.visitedCard.isChecked = true
             }
+            if(hillfort.favourite)
+            {
+                itemView.btnFavourite.setColorFilter(Color.RED);
+            }
+            else itemView.btnFavourite.setColorFilter(Color.LTGRAY);
+
             itemView.setOnClickListener{listener.onHillfortClick(hillfort)}
             itemView.visitedCard.setOnClickListener{listener.onVisitedCheckboxClick(hillfort, itemView.visitedCard.isChecked)}
+            itemView.btnFavourite.setOnClickListener{listener.onFavouriteButtonClick(hillfort)}
         }
     }
 }
