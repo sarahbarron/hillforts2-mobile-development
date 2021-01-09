@@ -39,7 +39,7 @@ open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
             VIEW.MAPS -> intent = Intent(this, HillfortMapView::class.java)
             VIEW.LIST -> intent = Intent(this, HillfortListView::class.java)
             VIEW.LOGIN -> intent = Intent(this, LoginView::class.java)
-            VIEW.IMAGE -> intent = Intent(this, ImageView::class.java)
+
             VIEW.SETTINGS -> intent = Intent(this, UserSettingsView::class.java)
 
         }
@@ -47,6 +47,18 @@ open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
             intent.putExtra(key, value)
         }
         startActivityForResult(intent, code)
+    }
+
+    fun navigateToImage(view: VIEW, code: Int = 0, key: String = "", value: Parcelable? = null, image: String = "", imageString: String) {
+        var intent = Intent(this, HillfortListView::class.java)
+        when(view) {
+            VIEW.IMAGE -> intent = Intent(this, ImageView::class.java)
+        }
+        if (key != "") {
+            intent.putExtra(key, value).putExtra(image,imageString)
+        }
+        startActivityForResult(intent, code)
+
     }
 
     fun init(toolbar: Toolbar, upEnabled: Boolean) {

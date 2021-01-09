@@ -105,7 +105,6 @@ class HillfortListView : BaseView(), HillfortListener, AnkoLogger{
         else{
             presenter.doSetVisted(hillfort, false)
         }
-
     }
     // Refreshes the view when a hillfort is updated
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -117,4 +116,6 @@ class HillfortListView : BaseView(), HillfortListener, AnkoLogger{
     override fun onBackPressed() {
         longToast("Logout from the menu to go back")
     }
+
+
 }

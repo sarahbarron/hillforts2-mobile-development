@@ -3,6 +3,7 @@ package org.wit.hillfort.activities
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.view.menu.MenuView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.card_hillfort.view.*
@@ -13,7 +14,7 @@ import org.wit.hillfort.helpers.readImageFromPath
 
 // Listener for click on an image
 interface ImageListener{
-    fun onImageClick(image: String)
+    fun onDeleteImage(image: String)
 }
 
 // Adapter for a list of images and a listner
@@ -43,6 +44,7 @@ class ImageAdapter(private var images: ArrayList<String>,
     }
 
 
+
     //    Gets the number of images we need to display
     override fun getItemCount(): Int = images.size
 
@@ -51,8 +53,7 @@ class ImageAdapter(private var images: ArrayList<String>,
 
         fun bind(image: String, listener: ImageListener) {
             Glide.with(itemView.context).load(image).into(itemView.hillfortImage);
-            itemView.setOnClickListener{listener.onImageClick(image)}
+            itemView.btnImageDelete.setOnClickListener{listener.onDeleteImage(image)}
         }
-
     }
 }

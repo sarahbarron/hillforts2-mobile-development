@@ -86,8 +86,9 @@ fun readImage(activity: Activity, resultCode: Int, data: Intent?): Bitmap? {
 
 // Function needed when we want to edit a hillfort
 fun readImageFromPath(context: Context, path : String) : Bitmap? {
-    var bitmap : Bitmap? = null
+    var bitmap: Bitmap? = null
     val uri = Uri.parse(path)
+
     if (uri != null) {
         try {
             val parcelFileDescriptor = context.getContentResolver().openFileDescriptor(uri, "r")
@@ -95,8 +96,8 @@ fun readImageFromPath(context: Context, path : String) : Bitmap? {
             bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor)
             parcelFileDescriptor?.close()
         } catch (e: Exception) {
+            error("read image from path error: $e")
         }
     }
     return bitmap
 }
-

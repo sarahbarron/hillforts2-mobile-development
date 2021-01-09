@@ -3,6 +3,8 @@ import android.content.Context
 import androidx.room.Room
 import org.wit.hillfort.models.HillfortModel
 import org.wit.hillfort.models.HillfortStore
+import java.util.*
+
 
 class HillfortStoreRoom(val context: Context) : HillfortStore {
 
@@ -36,9 +38,10 @@ class HillfortStoreRoom(val context: Context) : HillfortStore {
         dao.deleteHillfort(hillfort)
     }
 
-    override fun visited(hillfort: HillfortModel, boolean: Boolean) {
+    override fun visited(hillfort: HillfortModel, boolean: Boolean, date: String) {
         TODO("Not yet implemented")
     }
+
 
     override fun deleteImage(hillfort: HillfortModel, image: String) {
 

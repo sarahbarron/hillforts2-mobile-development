@@ -31,7 +31,7 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
     var locationService: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(view)
     val locationRequest = createDefaultLocationRequest()
     var locationManualyChanged = false;
-    var image_count = 0;
+
 
     init {
         if (view.intent.hasExtra("hillfort_edit")) {
@@ -124,7 +124,6 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
             } else {
                 app.hillforts.create(hillfort)
             }
-            image_count = 0
             uiThread {
                 view?.finish()
             }
@@ -137,7 +136,13 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
 
     fun doDelete() {
         doAsync {
+            for(image in hillfort.images)
+            {
+                doDeleteImage(image)
+            }
+
             app.hillforts.delete(hillfort)
+
             uiThread {
                 view?.finish()
             }
@@ -177,6 +182,17 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
         view?.navigateTo(VIEW.LOCATION, LOCATION_REQUEST, "location", Location(hillfort.location.lat, hillfort.location.lng, hillfort.location.zoom))
     }
 
+    fun doViewImage(image: String){
+
+        view?.navigateToImage(VIEW.IMAGE, 0, "hillfort" , hillfort, "image", image)
+    }
+
+    fun doDeleteImage(image:String){
+        app.hillforts.deleteImage(hillfort.copy(), image)
+        loadImages()
+    }
+
+
     fun doSetVisited(visited: Boolean, date: String){
         hillfort.visited = visited;
         hillfort.date = date;
@@ -186,14 +202,14 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
         when (requestCode) {
             IMAGE_REQUEST -> {
                 if(data!=null) {
-                        hillfort.images.add(data.getData().toString())
-
+                    hillfort.images.add(data.getData().toString())
                     view?.showHillfort(hillfort)
                 }
             }
             CAMERA_REQUEST ->{
                 if(data!=null){
                     hillfort.images.add(getCurrentPhotoPath()!!)
+                    view?.showHillfort(hillfort)
                 }
             }
             LOCATION_REQUEST -> {
