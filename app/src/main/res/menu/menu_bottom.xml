@@ -11,11 +11,15 @@
         android:icon="@drawable/fav"
         android:menuCategory="secondary"
         android:title="@string/bottom_menu_favourites"/>
-        />
+
     <item
         android:id="@+id/bottomMap"
         android:icon="@drawable/map"
         android:menuCategory="secondary"
         android:title="@string/bottom_menu_map"/>
-    />
+    <item
+        android:id="@+id/bottomSettings"
+        android:icon="@drawable/settings"
+        android:menuCategory="secondary"
+        android:title="@string/bottom_menu_settings"/>
 </menu>

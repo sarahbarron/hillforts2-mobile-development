@@ -136,12 +136,14 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
 
     fun doDelete() {
         doAsync {
+
+            app.hillforts.delete(hillfort)
             for(image in hillfort.images)
             {
                 doDeleteImage(image)
             }
 
-            app.hillforts.delete(hillfort)
+
 
             uiThread {
                 view?.finish()
@@ -245,4 +247,5 @@ class HillfortPresenter(view: BaseView) : BasePresenter(view) {
     fun doViewFavourites(){ view?.navigateTo(VIEW.LIST, 0, "hillfort_favourite") }
     fun doViewHillfortsMap(){view?.navigateTo(VIEW.MAPS)}
     fun doViewHillforts(){view?.navigateTo(VIEW.LIST)}
+    fun doViewSettings(){view?.navigateTo(VIEW.SETTINGS)}
 }

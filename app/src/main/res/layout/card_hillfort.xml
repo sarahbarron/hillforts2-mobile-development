@@ -39,10 +39,17 @@
             android:textSize="30sp" />
 
         <TextView
-            android:id="@+id/hillfortDescription"
+            android:id="@+id/hillfortListLat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/hillfortName"
+            android:layout_toEndOf="@+id/imageIcon"
+            />
+        <TextView
+            android:id="@+id/hillfortListLng"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/hillfortListLat"
             android:layout_toEndOf="@+id/imageIcon"
             />
         <ImageButton
