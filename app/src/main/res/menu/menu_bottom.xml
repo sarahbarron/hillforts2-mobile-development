@@ -17,5 +17,10 @@
         android:icon="@drawable/map"
         android:menuCategory="secondary"
         android:title="@string/bottom_menu_map"/>
+    <item
+        android:id="@+id/bottomSettings"
+        android:icon="@drawable/map"
+        android:menuCategory="secondary"
+        android:title="@string/bottom_menu_settings"/>
     />
 </menu>
